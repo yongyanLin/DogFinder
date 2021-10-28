@@ -6,7 +6,7 @@
             <corners android:radius="@dimen/dimen_30dp"></corners>
         </shape>
     </item>
-    <item android:state_pressed="true">
+    <item android:state_hovered="true">
         <shape>
             <solid android:color="@color/limegreen"></solid>
             <corners android:radius="@dimen/dimen_30dp"></corners>

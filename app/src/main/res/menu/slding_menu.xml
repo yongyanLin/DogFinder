@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@mipmap/index">
+        </item>
+        <item android:id="@+id/nav_profile"
+            android:title="Profile"
+            android:icon="@mipmap/profile">
+        </item>
+        <item android:id="@+id/nav_like"
+            android:title="Favorites"
+            android:icon="@mipmap/like_list">
+        </item>
+        <item android:id="@+id/nav_stray"
+            android:title="Find Stray Dog"
+            android:icon="@mipmap/gallery_black">
+        </item>
+        <item android:id="@+id/nav_lost"
+            android:title="Find Lost Dog"
+            android:icon="@mipmap/lost_dog_black">
+        </item>
+        <item android:id="@+id/nav_adopt"
+            android:title="Adopt Dog"
+            android:icon="@mipmap/adopt_black">
+        </item>
+        <item android:id="@+id/logout"
+            android:title="Logout"
+            android:icon="@mipmap/logout">
+        </item>
+    </group>
 </menu>

@@ -6,6 +6,8 @@
     <dimen name="dimen_180dp">180dp</dimen>
     <dimen name="dimen_20sp">20sp</dimen>
     <dimen name="dimen_25sp">25sp</dimen>
+    <dimen name="dimen_30sp">30sp</dimen>
+    <dimen name="dimen_50sp">50sp</dimen>
     <dimen name="dimen_100dp">100dp</dimen>
     <dimen name="dimen_400dp">400dp</dimen>
     <dimen name="dimen_60sp">60sp</dimen>
@@ -21,4 +23,6 @@
     <dimen name="dimen_380dp">380dp</dimen>
     <dimen name="dimen_10dp">10dp</dimen>
     <dimen name="dimen_140dp">140dp</dimen>
+    <dimen name="dimen_130dp">130dp</dimen>
+
 </resources>

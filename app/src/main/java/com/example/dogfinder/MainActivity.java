@@ -37,6 +37,10 @@ public class MainActivity extends BaseActivity {
         password = findViewById(R.id.password);
         auth = FirebaseAuth.getInstance();
 
+        if(auth.getCurrentUser() != null){
+            navigate(IndexActivity.class);
+        }
+
         //from Verification page
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

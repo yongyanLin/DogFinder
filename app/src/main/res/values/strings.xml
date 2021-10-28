@@ -15,4 +15,6 @@
     <string name="straySquareTitle">Find Stray Dogs</string>
     <string name="lostSquareTitle">Find Lost Dogs</string>
     <string name="adoptSquareTitle">Adopt Dogs</string>
+    <string name="openNavigation">Open the navigation menu</string>
+    <string name="closeNavigation">Close the navigation menu</string>
 </resources>
