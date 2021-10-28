@@ -9,4 +9,10 @@
     <string name="registerHint">New User?Sign up.</string>
     <string name="Verify">Verify</string>
     <string name="verifyHint">Wrong email? Please register again.</string>
+    <string name="indexTitle">Help our best friend</string>
+    <string name="strayPostTitle">Post Stray Dog</string>
+    <string name="lostPostTitle">Post Lost Dog</string>
+    <string name="straySquareTitle">Find Stray Dogs</string>
+    <string name="lostSquareTitle">Find Lost Dogs</string>
+    <string name="adoptSquareTitle">Adopt Dogs</string>
 </resources>

@@ -10,12 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dogfinder.Activity.BaseActivity;
+import com.example.dogfinder.Activity.IndexActivity;
 import com.example.dogfinder.Activity.RegisterActivity;
 import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,13 @@ public class MainActivity extends BaseActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         auth = FirebaseAuth.getInstance();
+
+        //from Verification page
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String userEmail = extras.getString("email");
+            email.setText(userEmail);
+        }
 
         register_link.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +65,13 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            FirebaseUser firebaseUser = auth.getCurrentUser();
+                            if(firebaseUser.isEmailVerified()){
+                                navigate(IndexActivity.class);
+                            }else{
+                                showToast("Please verify your email.");
+                                auth.signOut();
+                            }
                             //go to index
                         }else{
                             showToast("Information is incorrect!");

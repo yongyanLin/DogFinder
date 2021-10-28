@@ -90,11 +90,11 @@ public class RegisterActivity extends BaseActivity {
                         if(task.isSuccessful()){
                             userID = auth.getCurrentUser().getUid();
                             DocumentReference reference = firebaseFirestore.collection("users").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            user.put("username",username);
-                            user.put("email",email_string);
-                            user.put("password",password_string);
-                            reference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            Map<String,Object> userObject = new HashMap<>();
+                            userObject.put("username",user);
+                            userObject.put("email",email_string);
+                            userObject.put("password",password_string);
+                            reference.set(userObject).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     showToast("Register successfully,please now verify your email.");
