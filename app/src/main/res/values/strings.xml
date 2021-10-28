@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Dog Finder</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="Register">Register</string>
+    <string name="registerHint">New User?Sign up.</string>
+    <string name="Verify">Verify</string>
+    <string name="verifyHint">Wrong email? Please register again.</string>
+</resources>

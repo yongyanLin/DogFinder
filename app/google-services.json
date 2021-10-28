@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "70518232496",
+    "project_id": "stray-dog-app",
+    "storage_bucket": "stray-dog-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70518232496:android:eae5416f579752ae11b275",
+        "android_client_info": {
+          "package_name": "com.example.dogfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70518232496-r2612e5dddnpq26ra3euch5a2lebhsad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA9AIAJFY9PZ22h3O0QVb_CmVdE8A-eGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70518232496-r2612e5dddnpq26ra3euch5a2lebhsad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
