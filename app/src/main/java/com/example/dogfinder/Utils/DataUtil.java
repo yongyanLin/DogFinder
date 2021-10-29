@@ -85,6 +85,8 @@ public class DataUtil {
         list.add("Cream");
         list.add("Gold");
         list.add("Gray");
+        list.add("Red");
+        list.add("Other");
         return list;
     }
 }

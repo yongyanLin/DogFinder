@@ -38,7 +38,18 @@ public class ColorAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.text_item,parent,false);
         TextView name = view.findViewById(R.id.behavior_name);
+        TextView description = view.findViewById(R.id.behavior_description);
         name.setText(list.get(position));
+        description.setVisibility(View.INVISIBLE);
+        return view;
+    }
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        View view = LayoutInflater.from(context).inflate(R.layout.text_item,parent,false);
+        TextView name = view.findViewById(R.id.behavior_name);
+        TextView description = view.findViewById(R.id.behavior_description);
+        name.setText(list.get(position));
+        description.setVisibility(View.INVISIBLE);
         return view;
     }
 }

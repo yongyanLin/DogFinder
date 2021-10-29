@@ -25,4 +25,6 @@
     <string name="description">Please write down some additional descriptions.</string>
     <string name="breed">Breed</string>
     <string name="condition">Body Condition</string>
+    <string name="colorHint">Please end each color with ”;“</string>
+
 </resources>

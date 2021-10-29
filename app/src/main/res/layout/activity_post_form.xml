@@ -124,6 +124,26 @@
                 </Spinner>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/otherColor"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_350dp"
+                android:layout_height="@dimen/dimen_80dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/colorMix"
+                    android:layout_width="@dimen/dimen_260dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimen_60dp"
+                    android:fontFamily="cursive"
+                    android:hint="@string/colorHint"
+                    android:textColorHint="@color/darkslateblue"
+                    android:textColor="@color/darkslateblue"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:gravity="center"></EditText>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_gravity="center"
                 android:layout_width="@dimen/dimen_350dp"
                 android:layout_height="wrap_content"
