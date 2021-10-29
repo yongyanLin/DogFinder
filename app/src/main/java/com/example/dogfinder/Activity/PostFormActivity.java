@@ -128,5 +128,6 @@ public class PostFormActivity extends BaseActivity {
         }
         //image
         imageView = findViewById(R.id.dog_photo);
+
     }
 }

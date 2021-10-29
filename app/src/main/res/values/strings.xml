@@ -26,5 +26,5 @@
     <string name="breed">Breed</string>
     <string name="condition">Body Condition</string>
     <string name="colorHint">Please end each color with ”;“</string>
-
+    <string name="mapAPI">AIzaSyDlZ1agP5Wv0h7iVVKFhajTJRMkn1G-gT4</string>
 </resources>
