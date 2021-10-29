@@ -91,10 +91,9 @@ public class IndexActivity extends BaseActivity {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             switch (v.getId()) {
                 case R.id.camera_btn:
-                    showToast("Camera");
+                    navigate(PostFormActivity.class);
                     break;
                 case R.id.gallery_btn:
                     showToast("Gallery");
