@@ -128,7 +128,7 @@ public class IndexActivity extends BaseActivity {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
         }else{
-            dispatchCameraIntent();
+            getCameraIntent();
         }
     }
 
@@ -137,7 +137,7 @@ public class IndexActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode,@NonNull String[]permissions,@NonNull int[] grantResults){
         if(requestCode == CAMERA_PERM_CODE){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                dispatchCameraIntent();
+                getCameraIntent();
             }else{
                 showToast("Camera permission is required.");
             }
@@ -149,7 +149,10 @@ public class IndexActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
-
+                File f = new File(photoPath);
+                Intent intent = new Intent(IndexActivity.this,PostFormActivity.class);
+                intent.putExtra("cameraImage",Uri.fromFile(f));
+                startActivity(intent);
             }
         }
     }
@@ -161,7 +164,7 @@ public class IndexActivity extends BaseActivity {
         photoPath = image.getAbsolutePath();
         return image;
     }
-    private void dispatchCameraIntent(){
+    private void getCameraIntent(){
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(cameraIntent.resolveActivity(getPackageManager()) != null){
             File photoFile = null;

@@ -1,6 +1,7 @@
 package com.example.dogfinder.Activity;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -126,8 +127,16 @@ public class PostFormActivity extends BaseActivity {
                 showToast("Please input colors as required format.");
             }
         }
-        //image
+        //set image
         imageView = findViewById(R.id.dog_photo);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            if(extras.get("cameraImage") != null){
+                Uri image = (Uri) extras.get("cameraImage");
+                imageView.setImageURI(image);
+            }
+        }
+
 
     }
 }

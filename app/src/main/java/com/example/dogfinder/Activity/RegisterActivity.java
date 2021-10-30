@@ -113,8 +113,5 @@ public class RegisterActivity extends BaseActivity {
         });
 
     }
-    public void logout(){
-        FirebaseAuth.getInstance().signOut();
-        finish();
-    }
+
 }
