@@ -27,4 +27,5 @@
     <string name="condition">Body Condition</string>
     <string name="colorHint">Please end each color with ”;“</string>
     <string name="mapAPI">AIzaSyDlZ1agP5Wv0h7iVVKFhajTJRMkn1G-gT4</string>
+    <string name="searchHint">Search the location...</string>
 </resources>

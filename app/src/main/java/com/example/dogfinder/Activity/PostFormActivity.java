@@ -1,8 +1,15 @@
 package com.example.dogfinder.Activity;
 
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -10,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.dogfinder.Adapter.BehaviorAdapter;
 import com.example.dogfinder.Adapter.BodyAdapter;
@@ -22,7 +30,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class PostFormActivity extends BaseActivity {
     FirebaseAuth auth;
@@ -39,6 +51,7 @@ public class PostFormActivity extends BaseActivity {
     LinearLayout otherColor;
     EditText mixColor;
     ImageView imageView;
+    TextView location_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,9 +147,43 @@ public class PostFormActivity extends BaseActivity {
             if(extras.get("cameraImage") != null){
                 Uri image = (Uri) extras.get("cameraImage");
                 imageView.setImageURI(image);
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                saveToGallery(bitmap);
+            }
+            if(extras.get("galleryImage") != null){
+                Uri image = (Uri) extras.get("galleryImage");
+                imageView.setImageURI(image);
             }
         }
+        //set the location
+        location_btn = findViewById(R.id.location);
+        location_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(MapActivity.class);
+            }
+        });
 
 
+    }
+    //save image to gallery
+    public void saveToGallery(Bitmap bitmap) {
+        OutputStream os;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            ContentResolver resolver = getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,"Img_"+".jpg");
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpg");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+            try {
+                os = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,os);
+                Objects.requireNonNull(os);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

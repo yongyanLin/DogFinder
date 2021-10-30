@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +47,8 @@ public class IndexActivity extends BaseActivity {
     String photoPath;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
-
+    public static final int WRITE_PERM_CODE = 1;
+    public static final int GALLERY_REQUEST_CODE = 105;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,9 +124,18 @@ public class IndexActivity extends BaseActivity {
     };
 
     private void askGalleryPermission() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
     }
 
     private void askCameraPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
+        }else{
+            getCameraIntent();
+        }
+    }
+    private void askLocationPermission() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
         }else{
@@ -142,6 +153,18 @@ public class IndexActivity extends BaseActivity {
                 showToast("Camera permission is required.");
             }
         }
+        if(requestCode == WRITE_PERM_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                File f = new File(photoPath);
+                Intent writeIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri contentUri = Uri.fromFile(f);
+                writeIntent.setData(contentUri);
+                this.sendBroadcast(writeIntent);
+            }else{
+                //showToast("Gallery permission is required.");
+            }
+        }
+
     }
 
     @Override
@@ -151,7 +174,22 @@ public class IndexActivity extends BaseActivity {
             if(resultCode == Activity.RESULT_OK){
                 File f = new File(photoPath);
                 Intent intent = new Intent(IndexActivity.this,PostFormActivity.class);
+                //send image to form
                 intent.putExtra("cameraImage",Uri.fromFile(f));
+                //save image into gallery
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_PERM_CODE);
+                }
+                //go to form
+                startActivity(intent);
+            }
+        }
+        if(requestCode == GALLERY_REQUEST_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                Uri contentUri = data.getData();
+                String time = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+                Intent intent = new Intent(IndexActivity.this,PostFormActivity.class);
+                intent.putExtra("galleryImage",contentUri);
                 startActivity(intent);
             }
         }
@@ -160,6 +198,7 @@ public class IndexActivity extends BaseActivity {
         String time = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
         String fileName = time+"_pic";
         File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        //File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(fileName,".jpg",storeDir);
         photoPath = image.getAbsolutePath();
         return image;
@@ -180,4 +219,5 @@ public class IndexActivity extends BaseActivity {
             }
         }
     }
+
 }

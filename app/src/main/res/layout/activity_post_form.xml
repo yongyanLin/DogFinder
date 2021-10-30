@@ -174,14 +174,15 @@
                 <TextView
                     android:clickable="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_50dp"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
                     android:id="@+id/location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dimen_260dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkslateblue"
                     android:textStyle="bold"
                     android:textSize="@dimen/dimen_30sp"
                     android:fontFamily="cursive"
+                    android:gravity="center"
                     android:text="@string/Location">
                 </TextView>
             </LinearLayout>
