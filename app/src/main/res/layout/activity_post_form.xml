@@ -172,6 +172,7 @@
                     android:background="@mipmap/location_icon">
                 </ImageView>
                 <TextView
+
                     android:clickable="true"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_10dp"
@@ -180,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkslateblue"
                     android:textStyle="bold"
-                    android:textSize="@dimen/dimen_30sp"
+                    android:textSize="@dimen/dimen_20sp"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:text="@string/Location">
@@ -198,6 +199,7 @@
                     android:background="@mipmap/description_icon">
                 </ImageView>
                 <EditText
+
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:id="@+id/description"

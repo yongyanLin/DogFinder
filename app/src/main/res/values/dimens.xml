@@ -9,6 +9,7 @@
     <dimen name="dimen_260dp">260dp</dimen>
     <dimen name="dimen_320dp">320dp</dimen>
     <dimen name="dimen_280dp">280dp</dimen>
+    <dimen name="dimen_600dp">600dp</dimen>
     <dimen name="dimen_180dp">180dp</dimen>
     <dimen name="dimen_20sp">20sp</dimen>
     <dimen name="dimen_25sp">25sp</dimen>
