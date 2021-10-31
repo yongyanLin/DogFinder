@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
+public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     GoogleMap map;
     SupportMapFragment mapFragment;
     SearchView searchView;
@@ -78,7 +78,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         latLocation = address.getLatitude()+" "+address.getLongitude();
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         map.clear();
-                        map.addMarker(new MarkerOptions().position(latLng).title(location).title(location).draggable(true));
+                        map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
                     }else{
                         showToast("No location found.");
@@ -126,6 +126,62 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
         map.setMyLocationEnabled(true);
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setCurrentLocation();
+        map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(@NonNull Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDrag(@NonNull Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(@NonNull Marker marker) {
+                LatLng latLng = marker.getPosition();
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                    if(addresses.size() > 0){
+                        Address address = addresses.get(0);
+                        if(address.getPostalCode() == null){
+                            location = "(" + address.getLatitude() + "," + address.getLongitude() + ")";
+                        }else{
+                            location = address.getPostalCode();
+                        }
+
+                        latLocation = address.getLatitude()+" "+address.getLongitude();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                map.clear();
+                map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
+            }
+        });
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(@NonNull LatLng latLng) {
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                    if(addresses.size() > 0){
+                        Address address = addresses.get(0);
+                        if(address.getPostalCode() == null){
+                            location = "(" + address.getLatitude() + "," + address.getLongitude() + ")";
+                        }else{
+                            location = address.getPostalCode();
+                        }
+
+                        latLocation = address.getLatitude()+" "+address.getLongitude();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                map.clear();
+                map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
+            }
+        });
     }
     public void setCurrentLocation() {
         LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);;
@@ -165,38 +221,5 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
         }
     }
 
-    @Override
-    public void onMarkerDragStart(@NonNull Marker marker) {
 
-    }
-
-    @Override
-    public void onMarkerDrag(@NonNull Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(@NonNull Marker marker) {
-        LatLng latLng = marker.getPosition();
-        //if(mapMarker != null){
-         //   mapMarker.remove();
-       // }
-        map.clear();
-        map.addMarker(new MarkerOptions().position(latLng));
-        //map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        try {
-            List<Address> addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
-            if(addresses.size() > 0){
-                Address address = addresses.get(0);
-                if(address.getPostalCode() == null){
-                    location = "(" + address.getLatitude() + "," + address.getLongitude() + ")";
-                }else{
-                    location = address.getPostalCode();
-                }
-                latLocation = address.getLatitude()+" "+address.getLongitude();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
