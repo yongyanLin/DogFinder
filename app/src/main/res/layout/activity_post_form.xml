@@ -52,18 +52,21 @@
                     android:layout_height="@dimen/dimen_50dp"
                     android:background="@mipmap/dog_icon">
                 </ImageView>
-                <TextView
+                <EditText
+                    android:hint="@string/breed"
+                    android:id="@+id/breed"
                     android:layout_width="@dimen/dimen_250dp"
                     android:layout_height="@dimen/dimen_50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:text="@string/breed"
+                    android:textColorHint="@color/darkslateblue"
                     android:textSize="@dimen/dimen_30sp"
                     android:textColor="@color/darkslateblue"
                     android:gravity="center"
                     android:fontFamily="cursive"
                     android:textStyle="bold">
-                </TextView>
+                </EditText>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"

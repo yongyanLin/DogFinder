@@ -63,18 +63,16 @@ public class PostFormActivity extends BaseActivity {
     BehaviorAdapter behaviorAdapter;
     ColorAdapter colorAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color, breed, location, description;
+    String condition, behavior, color, breed, location, description,cLocation;
     List<Body> bodyList;
     List<Behavior> behaviorList;
     List<String> colorList;
     LinearLayout otherColor;
-    EditText mixColor,description_view;
+    EditText breed_filed,mixColor,description_view;
     ImageView imageView;
     TextView location_btn;
     Uri image;
-    String cLocation;
-    LocationManager mLocationManager;
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +85,9 @@ public class PostFormActivity extends BaseActivity {
                 navigate(IndexActivity.class);
             }
         });
+        //breed
+        breed_filed = findViewById(R.id.breed);
+        breed = breed_filed.getText().toString().trim();
         //Body
         spinnerBody = findViewById(R.id.body_spinner);
         bodyAdapter = new BodyAdapter(PostFormActivity.this, DataUtil.getBodyList());
@@ -217,6 +218,7 @@ public class PostFormActivity extends BaseActivity {
 
             }
         });
+
 
     }
 
