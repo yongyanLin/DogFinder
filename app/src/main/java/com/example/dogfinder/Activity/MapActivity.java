@@ -140,7 +140,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                             location = address.getPostalCode();
                         }
                         latLocation = address.getLatitude()+" "+address.getLongitude();
-                        showToast(latLocation);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -167,7 +167,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                showToast(latLocation);
+
                 map.clear();
                 map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
             }

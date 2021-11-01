@@ -74,7 +74,7 @@ public class PostFormActivity extends BaseActivity {
     BehaviorAdapter behaviorAdapter;
     ColorAdapter colorAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color, breed, location, description,cLocation,userID,colorString;
+    String condition, behavior, color, breed, location,cLocation,userID;
     List<Body> bodyList;
     List<Behavior> behaviorList;
     List<String> colorList;
@@ -173,17 +173,7 @@ public class PostFormActivity extends BaseActivity {
                 color = "Unknown";
             }
         });
-        if (otherColor.getVisibility() == View.VISIBLE) {
-            colorString = mixColor.getText().toString().trim();
-            if (!colorString.equals("") || colorString.contains(";")) {
-                color = colorString;
-            } else if (colorString.equals("")) {
-                color = "Unknown";
-            } else {
-                showToast("Please input colors as required format.");
-            }
-        }else{
-        }
+
 
 
         //get location and image
@@ -191,7 +181,6 @@ public class PostFormActivity extends BaseActivity {
         imageView = findViewById(R.id.dog_photo);
         //set Description
         description_view = findViewById(R.id.description);
-
         //upload to firebase
         //set the location
         location_btn = findViewById(R.id.location);
@@ -239,7 +228,12 @@ public class PostFormActivity extends BaseActivity {
                     String behavior1 = spinnerBehavior.getSelectedItem().toString();
                     String color1 = spinnerColor.getSelectedItem().toString();
                     if(otherColor.getVisibility() == View.VISIBLE){
-                        color = mixColor.getText().toString().trim();
+                        color1 = mixColor.getText().toString().trim();
+                        if (color1.equals("")) {
+                            color1 = "Unknown";
+                        } else if (!color1.contains(";")) {
+                            color1 = "Unknown";
+                        }
                     }
                     String description1 = description_view.getText().toString().trim();
                     StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
@@ -248,7 +242,7 @@ public class PostFormActivity extends BaseActivity {
                     reference.set(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            showToast("Register successfully,please now verify your email.");
+                            navigate(IndexActivity.class);
                         }
                     });
 
@@ -290,15 +284,15 @@ public class PostFormActivity extends BaseActivity {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
-            //showToast("Here");
+
             return;
         }
-        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (location == null) {
+        Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (clocation == null) {
             return;
         }
-        double longitude = location.getLongitude();
-        double latitude =  location.getLatitude();
+        double longitude = clocation.getLongitude();
+        double latitude =  clocation.getLatitude();
         Geocoder geocoder = new Geocoder(PostFormActivity.this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -309,6 +303,7 @@ public class PostFormActivity extends BaseActivity {
                 } else {
                     cLocation = address.getPostalCode();
                 }
+                location = address.getLatitude()+" "+address.getLongitude();
                 location_btn.setText(cLocation);
             } else {
             }
@@ -333,7 +328,15 @@ public class PostFormActivity extends BaseActivity {
         data.putString("breed",breed);
         data.putString("condition",condition);
         data.putString("behavior",behavior);
+        String description = description_view.getText().toString().trim();
         data.putString("description",description);
+        if (otherColor.getVisibility() == View.VISIBLE) {
+            color = mixColor.getText().toString().trim();
+            if (!color.contains(";")){
+                mixColor.setError("Please input colors as required format.");
+                return;
+            }
+        }
         data.putString("color",color);
         data.putString("image",image.toString());
         Intent intent = new Intent(PostFormActivity.this,MapActivity.class);
@@ -366,8 +369,8 @@ public class PostFormActivity extends BaseActivity {
             if(bundle.get("color") != null){
                 if(getSelection(spinnerColor,bundle.getString("color")) == -1){
                     otherColor.setVisibility(View.VISIBLE);
-                    mixColor.setText(colorString);
                     spinnerColor.setSelection(getSelection(spinnerColor,"Other"));
+                    mixColor.setText(bundle.getString("color"));
                 }else{
                     spinnerColor.setSelection(getSelection(spinnerColor,bundle.getString("color")));
                 }
@@ -385,9 +388,7 @@ public class PostFormActivity extends BaseActivity {
                 location_btn.setClickable(false);
             }
             if(bundle.get("latLocation") != null) {
-
                 location = bundle.getString("latLocation");
-
             }
         }
     }
