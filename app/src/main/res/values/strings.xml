@@ -29,4 +29,5 @@
     <string name="mapAPI">AIzaSyDlZ1agP5Wv0h7iVVKFhajTJRMkn1G-gT4</string>
     <string name="searchHint">Search the location...</string>
     <string name="confirm">Confirm</string>
+    <string name="lostFormHint">Find your lost pet</string>
 </resources>

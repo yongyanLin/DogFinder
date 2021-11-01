@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dogfinder">
+    package="com.example.dogfinder" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <queries>
@@ -29,20 +30,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.Light.NoActionBar">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="@string/mapAPI">
-        </meta-data>
+        android:theme="@style/Theme.Design.Light.NoActionBar" >
         <activity
-            android:name=".Activity.MapActivity"
+            android:name=".Activity.LostMapActivity"
             android:exported="false" />
-        <activity android:name=".Activity.PostFormActivity"/>
+        <activity
+            android:name=".Activity.LostFormActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/mapAPI" />
+
+        <activity
+            android:name=".Activity.StrayMapActivity"
+            android:exported="false" />
+        <activity android:name=".Activity.StrayFormActivity" />
         <activity android:name=".Activity.IndexActivity" />
         <activity android:name=".Activity.VerifyActivity" />
         <activity android:name=".Activity.RegisterActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,7 +63,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

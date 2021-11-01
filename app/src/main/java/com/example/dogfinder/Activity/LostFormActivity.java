@@ -1,13 +1,13 @@
 package com.example.dogfinder.Activity;
 
-
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
+
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,24 +31,16 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-
 import com.example.dogfinder.Adapter.BehaviorAdapter;
 import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.ColorAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
-import com.example.dogfinder.Entity.StrayDog;
+import com.example.dogfinder.Entity.LostDog;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -60,14 +52,12 @@ import com.google.firebase.storage.UploadTask;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.Stream;
 
-public class PostFormActivity extends BaseActivity {
+public class LostFormActivity extends BaseActivity {
+
     FirebaseAuth auth;
     Spinner spinnerBody, spinnerBehavior, spinnerColor;
     BodyAdapter bodyAdapter;
@@ -91,7 +81,7 @@ public class PostFormActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_form);
+        setContentView(R.layout.activity_stray_form);
 
 
         auth = FirebaseAuth.getInstance();
@@ -110,7 +100,7 @@ public class PostFormActivity extends BaseActivity {
         breed = breed_filed.getText().toString().trim();
         //Body
         spinnerBody = findViewById(R.id.body_spinner);
-        bodyAdapter = new BodyAdapter(PostFormActivity.this, DataUtil.getBodyList());
+        bodyAdapter = new BodyAdapter(LostFormActivity.this, DataUtil.getBodyList());
         spinnerBody.setAdapter(bodyAdapter);
         bodyList = DataUtil.getBodyList();
         spinnerBody.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,7 +119,7 @@ public class PostFormActivity extends BaseActivity {
         });
         //Behavior
         spinnerBehavior = findViewById(R.id.behavior_spinner);
-        behaviorAdapter = new BehaviorAdapter(PostFormActivity.this, DataUtil.getBehaviorList());
+        behaviorAdapter = new BehaviorAdapter(LostFormActivity.this, DataUtil.getBehaviorList());
         spinnerBehavior.setAdapter(behaviorAdapter);
         behaviorList = DataUtil.getBehaviorList();
         spinnerBehavior.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -151,7 +141,7 @@ public class PostFormActivity extends BaseActivity {
         otherColor = findViewById(R.id.otherColor);
         otherColor.setVisibility(View.INVISIBLE);
         spinnerColor = findViewById(R.id.color_spinner);
-        colorAdapter = new ColorAdapter(PostFormActivity.this, DataUtil.getColorList());
+        colorAdapter = new ColorAdapter(LostFormActivity.this, DataUtil.getColorList());
         spinnerColor.setAdapter(colorAdapter);
         colorList = DataUtil.getColorList();
         spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -194,14 +184,13 @@ public class PostFormActivity extends BaseActivity {
         });
         resetForm();
         publish_btn = findViewById(R.id.publish);
-        progressDialog =  new ProgressDialog(PostFormActivity.this);
-        storageReference = FirebaseStorage.getInstance().getReference("strayDog");
-        databaseReference = FirebaseDatabase.getInstance().getReference("strayDog");
-        progressDialog = new ProgressDialog(PostFormActivity.this);
+        progressDialog =  new ProgressDialog(LostFormActivity.this);
+        storageReference = FirebaseStorage.getInstance().getReference("lostDog");
+        databaseReference = FirebaseDatabase.getInstance().getReference("lostDog");
+        progressDialog = new ProgressDialog(LostFormActivity.this);
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(location);
                 uploadToDatabase();
             }
         });
@@ -236,12 +225,13 @@ public class PostFormActivity extends BaseActivity {
                         }
                     }
                     String description1 = description_view.getText().toString().trim();
-                    StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
+                    LostDog lostDog = new LostDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
                             location,description1);
-                    DocumentReference reference = firebaseFirestore.collection("strayDog").document();
-                    reference.set(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    DocumentReference reference = firebaseFirestore.collection("lostDog").document();
+                    reference.set(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+                            showToast("lost");
                             navigate(IndexActivity.class);
                         }
                     });
@@ -293,7 +283,7 @@ public class PostFormActivity extends BaseActivity {
         }
         double longitude = clocation.getLongitude();
         double latitude =  clocation.getLatitude();
-        Geocoder geocoder = new Geocoder(PostFormActivity.this, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(LostFormActivity.this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
@@ -339,7 +329,7 @@ public class PostFormActivity extends BaseActivity {
         }
         data.putString("color",color);
         data.putString("image",image.toString());
-        Intent intent = new Intent(PostFormActivity.this,MapActivity.class);
+        Intent intent = new Intent(LostFormActivity.this, LostMapActivity.class);
         intent.putExtras(data);
         startActivity(intent);
     }

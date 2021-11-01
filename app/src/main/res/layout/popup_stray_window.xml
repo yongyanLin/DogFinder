@@ -4,7 +4,7 @@
     android:layout_height="@dimen/dimen_300dp"
     android:background="@drawable/popup"
     android:orientation="vertical"
-    android:id="@+id/pop_layout"
+    android:id="@+id/pop_stray_layout"
     >
         <LinearLayout
             android:layout_marginTop="@dimen/dimen_20dp"
@@ -71,6 +71,7 @@
             android:fontFamily="cursive"
             android:textSize="@dimen/dimen_30sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimen_10dp">
         </Button>

@@ -8,36 +8,30 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.dogfinder.R;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapActivity extends BaseActivity implements OnMapReadyCallback {
+public class LostMapActivity extends BaseActivity implements OnMapReadyCallback {
     GoogleMap map;
     SupportMapFragment mapFragment;
     SearchView searchView;
@@ -50,7 +44,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_stray_map);
         location = null;
         latLocation = null;
         geocoder = new Geocoder(this);
@@ -190,7 +184,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         }
         double longitude = cLocation.getLongitude();
         double latitude = cLocation.getLatitude();
-        Geocoder geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(LostMapActivity.this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
@@ -214,7 +208,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             Bundle bundle1 = new Bundle();
-            Intent intent = new Intent(MapActivity.this,PostFormActivity.class);
+            Intent intent = new Intent(LostMapActivity.this, StrayFormActivity.class);
             bundle1.putString("breed",bundle.getString("breed"));
             bundle1.putString("condition",bundle.getString("condition"));
             bundle1.putString("behavior",bundle.getString("behavior"));
@@ -229,6 +223,5 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
 
         }
     }
-
 
 }
