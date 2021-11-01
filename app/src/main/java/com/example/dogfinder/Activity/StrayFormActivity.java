@@ -4,9 +4,11 @@ package com.example.dogfinder.Activity;
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -34,7 +36,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.dogfinder.Adapter.BehaviorAdapter;
 import com.example.dogfinder.Adapter.BodyAdapter;
-import com.example.dogfinder.Adapter.ColorAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
 import com.example.dogfinder.Entity.StrayDog;
@@ -54,6 +55,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -63,21 +66,23 @@ public class StrayFormActivity extends BaseActivity {
     Spinner spinnerBody, spinnerBehavior, spinnerColor;
     BodyAdapter bodyAdapter;
     BehaviorAdapter behaviorAdapter;
-    ColorAdapter colorAdapter;
+
     Button back_btn, publish_btn;
     String condition, behavior, color, breed, location,cLocation,userID;
     List<Body> bodyList;
     List<Behavior> behaviorList;
-    List<String> colorList;
-    LinearLayout otherColor;
-    EditText breed_filed,mixColor,description_view;
+    List<Integer> colorList;
+    String[] colorArray;
+    boolean[] selectedColor;
+    EditText breed_filed,description_view;
     ImageView imageView;
-    TextView location_btn;
+    TextView location_btn,color_view;
     Uri image;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
     FirebaseFirestore firebaseFirestore;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,35 +143,70 @@ public class StrayFormActivity extends BaseActivity {
             }
         });
         //Color
-        mixColor = findViewById(R.id.colorMix);
-        otherColor = findViewById(R.id.otherColor);
-        otherColor.setVisibility(View.INVISIBLE);
-        spinnerColor = findViewById(R.id.color_spinner);
-        colorAdapter = new ColorAdapter(StrayFormActivity.this, DataUtil.getColorList());
-        spinnerColor.setAdapter(colorAdapter);
-        colorList = DataUtil.getColorList();
-        spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        colorArray = DataUtil.getColorArray();
+        color_view = findViewById(R.id.color);
+        colorList = new ArrayList<>();
+        selectedColor = new boolean[colorArray.length];
+        color_view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                color = (String) parent.getItemAtPosition(position);
-                if (color.equals("Color")) {
-                    color = "Unknown";
+            public void onClick(View v) {
+                builder = new AlertDialog.Builder(StrayFormActivity.this);
+                builder.setTitle("Select color");
+                builder.setCancelable(false);
+                String colorString = color_view.getText().toString().trim();
+                // set selected items
+                for(int i = 0;i<selectedColor.length;i++){
+                    if(colorString.contains(colorArray[i])){
+                        selectedColor[i] = true;
+                        colorList.add(i);
+                    }else{
+                        selectedColor[i] = false;
+                    }
                 }
-                if (color.equals("Other")) {
-                    otherColor.setVisibility(View.VISIBLE);
-                } else {
-                    otherColor.setVisibility(View.INVISIBLE);
-                }
-            }
+                builder.setMultiChoiceItems(colorArray, selectedColor, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if(isChecked){
+                            colorList.add(which);
+                            Collections.sort(colorList);
+                        }else{
+                            colorList.remove(which);
+                        }
+                    }
+                });
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int i = 0;i<colorList.size();i++){
+                            stringBuilder.append(colorArray[colorList.get(i)]);
+                            if(i != colorList.size()-1){
+                                stringBuilder.append(",");
+                            }
+                        }
+                        color_view.setText(stringBuilder);
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                color = "Unknown";
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i =0;i<selectedColor.length;i++){
+                            selectedColor[i] = false;
+                            colorList.clear();
+                            color_view.setText("");
+                        }
+                    }
+                });
+                builder.show();
             }
         });
-
-
-
         //get location and image
         //set image
         imageView = findViewById(R.id.dog_photo);
@@ -192,7 +232,6 @@ public class StrayFormActivity extends BaseActivity {
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(location);
                 uploadToDatabase();
             }
         });
@@ -217,15 +256,7 @@ public class StrayFormActivity extends BaseActivity {
                     String breed1 = breed_filed.getText().toString().trim();
                     String condition1 = spinnerBody.getSelectedItem().toString();
                     String behavior1 = spinnerBehavior.getSelectedItem().toString();
-                    String color1 = spinnerColor.getSelectedItem().toString();
-                    if(otherColor.getVisibility() == View.VISIBLE){
-                        color1 = mixColor.getText().toString().trim();
-                        if (color1.equals("")) {
-                            color1 = "Unknown";
-                        } else if (!color1.contains(";")) {
-                            color1 = "Unknown";
-                        }
-                    }
+                    String color1 = color_view.getText().toString().trim();
                     String description1 = description_view.getText().toString().trim();
                     StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
                             location,description1);
@@ -321,14 +352,8 @@ public class StrayFormActivity extends BaseActivity {
         data.putString("behavior",behavior);
         String description = description_view.getText().toString().trim();
         data.putString("description",description);
-        if (otherColor.getVisibility() == View.VISIBLE) {
-            color = mixColor.getText().toString().trim();
-            if (!color.contains(";")){
-                mixColor.setError("Please input colors as required format.");
-                return;
-            }
-        }
-        data.putString("color",color);
+        String color1 = color_view.getText().toString().trim();
+        data.putString("color",color1);
         data.putString("image",image.toString());
         Intent intent = new Intent(StrayFormActivity.this, StrayMapActivity.class);
         intent.putExtras(data);
@@ -358,13 +383,7 @@ public class StrayFormActivity extends BaseActivity {
                 spinnerBehavior.setSelection(getSelection(spinnerBehavior,bundle.getString("behavior")));
             }
             if(bundle.get("color") != null){
-                if(getSelection(spinnerColor,bundle.getString("color")) == -1){
-                    otherColor.setVisibility(View.VISIBLE);
-                    spinnerColor.setSelection(getSelection(spinnerColor,"Other"));
-                    mixColor.setText(bundle.getString("color"));
-                }else{
-                    spinnerColor.setSelection(getSelection(spinnerColor,bundle.getString("color")));
-                }
+                color_view.setText(bundle.getString("color"));
             }
             if(bundle.get("description") != null){
                 description_view.setText(bundle.getString("description"));

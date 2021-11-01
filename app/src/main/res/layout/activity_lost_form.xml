@@ -118,13 +118,23 @@
                     android:layout_height="@dimen/dimen_50dp"
                     android:background="@mipmap/color_icon">
                 </ImageView>
-                <Spinner
+                <TextView
+                    android:clickable="true"
                     android:layout_width="@dimen/dimen_260dp"
                     android:layout_height="@dimen/dimen_50dp"
+                    android:id="@+id/color"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:id="@+id/color_spinner">
-                </Spinner>
+                    android:hint="@string/colorHint"
+                    android:textColorHint="@color/darkslateblue"
+                    android:textColor="@color/darkslateblue"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:fontFamily="cursive"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:drawablePadding="@dimen/dimen_12dp"
+                    >
+                </TextView>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/otherColor"

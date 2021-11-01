@@ -25,7 +25,7 @@
     <string name="description">Please write down some additional descriptions.</string>
     <string name="breed">Breed</string>
     <string name="condition">Body Condition</string>
-    <string name="colorHint">Please end each color with ”;“</string>
+    <string name="colorHint">Select color</string>
     <string name="mapAPI">AIzaSyDlZ1agP5Wv0h7iVVKFhajTJRMkn1G-gT4</string>
     <string name="searchHint">Search the location...</string>
     <string name="confirm">Confirm</string>

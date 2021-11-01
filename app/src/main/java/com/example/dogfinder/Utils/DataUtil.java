@@ -77,19 +77,9 @@ public class DataUtil {
 
         return list;
     }
-    public static List<String> getColorList(){
-        List<String> list = new ArrayList<>();
-        list.add("Color");
-        list.add("Black");
-        list.add("White");
-        list.add("Brown");
-        list.add("Yellow");
-        list.add("Cream");
-        list.add("Gold");
-        list.add("Gray");
-        list.add("Red");
-        list.add("Other");
-        return list;
+    public static String[] getColorArray() {
+        String colors[] = {"Apricot/Beige", "Bicolor", "Black", "Brindle", "Brown/Chocolate", "Golden",
+                "Gray/Blue/Silver", "Harlequin", "Merle(Blue)", "Merle(Red)"};
+        return colors;
     }
-
 }
