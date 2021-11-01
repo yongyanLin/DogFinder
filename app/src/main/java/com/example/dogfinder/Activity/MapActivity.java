@@ -79,9 +79,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                         map.clear();
                         map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-                    }else{
-                        showToast("No location found.");
                     }
+                }else{
+                    showToast("No location found.");
                 }
                 return false;
 
@@ -112,6 +112,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
             return;
         }
         map.setMyLocationEnabled(true);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setCurrentLocation();
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
