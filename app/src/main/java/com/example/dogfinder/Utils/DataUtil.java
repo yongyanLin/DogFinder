@@ -1,5 +1,7 @@
 package com.example.dogfinder.Utils;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -89,4 +91,5 @@ public class DataUtil {
         list.add("Other");
         return list;
     }
+
 }

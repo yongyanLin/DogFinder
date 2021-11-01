@@ -209,21 +209,21 @@ public class IndexActivity extends BaseActivity {
         photoPath = image.getAbsolutePath();
         return image;
     }
-    private void getCameraIntent(){
+    private void getCameraIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(cameraIntent.resolveActivity(getPackageManager()) != null){
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
-            try{
+            try {
                 photoFile = createImageUri();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this,"com.example.android.fileprovider",photoFile);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
-                startActivityForResult(cameraIntent,CAMERA_REQUEST_CODE);
+            if (photoFile != null) {
+                Uri photoUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
             }
         }
-    }
 
+    }
 }

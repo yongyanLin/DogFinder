@@ -4,6 +4,7 @@ package com.example.dogfinder.Activity;
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,19 +39,29 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.ColorAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
+import com.example.dogfinder.Entity.StrayDog;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -57,13 +69,12 @@ import java.util.stream.Stream;
 
 public class PostFormActivity extends BaseActivity {
     FirebaseAuth auth;
-    FirebaseFirestore firebaseFirestore;
     Spinner spinnerBody, spinnerBehavior, spinnerColor;
     BodyAdapter bodyAdapter;
     BehaviorAdapter behaviorAdapter;
     ColorAdapter colorAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color, breed, location, description,cLocation;
+    String condition, behavior, color, breed, location, description,cLocation,userID,colorString;
     List<Body> bodyList;
     List<Behavior> behaviorList;
     List<String> colorList;
@@ -72,12 +83,21 @@ public class PostFormActivity extends BaseActivity {
     ImageView imageView;
     TextView location_btn;
     Uri image;
-    
+    StorageReference storageReference;
+    DatabaseReference databaseReference;
+    ProgressDialog progressDialog;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_form);
+
+
+        auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        userID = auth.getCurrentUser().getUid();
+        location = null;
         back_btn = findViewById(R.id.back_index);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,73 +174,93 @@ public class PostFormActivity extends BaseActivity {
             }
         });
         if (otherColor.getVisibility() == View.VISIBLE) {
-            String colorString = mixColor.getText().toString().trim();
+            colorString = mixColor.getText().toString().trim();
             if (!colorString.equals("") || colorString.contains(";")) {
-                String colors[] = colorString.split(";");
-                for (int i = 0; i < colors.length; i++) {
-                    color += colors[i] + " ";
-                }
+                color = colorString;
             } else if (colorString.equals("")) {
                 color = "Unknown";
             } else {
                 showToast("Please input colors as required format.");
             }
+        }else{
         }
 
-        //set the location
 
+        //get location and image
+        //set image
+        imageView = findViewById(R.id.dog_photo);
+        //set Description
+        description_view = findViewById(R.id.description);
+
+        //upload to firebase
+        //set the location
         location_btn = findViewById(R.id.location);
         //getLastKnownLocation();
         setCurrentLocation();
         location_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostFormActivity.this, MapActivity.class);
-                intent.putExtra("image", image);
-                startActivity(intent);
+                sendToMap();
             }
         });
-
-        //get location and image
-        //set image
-        imageView = findViewById(R.id.dog_photo);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if (extras.get("cameraImage") != null) {
-                image = (Uri) extras.get("cameraImage");
-                imageView.setImageURI(image);
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                saveToGallery(bitmap);
-            }
-            if (extras.get("galleryImage") != null) {
-                image = (Uri) extras.get("galleryImage");
-                imageView.setImageURI(image);
-            }
-            if (extras.get("image") != null) {
-                String imageString = (String) extras.get("image");
-                imageView.setImageURI(Uri.parse(imageString));
-                String locationString = (String) extras.get("location");
-                if (locationString != null) {
-                    location_btn.setText(locationString);
-                }
-                location = (String) extras.get("latLocation");
-            }
-        }
-        //set Description
-        description_view = findViewById(R.id.description);
-        description = description_view.getText().toString().trim();
-        //upload to firebase
+        resetForm();
         publish_btn = findViewById(R.id.publish);
+        progressDialog =  new ProgressDialog(PostFormActivity.this);
+        storageReference = FirebaseStorage.getInstance().getReference("strayDog");
+        databaseReference = FirebaseDatabase.getInstance().getReference("strayDog");
+        progressDialog = new ProgressDialog(PostFormActivity.this);
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showToast(location);
+                uploadToDatabase();
             }
         });
 
 
     }
+    public String getExtension(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+    public void uploadToDatabase(){
+        if(image != null){
+            progressDialog.setTitle("Uploading....");
+            progressDialog.show();
+            StorageReference storageReference1 = storageReference.child(System.currentTimeMillis()+"."+getExtension(image));
+            storageReference1.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    showToast("Uploading successfully!");
+                    String breed1 = breed_filed.getText().toString().trim();
+                    String condition1 = spinnerBody.getSelectedItem().toString();
+                    String behavior1 = spinnerBehavior.getSelectedItem().toString();
+                    String color1 = spinnerColor.getSelectedItem().toString();
+                    if(otherColor.getVisibility() == View.VISIBLE){
+                        color = mixColor.getText().toString().trim();
+                    }
+                    String description1 = description_view.getText().toString().trim();
+                    StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
+                            location,description1);
+                    DocumentReference reference = firebaseFirestore.collection("strayDog").document();
+                    reference.set(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            showToast("Register successfully,please now verify your email.");
+                        }
+                    });
+
+                }
+            });
+
+        }else{
+            showToast("please select the picture.");
+        }
+
+    }
+
 
     //save image to gallery
     public void saveToGallery(Bitmap bitmap) {
@@ -255,11 +295,10 @@ public class PostFormActivity extends BaseActivity {
         }
         Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (location == null) {
-            showToast("null");
             return;
         }
         double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        double latitude =  location.getLatitude();
         Geocoder geocoder = new Geocoder(PostFormActivity.this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -278,4 +317,78 @@ public class PostFormActivity extends BaseActivity {
         }
     }
 
+
+    //set the chosen option for spinner
+    private int getSelection(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+    public void sendToMap(){
+        Bundle data = new Bundle();
+        data.putString("breed",breed);
+        data.putString("condition",condition);
+        data.putString("behavior",behavior);
+        data.putString("description",description);
+        data.putString("color",color);
+        data.putString("image",image.toString());
+        Intent intent = new Intent(PostFormActivity.this,MapActivity.class);
+        intent.putExtras(data);
+        startActivity(intent);
+    }
+    public void resetForm(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            if (bundle.get("cameraImage") != null) {
+                image = (Uri) bundle.get("cameraImage");
+                imageView.setImageURI(image);
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                saveToGallery(bitmap);
+            }
+            if (bundle.get("galleryImage") != null) {
+                image = (Uri) bundle.get("galleryImage");
+                imageView.setImageURI(image);
+            }
+            if(bundle.get("breed") != null){
+                breed_filed.setText(bundle.getString("breed"));
+            }
+            if(bundle.get("condition") != null){
+                spinnerBody.setSelection(getSelection(spinnerBody,bundle.getString("condition")));
+            }
+            if(bundle.get("behavior") != null){
+                spinnerBehavior.setSelection(getSelection(spinnerBehavior,bundle.getString("behavior")));
+            }
+            if(bundle.get("color") != null){
+                if(getSelection(spinnerColor,bundle.getString("color")) == -1){
+                    otherColor.setVisibility(View.VISIBLE);
+                    mixColor.setText(colorString);
+                    spinnerColor.setSelection(getSelection(spinnerColor,"Other"));
+                }else{
+                    spinnerColor.setSelection(getSelection(spinnerColor,bundle.getString("color")));
+                }
+            }
+            if(bundle.get("description") != null){
+                description_view.setText(bundle.getString("description"));
+                showToast(bundle.getString("description"));
+            }
+            if(bundle.get("image") != null){
+                image = Uri.parse(bundle.getString("image"));
+                imageView.setImageURI(Uri.parse(bundle.getString("image")));
+            }
+            if(bundle.get("location") != null){
+                location_btn.setText(bundle.getString("location"));
+                location_btn.setClickable(false);
+            }
+            if(bundle.get("latLocation") != null) {
+
+                location = bundle.getString("latLocation");
+
+            }
+        }
+    }
 }

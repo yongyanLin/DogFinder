@@ -62,13 +62,12 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                 String searchLocation = searchView.getQuery().toString().trim();
                 List<Address> addressList = null;
                 if (searchLocation != null || !searchLocation.equals("")) {
-
                     try {
                         addressList = geocoder.getFromLocationName(searchLocation, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if(addressList.size()>0){
+                    if(addressList != null && addressList.size()>0){
                         Address address = addressList.get(0);
                         if(address.getPostalCode() == null){
                             location = "(" + address.getLatitude() + "," + address.getLongitude() + ")";
@@ -98,18 +97,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle imageIntent = getIntent().getExtras();
-                Bundle bundle = new Bundle();
-                if(imageIntent.get("image") != null){
-                    Uri imageUri = (Uri)imageIntent.get("image");
-                    String image = imageUri.toString();
-                    bundle.putString("image",image);
-                }
-                bundle.putString("location", location);
-                bundle.putString("latLocation", latLocation);
-                Intent intent = new Intent(MapActivity.this, PostFormActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                sendBackData();
             }
         });
     }
@@ -150,8 +138,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                         }else{
                             location = address.getPostalCode();
                         }
-
                         latLocation = address.getLatitude()+" "+address.getLongitude();
+                        showToast(latLocation);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -178,6 +166,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                showToast(latLocation);
                 map.clear();
                 map.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
             }
@@ -218,6 +207,25 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
             }
         } catch (IOException e) {
             System.out.println(e);
+        }
+    }
+    public void sendBackData(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            Bundle bundle1 = new Bundle();
+            Intent intent = new Intent(MapActivity.this,PostFormActivity.class);
+            bundle1.putString("breed",bundle.getString("breed"));
+            bundle1.putString("condition",bundle.getString("condition"));
+            bundle1.putString("behavior",bundle.getString("behavior"));
+            bundle1.putString("color",bundle.getString("color"));
+            bundle1.putString("description",bundle.getString("description"));
+            bundle1.putString("image",bundle.getString("image"));
+            bundle1.putString("location",location);
+            bundle1.putString("latLocation",latLocation);
+            intent.putExtras(bundle1);
+            startActivity(intent);
+        }else{
+
         }
     }
 

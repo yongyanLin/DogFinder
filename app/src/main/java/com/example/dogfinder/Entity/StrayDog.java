@@ -1,6 +1,7 @@
 package com.example.dogfinder.Entity;
 
 public class StrayDog {
+    private String userId;
     private String breed;
     private String condition;
     private String behavior;
@@ -8,6 +9,25 @@ public class StrayDog {
     private String imageUrl;
     private String location;
     private String description;
+
+    public StrayDog(String userId,String breed,String condition,String behavior,String color,String imageUrl,String location,String description){
+        this.userId = userId;
+        this.breed = breed;
+        this.condition = condition;
+        this.behavior = behavior;
+        this.color = color;
+        this.imageUrl = imageUrl;
+        this.location = location;
+        this.description = description;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getBreed() {
         return breed;

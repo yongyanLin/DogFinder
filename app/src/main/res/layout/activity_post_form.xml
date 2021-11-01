@@ -172,6 +172,30 @@
                     android:layout_gravity="center"
                     android:layout_width="@dimen/dimen_50dp"
                     android:layout_height="@dimen/dimen_50dp"
+                    android:background="@mipmap/description_icon">
+                </ImageView>
+                <EditText
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:id="@+id/description"
+                    android:layout_width="@dimen/dimen_250dp"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/darkslateblue"
+                    android:hint="@string/description"
+                    android:textStyle="bold"
+                    android:fontFamily="cursive"
+                    android:textColor="@color/darkslateblue">
+                </EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_350dp"
+                android:layout_height="@dimen/dimen_80dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
                     android:background="@mipmap/location_icon">
                 </ImageView>
                 <TextView
@@ -190,31 +214,7 @@
                     android:text="@string/Location">
                 </TextView>
             </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
-                    android:background="@mipmap/description_icon">
-                </ImageView>
-                <EditText
 
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:id="@+id/description"
-                    android:layout_width="@dimen/dimen_250dp"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/darkslateblue"
-                    android:hint="@string/description"
-                    android:textStyle="bold"
-                    android:fontFamily="cursive"
-                    android:textColor="@color/darkslateblue">
-                </EditText>
-            </LinearLayout>
         </LinearLayout>
         <Button
             android:layout_marginTop="@dimen/dimen_10dp"
