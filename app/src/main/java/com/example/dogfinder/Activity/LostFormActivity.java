@@ -62,7 +62,7 @@ import java.util.Objects;
 public class LostFormActivity extends BaseActivity {
 
     FirebaseAuth auth;
-    Spinner spinnerBody, spinnerBehavior, spinnerColor;
+    Spinner spinnerBody, spinnerBehavior;
     BodyAdapter bodyAdapter;
     BehaviorAdapter behaviorAdapter;
     Button back_btn, publish_btn;
@@ -84,8 +84,7 @@ public class LostFormActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stray_form);
-
+        setContentView(R.layout.activity_lost_form);
 
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -99,10 +98,10 @@ public class LostFormActivity extends BaseActivity {
             }
         });
         //breed
-        breed_filed = findViewById(R.id.breed);
+        breed_filed = findViewById(R.id.lost_breed);
         breed = breed_filed.getText().toString().trim();
         //Body
-        spinnerBody = findViewById(R.id.body_spinner);
+        spinnerBody = findViewById(R.id.lost_body_spinner);
         bodyAdapter = new BodyAdapter(LostFormActivity.this, DataUtil.getBodyList());
         spinnerBody.setAdapter(bodyAdapter);
         bodyList = DataUtil.getBodyList();
@@ -121,7 +120,7 @@ public class LostFormActivity extends BaseActivity {
             }
         });
         //Behavior
-        spinnerBehavior = findViewById(R.id.behavior_spinner);
+        spinnerBehavior = findViewById(R.id.lost_behavior_spinner);
         behaviorAdapter = new BehaviorAdapter(LostFormActivity.this, DataUtil.getBehaviorList());
         spinnerBehavior.setAdapter(behaviorAdapter);
         behaviorList = DataUtil.getBehaviorList();
@@ -141,7 +140,7 @@ public class LostFormActivity extends BaseActivity {
         });
         //Color
         colorArray = DataUtil.getColorArray();
-        color_view = findViewById(R.id.color);
+        color_view = findViewById(R.id.lost_color);
         colorList = new ArrayList<>();
         selectedColor = new boolean[colorArray.length];
         color_view.setOnClickListener(new View.OnClickListener() {
@@ -166,8 +165,8 @@ public class LostFormActivity extends BaseActivity {
                         if(isChecked){
                             colorList.add(which);
                             Collections.sort(colorList);
-                        }else{
-                            colorList.remove(which);
+                        }else if(colorList.contains(which)){
+                            colorList.remove(Integer.valueOf(which));
                         }
                     }
                 });
@@ -207,12 +206,12 @@ public class LostFormActivity extends BaseActivity {
         });
         //get location and image
         //set image
-        imageView = findViewById(R.id.dog_photo);
+        imageView = findViewById(R.id.lost_dog_photo);
         //set Description
-        description_view = findViewById(R.id.description);
+        description_view = findViewById(R.id.lost_description);
         //upload to firebase
         //set the location
-        location_btn = findViewById(R.id.location);
+        location_btn = findViewById(R.id.lost_location);
         //getLastKnownLocation();
         setCurrentLocation();
         location_btn.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +221,7 @@ public class LostFormActivity extends BaseActivity {
             }
         });
         resetForm();
-        publish_btn = findViewById(R.id.publish);
+        publish_btn = findViewById(R.id.lost_publish);
         progressDialog =  new ProgressDialog(LostFormActivity.this);
         storageReference = FirebaseStorage.getInstance().getReference("lostDog");
         databaseReference = FirebaseDatabase.getInstance().getReference("lostDog");
@@ -230,7 +229,7 @@ public class LostFormActivity extends BaseActivity {
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadToDatabase();
+                uploadToLostDogDatabase();
             }
         });
 
@@ -241,7 +240,7 @@ public class LostFormActivity extends BaseActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-    public void uploadToDatabase(){
+    public void uploadToLostDogDatabase(){
         if(image != null){
             progressDialog.setTitle("Uploading....");
             progressDialog.show();
@@ -262,7 +261,6 @@ public class LostFormActivity extends BaseActivity {
                     reference.set(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            showToast("lost");
                             navigate(IndexActivity.class);
                         }
                     });
@@ -386,7 +384,7 @@ public class LostFormActivity extends BaseActivity {
             }
             if(bundle.get("description") != null){
                 description_view.setText(bundle.getString("description"));
-                showToast(bundle.getString("description"));
+
             }
             if(bundle.get("image") != null){
                 image = Uri.parse(bundle.getString("image"));

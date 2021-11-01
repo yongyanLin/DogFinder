@@ -387,7 +387,7 @@ public class StrayFormActivity extends BaseActivity {
             }
             if(bundle.get("description") != null){
                 description_view.setText(bundle.getString("description"));
-                showToast(bundle.getString("description"));
+
             }
             if(bundle.get("image") != null){
                 image = Uri.parse(bundle.getString("image"));
