@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_chosen.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_line.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_photo.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_index.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_form.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_map.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_map.xml" value="0.16168478260869565" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_post_form.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_profile.xml" value="0.1" />
@@ -14,6 +18,7 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_lost_window.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_stray_window.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_window.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/menu/slding_menu.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/xml/file_paths.xml" value="0.1" />
       </map>
     </option>

@@ -90,6 +90,9 @@ public class IndexActivity extends BaseActivity {
                     case R.id.nav_home:
                         navigate(IndexActivity.class);
                         break;
+                    case R.id.nav_profile:
+                        navigate(ProfileActivity.class);
+                        break;
                     case R.id.logout:
                         auth.signOut();
                         navigate(MainActivity.class);

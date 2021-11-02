@@ -132,6 +132,7 @@
             android:text="@string/Register"
             android:textSize="@dimen/dimen_20sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:background="@drawable/register_btn">
         </Button>
     </LinearLayout>
