@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 
+import com.example.dogfinder.Entity.User;
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.TextUtil;
@@ -23,6 +26,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +61,6 @@ public class RegisterActivity extends BaseActivity {
             //go to index directly
        //     finish();
       //  }
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,11 +94,9 @@ public class RegisterActivity extends BaseActivity {
                         if(task.isSuccessful()){
                             userID = auth.getCurrentUser().getUid();
                             DocumentReference reference = firebaseFirestore.collection("users").document(userID);
-                            Map<String,Object> userObject = new HashMap<>();
-                            userObject.put("username",user);
-                            userObject.put("email",email_string);
-                            userObject.put("password",password_string);
-                            reference.set(userObject).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            User user1 = new User(user,email_string,password_string,null);
+
+                            reference.set(user1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     showToast("Register successfully,please now verify your email.");

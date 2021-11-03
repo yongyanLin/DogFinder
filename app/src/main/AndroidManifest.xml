@@ -32,6 +32,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity
+            android:name=".Activity.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ProfileActivity"
             android:exported="false" />
         <activity

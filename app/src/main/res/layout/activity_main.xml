@@ -99,6 +99,19 @@
             android:textColor="@color/darkslateblue"
             android:layout_gravity="center"
             android:clickable="true"
+            android:layout_marginBottom="@dimen/dimen_10dp">
+        </TextView>
+        <TextView
+            android:id="@+id/reset_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resetPassword"
+            android:textStyle="bold"
+            android:fontFamily="cursive"
+            android:textSize="@dimen/dimen_20sp"
+            android:textColor="@color/palevioletred"
+            android:layout_gravity="center"
+            android:clickable="true"
             android:layout_marginBottom="@dimen/dimen_30dp">
         </TextView>
     </LinearLayout>

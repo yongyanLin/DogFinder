@@ -23,11 +23,13 @@ public class VerifyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
+        auth = FirebaseAuth.getInstance();
         email = findViewById(R.id.user_email);
         back = findViewById(R.id.back_link);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                auth.signOut();
                 navigate(RegisterActivity.class);
             }
         });
@@ -37,8 +39,6 @@ public class VerifyActivity extends BaseActivity {
             emaiL_string = extras.getString("email");
             email.setText(emaiL_string);
         }
-
-        auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         verify_btn = findViewById(R.id.verify);
         verify_btn.setOnClickListener(new View.OnClickListener() {

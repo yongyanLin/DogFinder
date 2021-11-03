@@ -223,7 +223,7 @@ public class IndexActivity extends BaseActivity {
         }
     }
     private File createImageUri() throws IOException{
-        String time = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = time+"_pic";
         File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);

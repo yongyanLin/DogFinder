@@ -40,6 +40,11 @@
     <string name="Homepage">Homepage</string>
     <string name="straydog">Stray dog</string>
     <string name="lostdog">Lost dog</string>
-
+    <string name="accountTile">Edit your information below.</string>
     <string name="profile">Profile</string>
+    <string name="save">Save</string>
+    <string name="emailHint">Need verification.</string>
+    <string name="resetPassword">Forgot Password?</string>
+    <string name="resetBack">Back to login.</string>
+    <string name="reset">reset</string>
 </resources>

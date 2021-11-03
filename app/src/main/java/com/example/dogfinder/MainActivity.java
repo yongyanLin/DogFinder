@@ -3,6 +3,7 @@ package com.example.dogfinder;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.dogfinder.Activity.BaseActivity;
 import com.example.dogfinder.Activity.IndexActivity;
 import com.example.dogfinder.Activity.RegisterActivity;
+import com.example.dogfinder.Activity.ResetPasswordActivity;
 import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends BaseActivity {
     Button login_btn;
-    TextView register_link;
+    TextView register_link,reset_link;
     EditText email,password;
     FirebaseAuth auth;
     @Override
@@ -36,8 +38,8 @@ public class MainActivity extends BaseActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         auth = FirebaseAuth.getInstance();
-
-        if(auth.getCurrentUser() != null){
+        FirebaseUser user = auth.getCurrentUser();
+        if(auth.getCurrentUser() != null && user.isEmailVerified()){
             navigate(IndexActivity.class);
         }
 
@@ -85,6 +87,19 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 });
+            }
+        });
+        reset_link = findViewById(R.id.reset_link);
+        reset_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ResetPasswordActivity.class);
+                if(TextUtil.isEmpty(email.getText().toString().trim())){
+                    intent.putExtra("email",email.getText().toString().trim());
+                    startActivity(intent);
+                }else{
+                    navigate(ResetPasswordActivity.class);
+                }
             }
         });
     }

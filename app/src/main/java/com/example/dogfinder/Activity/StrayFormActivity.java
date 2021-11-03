@@ -81,7 +81,6 @@ public class StrayFormActivity extends BaseActivity {
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
-    FirebaseFirestore firebaseFirestore;
     AlertDialog.Builder builder;
 
     @Override
@@ -91,7 +90,6 @@ public class StrayFormActivity extends BaseActivity {
 
 
         auth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
         userID = auth.getCurrentUser().getUid();
         location = null;
         back_btn = findViewById(R.id.back_index);
@@ -260,8 +258,8 @@ public class StrayFormActivity extends BaseActivity {
                     String description1 = description_view.getText().toString().trim();
                     StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
                             location,description1);
-                    DocumentReference reference = firebaseFirestore.collection("strayDog").document();
-                    reference.set(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    String uploadId = databaseReference.push().getKey();
+                    databaseReference.child(uploadId).setValue(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             navigate(IndexActivity.class);

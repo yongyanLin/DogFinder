@@ -79,7 +79,6 @@ public class LostFormActivity extends BaseActivity {
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
-    FirebaseFirestore firebaseFirestore;
     AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class LostFormActivity extends BaseActivity {
         setContentView(R.layout.activity_lost_form);
 
         auth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
         userID = auth.getCurrentUser().getUid();
         location = null;
         back_btn = findViewById(R.id.back_index);
@@ -257,8 +255,8 @@ public class LostFormActivity extends BaseActivity {
                     String description1 = description_view.getText().toString().trim();
                     LostDog lostDog = new LostDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
                             location,description1);
-                    DocumentReference reference = firebaseFirestore.collection("lostDog").document();
-                    reference.set(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    String uploadId = databaseReference.push().getKey();
+                    databaseReference.child(uploadId).setValue(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             navigate(IndexActivity.class);

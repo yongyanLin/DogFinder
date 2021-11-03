@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/account"
             android:layout_marginTop="@dimen/dimen_5dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60dp"
@@ -26,6 +27,7 @@
             android:layout_height="1dp"
             android:background="@color/gray" />
         <ImageView
+            android:src="@mipmap/profile_light"
             android:id="@+id/profile_photo"
             android:layout_width="@dimen/dimen_80dp"
             android:layout_height="@dimen/dimen_80dp"
@@ -178,7 +180,7 @@
                 android:layout_gravity="center"
                 android:layout_width="@dimen/dimen_50dp"
                 android:layout_height="@dimen/dimen_50dp"
-                android:src="@mipmap/like_list">
+                android:src="@mipmap/comment">
             </ImageView>
             <TextView
                 android:layout_width="wrap_content"
@@ -201,7 +203,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_80dp"
             android:padding="@dimen/dimen_10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dimen_10dp">
             <ImageView
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 android:layout_gravity="center"
@@ -327,7 +330,7 @@
                     android:layout_gravity="center"
                     android:layout_width="@dimen/dimen_40dp"
                     android:layout_height="@dimen/dimen_40dp"
-                    android:background="@mipmap/like_list">
+                    android:background="@mipmap/comment">
                 </ImageView>
                 <TextView
                     android:layout_width="wrap_content"
