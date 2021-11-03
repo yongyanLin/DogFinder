@@ -60,27 +60,7 @@ public class ProfileActivity extends BaseActivity {
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         documentReference = firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.getResult().exists()){
-                    String username = task.getResult().getString("username");
-                    String email = task.getResult().getString("email");
-                    String imageUri = task.getResult().getString("image");
-                    account_field.setText(username);
-                    email_field.setText(email);
-                    if(imageUri == null){
-                        profile_photo.setImageResource(R.mipmap.profile_light);
-                    }else{
-                        Picasso.with(getApplicationContext()).load(imageUri).into(profile_photo);
-                    }
-                }else {
-                    showToast("No profile exists.");
-                    auth.signOut();
-                    navigate(MainActivity.class);
-                }
-            }
-        });
+
         nav_account = findViewById(R.id.nav_account);
         nav_stray = findViewById(R.id.nav_stray);
         nav_lost = findViewById(R.id.nav_lost);
@@ -113,5 +93,30 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.getResult().exists()){
+                    String username = task.getResult().getString("username");
+                    String email = task.getResult().getString("email");
+                    String imageUri = task.getResult().getString("image");
+                    account_field.setText(username);
+                    email_field.setText(email);
+                    if(imageUri == null){
+                        profile_photo.setImageResource(R.mipmap.profile_light);
+                    }else{
+                        Picasso.with(getApplicationContext()).load(imageUri).into(profile_photo);
+                    }
+                }else {
+                    showToast("No profile exists.");
+                    auth.signOut();
+                    navigate(MainActivity.class);
+                }
+            }
+        });
     }
 }

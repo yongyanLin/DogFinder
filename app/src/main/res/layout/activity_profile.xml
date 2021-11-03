@@ -31,7 +31,6 @@
             android:id="@+id/profile_photo"
             android:layout_width="@dimen/dimen_80dp"
             android:layout_height="@dimen/dimen_80dp"
-            android:background="@drawable/profile_photo"
             android:layout_gravity="center"
             android:layout_marginTop="10dp">
         </ImageView>
@@ -223,10 +222,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray" />
+
         <LinearLayout
             android:layout_marginTop="@dimen/dimen_5dp"
             android:layout_width="match_parent"

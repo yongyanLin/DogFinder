@@ -4,13 +4,13 @@ public class User {
     String username;
     String email;
     String password;
-    String imageUrl;
+    String image;
 
     public User(String username, String email, String password, String imageUrl) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.imageUrl = imageUrl;
+        this.image = imageUrl;
     }
 
     public String getUsername() {
@@ -38,10 +38,10 @@ public class User {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return image;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.image = imageUrl;
     }
 }

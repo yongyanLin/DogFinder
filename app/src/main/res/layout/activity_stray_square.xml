@@ -4,119 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AccountActivity"
-    android:id="@+id/profileLayout"
-    >
-    <LinearLayout
+    tools:context=".Activity.StraySquareActivity">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_60dp"
-            android:background="@color/cornflowerblue"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/back_profile"
-                android:layout_width="@dimen/dimen_50dp"
-                android:layout_height="@dimen/dimen_50dp"
-                android:layout_gravity="center"
-                android:background="@mipmap/back_white"></Button>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_100dp"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:fontFamily="casual"
-                android:text="@string/account"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dimen_30sp"
-                android:textStyle="bold"></TextView>
-        </LinearLayout>
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_marginBottom="@dimen/dimen_5dp"
-                android:fontFamily="casual"
-                android:text="@string/accountTile"
-                android:textSize="@dimen/dimen_20sp"></TextView>
+            android:orientation="vertical"
+            android:layout_alignParentTop="true">
 
-            <ImageView
-                android:id="@+id/profile_photo"
-                android:layout_width="@dimen/dimen_80dp"
-                android:layout_height="@dimen/dimen_80dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:src="@mipmap/profile_light"></ImageView>
-
-            <EditText
-                android:id="@+id/username_field"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:hint="@string/username"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_20sp"></EditText>
-
-            <TextView
-                android:id="@+id/email_field"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_20sp"></TextView>
-            <EditText
-                android:textStyle="bold"
-                android:id="@+id/password_field"
-                android:inputType="textPassword"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:hint="@string/resetHint"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_15sp"></EditText>
-            <Button
-                android:id="@+id/save_btn"
-                android:layout_width="@dimen/dimen_200dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_40dp"
-                android:background="@drawable/save_btn"
-                android:fontFamily="cursive"
-                android:text="@string/save"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dimen_20sp"
-                android:textStyle="bold"></Button>
-            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/dimen_5dp"
@@ -256,4 +155,3 @@
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
-

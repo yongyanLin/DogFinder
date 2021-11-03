@@ -1,6 +1,7 @@
 package com.example.dogfinder;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,7 +21,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,6 +34,8 @@ public class MainActivity extends BaseActivity {
     TextView register_link,reset_link;
     EditText email,password;
     FirebaseAuth auth;
+    DocumentReference documentReference;
+    FirebaseFirestore firebaseFirestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,7 @@ public class MainActivity extends BaseActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if(auth.getCurrentUser() != null && user.isEmailVerified()){
             navigate(IndexActivity.class);
@@ -72,9 +80,30 @@ public class MainActivity extends BaseActivity {
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser firebaseUser = auth.getCurrentUser();
+                            documentReference = firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid());
+                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.getResult().exists()) {
+                                        String password1 = task.getResult().getString("password");
+                                        if (password1 != password_string) {
+                                            firebaseFirestore.runTransaction(new Transaction.Function<Object>() {
+                                                @Nullable
+                                                @Override
+                                                public Object apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                                                    DocumentSnapshot snapshot = transaction.get(documentReference);
+                                                    transaction.update(documentReference, "password", password_string);
+                                                    return null;
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
                             if(firebaseUser.isEmailVerified()){
                                 navigate(IndexActivity.class);
                             }else{
+                                firebaseUser.sendEmailVerification();
                                 showToast("Please verify your email.");
                                 auth.signOut();
                             }
@@ -95,10 +124,10 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ResetPasswordActivity.class);
                 if(TextUtil.isEmpty(email.getText().toString().trim())){
+                    navigate(ResetPasswordActivity.class);
+                }else{
                     intent.putExtra("email",email.getText().toString().trim());
                     startActivity(intent);
-                }else{
-                    navigate(ResetPasswordActivity.class);
                 }
             }
         });

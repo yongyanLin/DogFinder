@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.TextUtil;
 import com.example.dogfinder.Utils.profilePopUpUtil;
 import com.example.dogfinder.Utils.strayPopUpUtil;
 import com.google.android.gms.tasks.Continuation;
@@ -66,19 +67,20 @@ public class AccountActivity extends BaseActivity {
     public static final int GALLERY_PROFILE_REQUEST_CODE = 105;
     LinearLayout home_btn,stray_btn,lost_btn,like_btn,comment_btn,profile_btn;
     ImageView profile_image;
-    EditText username_field;
+    EditText username_field,password_field;
     TextView email_field;
     Button save_btn,back_btn;
     FirebaseAuth auth;
     StorageReference storageReference;
     FirebaseFirestore firebaseFirestore;
     DocumentReference documentReference;
-    String username,email,imageUri;
+    String username,email,imageUri,password;
     Uri image,imageUpdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        password_field = findViewById(R.id.password_field);
         profile_image = findViewById(R.id.profile_photo);
         username_field = findViewById(R.id.username_field);
         email_field = findViewById(R.id.email_field);
@@ -107,27 +109,6 @@ public class AccountActivity extends BaseActivity {
         storageReference = FirebaseStorage.getInstance().getReference("users");
         firebaseFirestore = FirebaseFirestore.getInstance();
         documentReference = firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.getResult().exists()){
-                    username = task.getResult().getString("username");
-                    email = task.getResult().getString("email");
-                    imageUri = task.getResult().getString("image");
-                    username_field.setText(username);
-                    email_field.setText(email);
-                    if(imageUri == null){
-                        profile_image.setImageResource(R.mipmap.profile_light);
-                    }else{
-                        Picasso.with(getApplicationContext()).load(imageUri).into(profile_image);
-                    }
-                }else {
-                    showToast("No profile exists.");
-                    auth.signOut();
-                    navigate(MainActivity.class);
-                }
-            }
-        });
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +142,8 @@ public class AccountActivity extends BaseActivity {
         }
     };
     public void updateProfile() {
+        String password1 = password_field.getText().toString().trim();
+
         String username1 = username_field.getText().toString().trim();
         if (image != null) {
             StorageReference storageReference1 = storageReference.child(System.currentTimeMillis() + "." + getExtension(image));
@@ -189,7 +172,14 @@ public class AccountActivity extends BaseActivity {
                     }).addOnSuccessListener(new OnSuccessListener<Object>() {
                         @Override
                         public void onSuccess(Object o) {
-                            navigate(AccountActivity.class);
+                            if(password1.equals(password)){
+                                auth.sendPasswordResetEmail(email);
+                                showToast("Please check the email to reset the password.");
+                                auth.signOut();
+                                navigate(MainActivity.class);
+                            }else{
+                                navigate(AccountActivity.class);
+                            }
                         }
                     });
                 }
@@ -207,13 +197,46 @@ public class AccountActivity extends BaseActivity {
             }).addOnSuccessListener(new OnSuccessListener<Object>() {
                 @Override
                 public void onSuccess(Object o) {
-                    navigate(AccountActivity.class);
+                    if(password1.equals(password)){
+                        auth.sendPasswordResetEmail(email);
+                        showToast("Please check the email to reset the password.");
+                        auth.signOut();
+                        navigate(MainActivity.class);
+                    }else if(TextUtil.isEmpty(password1)){
+                        navigate(AccountActivity.class);
+                    }else if(!password1.equals(password)){
+                        password_field.setError("Wrong password.");
+                    }
                 }
             });
         }
     }
-
-
+    @Override
+    protected void onStart(){
+        super.onStart();
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.getResult().exists()){
+                    username = task.getResult().getString("username");
+                    email = task.getResult().getString("email");
+                    imageUri = task.getResult().getString("image");
+                    password = task.getResult().getString("password");
+                    username_field.setText(username);
+                    email_field.setText(email);
+                    if(imageUri == null){
+                        profile_image.setImageResource(R.mipmap.profile_light);
+                    }else{
+                        Picasso.with(getApplicationContext()).load(imageUri).into(profile_image);
+                    }
+                }else {
+                    showToast("No profile exists.");
+                    auth.signOut();
+                    navigate(MainActivity.class);
+                }
+            }
+        });
+    }
     private void askProfileGalleryPermission() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent,GALLERY_PROFILE_REQUEST_CODE);

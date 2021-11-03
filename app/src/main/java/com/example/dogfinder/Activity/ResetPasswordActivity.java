@@ -45,6 +45,7 @@ public class ResetPasswordActivity extends BaseActivity {
                 resetPassword();
             }
         });
+
     }
 
     private void resetPassword() {
