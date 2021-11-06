@@ -16,14 +16,13 @@ import com.example.dogfinder.R;
 public class strayPopUpUtil extends PopupWindow {
     private Context context;
     private View view;
-    public LinearLayout camera,gallery;
+    public LinearLayout camera;
     private Button cancel;
     public strayPopUpUtil(Context mContext, View.OnClickListener itemsOnClick) {
 
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popup_stray_window, null);
 
         camera = (LinearLayout) view.findViewById(R.id.camera_btn);
-        gallery = (LinearLayout) view.findViewById(R.id.gallery_btn);
         cancel = (Button) view.findViewById(R.id.cancel);
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +34,6 @@ public class strayPopUpUtil extends PopupWindow {
         });
         // add listener
         camera.setOnClickListener(itemsOnClick);
-        gallery.setOnClickListener(itemsOnClick);
 
         // outside can be clicked
         this.setOutsideTouchable(true);

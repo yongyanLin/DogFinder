@@ -62,24 +62,25 @@ import java.util.Objects;
 public class LostFormActivity extends BaseActivity {
 
     FirebaseAuth auth;
-    Spinner spinnerBody, spinnerBehavior;
+    Spinner spinnerBody, spinnerBehavior,spinnerSize;
     BodyAdapter bodyAdapter;
     BehaviorAdapter behaviorAdapter;
     Button back_btn, publish_btn;
     String condition, behavior, color, breed, location,cLocation,userID;
     List<Body> bodyList;
     List<Behavior> behaviorList;
-    List<Integer> colorList;
-    String[] colorArray;
-    boolean[] selectedColor;
-    EditText breed_filed,description_view;
+    List<Integer> colorList,breedList;
+    String[] colorArray,breedsArray;
+    boolean[] selectedColor,selectedBreed;
+    TextView breed_filed;
+    EditText description_view;
     ImageView imageView;
     TextView location_btn,color_view;
     Uri image;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
-    AlertDialog.Builder builder;
+    AlertDialog.Builder builderColor,builderBreed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +96,6 @@ public class LostFormActivity extends BaseActivity {
                 navigate(IndexActivity.class);
             }
         });
-        //breed
-        breed_filed = findViewById(R.id.lost_breed);
-        breed = breed_filed.getText().toString().trim();
         //Body
         spinnerBody = findViewById(R.id.lost_body_spinner);
         bodyAdapter = new BodyAdapter(LostFormActivity.this, DataUtil.getBodyList());
@@ -136,6 +134,73 @@ public class LostFormActivity extends BaseActivity {
                 behavior = "Unknown";
             }
         });
+        //breed
+        breed_filed = findViewById(R.id.lost_breed);
+        breedsArray = getResources().getStringArray(R.array.breeds);
+        breedList = new ArrayList<>();
+        selectedBreed = new boolean[breedsArray.length];
+        breed_filed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builderBreed = new AlertDialog.Builder(LostFormActivity.this);
+                builderBreed.setTitle("Select breed of your dog.");
+                builderBreed.setCancelable(false);
+                String breedString = breed_filed.getText().toString().trim();
+                // set selected items
+                for(int i = 0;i< selectedBreed.length;i++){
+                    if(breedString.contains(breedsArray[i])){
+                        selectedBreed[i] = true;
+                        breedList.add(i);
+                    }else{
+                        selectedBreed[i] = false;
+                    }
+                }
+                builderBreed.setMultiChoiceItems(breedsArray, selectedBreed, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if(isChecked){
+                            breedList.add(which);
+                            Collections.sort(breedList);
+                        }else if(breedList.contains(which)){
+                            breedList.remove(Integer.valueOf(which));
+                        }
+                    }
+                });
+                builderBreed.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int i = 0;i<breedList.size();i++){
+                            stringBuilder.append(breedsArray[breedList.get(i)]);
+                            if(i != breedList.size()-1){
+                                stringBuilder.append(",");
+                            }
+                        }
+                        breed = stringBuilder.toString();
+                        breed_filed.setText(stringBuilder);
+                    }
+
+                });
+                builderBreed.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builderBreed.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i =0;i<selectedBreed.length;i++){
+                            selectedBreed[i] = false;
+                            breedList.clear();
+                            breed_filed.setText("");
+                        }
+                    }
+                });
+                builderBreed.show();
+            }
+
+        });
         //Color
         colorArray = DataUtil.getColorArray();
         color_view = findViewById(R.id.lost_color);
@@ -144,9 +209,9 @@ public class LostFormActivity extends BaseActivity {
         color_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder = new AlertDialog.Builder(LostFormActivity.this);
-                builder.setTitle("Select color");
-                builder.setCancelable(false);
+                builderColor = new AlertDialog.Builder(LostFormActivity.this);
+                builderColor.setTitle("Select color");
+                builderColor.setCancelable(false);
                 String colorString = color_view.getText().toString().trim();
                 // set selected items
                 for(int i = 0;i<selectedColor.length;i++){
@@ -157,7 +222,7 @@ public class LostFormActivity extends BaseActivity {
                         selectedColor[i] = false;
                     }
                 }
-                builder.setMultiChoiceItems(colorArray, selectedColor, new DialogInterface.OnMultiChoiceClickListener() {
+                builderColor.setMultiChoiceItems(colorArray, selectedColor, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if(isChecked){
@@ -168,7 +233,7 @@ public class LostFormActivity extends BaseActivity {
                         }
                     }
                 });
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builderColor.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         StringBuilder stringBuilder = new StringBuilder();
@@ -183,13 +248,13 @@ public class LostFormActivity extends BaseActivity {
                     }
 
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builderColor.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-                builder.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                builderColor.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         for(int i =0;i<selectedColor.length;i++){
@@ -199,7 +264,7 @@ public class LostFormActivity extends BaseActivity {
                         }
                     }
                 });
-                builder.show();
+                builderColor.show();
             }
         });
         //get location and image

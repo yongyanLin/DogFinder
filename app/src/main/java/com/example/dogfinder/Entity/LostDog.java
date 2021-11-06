@@ -6,6 +6,7 @@ public class LostDog {
     private String condition;
     private String behavior;
     private String color;
+    private String size;
     private String imageUrl;
     private String location;
     private String description;

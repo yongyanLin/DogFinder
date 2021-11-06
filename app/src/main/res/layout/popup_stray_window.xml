@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_300dp"
+    android:layout_height="@dimen/dimen_200dp"
     android:background="@drawable/popup"
     android:orientation="vertical"
     android:id="@+id/pop_stray_layout"
@@ -29,33 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/camera"
-                android:textColor="@color/black"
-                android:fontFamily="cursive"
-                android:textSize="@dimen/dimen_50sp"
-                android:gravity="center">
-            </TextView>
-        </LinearLayout>
-        <LinearLayout
-            android:clickable="true"
-            android:layout_width="@dimen/dimen_250dp"
-            android:id="@+id/gallery_btn"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:background="@drawable/popup_btn">
-            <ImageView
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:layout_width="@dimen/dimen_80dp"
-                android:layout_height="@dimen/dimen_80dp"
-                android:background="@mipmap/album">
-            </ImageView>
-            <TextView
-                android:layout_marginRight="@dimen/dimen_5dp"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gallery"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
                 android:textSize="@dimen/dimen_50sp"

@@ -1,9 +1,5 @@
 package com.example.dogfinder.Utils;
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
@@ -82,4 +78,5 @@ public class DataUtil {
                 "Gray/Blue/Silver", "Harlequin", "Merle(Blue)", "Merle(Red)"};
         return colors;
     }
+
 }

@@ -53,7 +53,8 @@
                     android:background="@mipmap/dog_icon">
                 </ImageView>
 
-                <EditText
+                <TextView
+                    android:clickable="true"
                     android:id="@+id/lost_breed"
                     android:layout_width="@dimen/dimen_250dp"
                     android:layout_height="43dp"
@@ -65,8 +66,8 @@
                     android:text="@string/breed"
                     android:textColor="@color/darkslateblue"
                     android:textColorHint="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_30sp"
-                    android:textStyle="bold"></EditText>
+                    android:textSize="@dimen/dimen_20sp"
+                    android:textStyle="bold"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
@@ -105,6 +106,25 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:id="@+id/lost_behavior_spinner">
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_350dp"
+                android:layout_height="@dimen/dimen_80dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:background="@mipmap/size_icon">
+                </ImageView>
+                <Spinner
+                    android:layout_width="@dimen/dimen_260dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:id="@+id/lost_size_spinner">
                 </Spinner>
             </LinearLayout>
             <LinearLayout

@@ -5,15 +5,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.StraySquareActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+        <androidx.appcompat.widget.SearchView
+            android:layout_gravity="center"
+            android:layout_width="@dimen/dimen_300dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:id="@+id/search"
+            app:queryHint="@string/search"
+            >
+        </androidx.appcompat.widget.SearchView>
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/location_icon"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:src="@mipmap/location_icon"
+            android:clickable="true">
+        </ImageView>
+        <Button
+            android:id="@+id/filter_btn"
+            android:layout_gravity="center"
+            android:background="@mipmap/filter"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_height="@dimen/dimen_60dp">
+        </Button>
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/dog_profile"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentTop="true">
+            android:orientation="vertical">
+            <ImageView
 
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_280dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:id="@+id/dog_img"
+                ></ImageView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/dog_breed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/breed"
+                        android:textSize="@dimen/dimen_20sp"
+                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:fontFamily="casual"
+                        android:textColor="@color/grey">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/dog_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="casual"
+                        android:text="distance"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/dimen_20sp"
+                        android:layout_marginRight="@dimen/dimen_50dp"
+                        ></TextView>
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/view_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/breed"
+                        android:textSize="@dimen/dimen_20sp"
+                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:fontFamily="casual"
+                        android:textColor="@color/grey">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen_130dp"
+                        android:layout_height="@dimen/dimen_50dp"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <LinearLayout

@@ -275,28 +275,6 @@ public class StrayFormActivity extends BaseActivity {
 
     }
 
-
-    //save image to gallery
-    public void saveToGallery(Bitmap bitmap) {
-        OutputStream os;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ContentResolver resolver = getContentResolver();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "Img_" + ".jpg");
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-            Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            try {
-                os = resolver.openOutputStream(Objects.requireNonNull(imageUri));
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-                Objects.requireNonNull(os);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
     public void setCurrentLocation() {
         LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);;
         List<Address> addresses = null;
@@ -332,7 +310,6 @@ public class StrayFormActivity extends BaseActivity {
         }
     }
 
-
     //set the chosen option for spinner
     private int getSelection(Spinner spinner, String myString){
         for (int i=0;i<spinner.getCount();i++){
@@ -345,6 +322,7 @@ public class StrayFormActivity extends BaseActivity {
     }
     public void sendToMap(){
         Bundle data = new Bundle();
+        String breed = breed_filed.getText().toString().trim();
         data.putString("breed",breed);
         data.putString("condition",condition);
         data.putString("behavior",behavior);
@@ -360,19 +338,14 @@ public class StrayFormActivity extends BaseActivity {
     public void resetForm(){
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            if (bundle.get("cameraImage") != null) {
-                image = (Uri) bundle.get("cameraImage");
-                imageView.setImageURI(image);
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                saveToGallery(bitmap);
-            }
-            if (bundle.get("galleryImage") != null) {
-                image = (Uri) bundle.get("galleryImage");
-                imageView.setImageURI(image);
-            }
             if(bundle.get("breed") != null){
-                breed_filed.setText(bundle.getString("breed"));
+                String breed_string = bundle.getString("breed");
+                if(breed_string.contains(":")){
+                    breed_string = breed_string.split(":")[0];
+                }else{
+                    breed_string = bundle.getString("breed");
+                }
+                breed_filed.setText(breed_string);
             }
             if(bundle.get("condition") != null){
                 spinnerBody.setSelection(getSelection(spinnerBody,bundle.getString("condition")));

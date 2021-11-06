@@ -22,8 +22,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
+import com.example.dogfinder.CameraUtil.ClassifierActivity;
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.lostPopUpUtil;
@@ -51,6 +53,7 @@ public class IndexActivity extends BaseActivity {
     public static final int GALLERY_STRAY_REQUEST_CODE = 105;
     public static final int GALLERY_LOST_REQUEST_CODE = 106;
     public static final int LOCATION_PERM_CODE = 99;
+    static final int PICK_IMAGE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +71,22 @@ public class IndexActivity extends BaseActivity {
                 popStrayFormBottom();
             }
         });
+        straySquareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(StraySquareActivity.class);
+            }
+        });
         lostPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popLostFormBottom();
+            }
+        });
+        lostSquareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(LostSquareActivity.class);
             }
         });
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -93,6 +108,8 @@ public class IndexActivity extends BaseActivity {
                     case R.id.nav_profile:
                         navigate(ProfileActivity.class);
                         break;
+                    case R.id.nav_stray:
+                        navigate(StraySquareActivity.class);
                     case R.id.logout:
                         auth.signOut();
                         navigate(MainActivity.class);
@@ -127,10 +144,8 @@ public class IndexActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.camera_btn:
-                    askCameraPermission();
-                    break;
-                case R.id.gallery_btn:
-                    askStrayGalleryPermission();
+                    //askCameraPermission();
+                    navigate(ClassifierActivity.class);
                     break;
                 case R.id.lost_gallery_btn:
                     askLostGalleryPermission();
@@ -138,34 +153,13 @@ public class IndexActivity extends BaseActivity {
         }
     };
 
-    private void askStrayGalleryPermission() {
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
-        }else{
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent,GALLERY_STRAY_REQUEST_CODE);
-        }
-    }
+
     private void askLostGalleryPermission() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
         }else{
             Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(galleryIntent,GALLERY_LOST_REQUEST_CODE);
-        }
-    }
-
-    private void askCameraPermission() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
-            }
-            getCameraIntent();
-        }else{
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
-            }
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
         }
     }
 

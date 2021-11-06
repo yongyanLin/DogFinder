@@ -5,6 +5,7 @@ public class StrayDog {
     private String breed;
     private String condition;
     private String behavior;
+    private String size;
     private String color;
     private String imageUrl;
     private String location;

@@ -116,6 +116,25 @@
                     android:layout_gravity="center"
                     android:layout_width="@dimen/dimen_50dp"
                     android:layout_height="@dimen/dimen_50dp"
+                    android:background="@mipmap/size_icon">
+                </ImageView>
+                <Spinner
+                    android:layout_width="@dimen/dimen_260dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:id="@+id/stray_size_spinner">
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="@dimen/dimen_350dp"
+                android:layout_height="@dimen/dimen_80dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
                     android:background="@mipmap/color_icon"
                      >
                 </ImageView>
