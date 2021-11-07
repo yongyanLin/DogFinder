@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.example.dogfinder.Adapter.BehaviorAdapter;
@@ -39,17 +41,29 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
+import com.example.dogfinder.Entity.LostDog;
 import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.Entity.StrayDog;
+import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.SuccessContinuation;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -80,7 +94,7 @@ public class StrayFormActivity extends BaseActivity {
     EditText breed_filed,description_view;
     ImageView imageView;
     TextView location_btn,color_view;
-    Uri image;
+    Uri image,imageUpdate;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
@@ -273,25 +287,30 @@ public class StrayFormActivity extends BaseActivity {
             storageReference1.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    showToast("Uploading successfully!");
-                    String breed1 = breed_filed.getText().toString().trim();
-                    String condition1 = spinnerBody.getSelectedItem().toString();
-                    String behavior1 = spinnerBehavior.getSelectedItem().toString();
-                    String color1 = color_view.getText().toString().trim();
-                    String size1 = spinnerSize.getSelectedItem().toString();
-                    String description1 = description_view.getText().toString().trim();
-                    StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,size1,color1,taskSnapshot.getUploadSessionUri().toString(),
-                            location,description1);
-                    String uploadId = databaseReference.push().getKey();
-                    databaseReference.child(uploadId).setValue(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    storageReference1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(Void unused) {
-                            navigate(IndexActivity.class);
-                            finish();
+                        public void onSuccess(Uri uri) {
+                            progressDialog.dismiss();
+                            showToast("Uploading successfully!");
+                            String breed1 = breed_filed.getText().toString().trim();
+                            String condition1 = spinnerBody.getSelectedItem().toString();
+                            String behavior1 = spinnerBehavior.getSelectedItem().toString();
+                            String size1 = spinnerSize.getSelectedItem().toString();
+                            String color1 = color_view.getText().toString().trim();
+                            String description1 = description_view.getText().toString().trim();
+                            StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,size1,color1,uri.toString(),
+                                    location,description1);
+                            String uploadId = databaseReference.push().getKey();
+                            strayDog.setId(uploadId);
+                            databaseReference.child(uploadId).setValue(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    navigate(IndexActivity.class);
+                                    finish();
+                                }
+                            });
                         }
                     });
-
                 }
             });
 

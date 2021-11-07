@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@mipmap/index1"
+        android:id="@+id/home_btn"
+        android:title="">
+    </item>
+    <item
+        android:icon="@mipmap/like_list"
+        android:id="@+id/likes_btn"
+        android:title="">
+    </item>
+    <item
+        android:icon="@mipmap/gallery_black"
+        android:id="@+id/stray_btn"
+        android:title="">
+    </item>
+    <item
+        android:icon="@mipmap/lost_dog_black"
+        android:id="@+id/lost_btn"
+        android:title="">
+    </item>
+    <item
+        android:icon="@mipmap/profile"
+        android:id="@+id/profile_btn"
+        android:title="">
+    </item>
+</menu>

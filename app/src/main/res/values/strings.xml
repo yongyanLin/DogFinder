@@ -50,6 +50,8 @@
     <string name="search">search...</string>
     <string name="view_link">View Profile</string>
     <string name="resetHint">Input password to receive reset email.</string>
+    <string name="profileLink">View profile</string>
+    <string name="commentTitle">View all comments</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
         <item>Afghan Hound</item>

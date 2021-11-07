@@ -4,6 +4,7 @@ package com.example.dogfinder.Utils;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
 import com.example.dogfinder.Entity.Size;
+import com.example.dogfinder.Entity.StrayDog;
 import com.example.dogfinder.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -102,6 +103,10 @@ public class DataUtil {
         String colors[] = {"Apricot/Beige","White","Bicolor", "Black", "Brindle", "Brown/Chocolate", "Golden",
                 "Gray/Blue/Silver", "Harlequin", "Blue", "Red"};
         return colors;
+    }
+    public static List<StrayDog> getStrayDogList(){
+        List<StrayDog> list = new ArrayList<>();
+        return list;
     }
 
 }

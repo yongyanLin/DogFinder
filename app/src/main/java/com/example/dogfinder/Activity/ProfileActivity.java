@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import com.example.dogfinder.Utils.lostPopUpUtil;
 import com.example.dogfinder.Utils.strayPopUpUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,12 +45,12 @@ import java.util.Date;
 public class ProfileActivity extends BaseActivity {
 
     LinearLayout nav_account,nav_stray,nav_lost,nav_like,nav_comment,nav_logout;
-    LinearLayout home_btn,stray_btn,lost_btn,like_btn,comment_btn,profile_btn;
     FirebaseAuth auth;
     FirebaseFirestore firebaseFirestore;
     DocumentReference documentReference;
     ImageView profile_photo;
     TextView email_field,account_field;
+    BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,29 +69,46 @@ public class ProfileActivity extends BaseActivity {
         nav_like = findViewById(R.id.nav_like);
         nav_comment = findViewById(R.id.nav_comment);
         nav_logout = findViewById(R.id.logout);
-        home_btn = findViewById(R.id.home_btn);
-        stray_btn = findViewById(R.id.stray_btn);
-        lost_btn = findViewById(R.id.lost_btn);
-        like_btn = findViewById(R.id.likes_btn);
-        comment_btn = findViewById(R.id.comments_btn);
-        profile_btn = findViewById(R.id.profile_btn);
+
         nav_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navigate(AccountActivity.class);
+                finish();
             }
         });
+
         nav_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 auth.signOut();
                 navigate(MainActivity.class);
+                finish();
             }
         });
-        home_btn.setOnClickListener(new View.OnClickListener() {
+        navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.setSelectedItemId(R.id.profile_btn);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                navigate(IndexActivity.class);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home_btn:
+                        navigate(IndexActivity.class);
+                        finish();
+                        break;
+                    case R.id.likes_btn:
+                        break;
+                    case R.id.stray_btn:
+                        navigate(StraySquareActivity.class);
+                        finish();
+                    case R.id.lost_btn:
+                        navigate(LostSquareActivity.class);
+                        finish();
+                    case R.id.profile_btn:
+                        navigate(ProfileActivity.class);
+                        finish();
+                }
+                return false;
             }
         });
 

@@ -335,25 +335,30 @@ public class LostFormActivity extends BaseActivity {
             storageReference1.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    showToast("Uploading successfully!");
-                    String breed1 = breed_filed.getText().toString().trim();
-                    String condition1 = spinnerBody.getSelectedItem().toString();
-                    String behavior1 = spinnerBehavior.getSelectedItem().toString();
-                    String size1 = spinnerSize.getSelectedItem().toString();
-                    String color1 = color_view.getText().toString().trim();
-                    String description1 = description_view.getText().toString().trim();
-                    LostDog lostDog = new LostDog(userID,breed1,condition1,behavior1,size1,color1,taskSnapshot.getUploadSessionUri().toString(),
-                            location,description1);
-                    String uploadId = lost_databaseReference.push().getKey();
-                    lost_databaseReference.child(uploadId).setValue(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    storageReference1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(Void unused) {
-                            navigate(IndexActivity.class);
-                            finish();
+                        public void onSuccess(Uri uri) {
+                            progressDialog.dismiss();
+                            showToast("Uploading successfully!");
+                            String breed1 = breed_filed.getText().toString().trim();
+                            String condition1 = spinnerBody.getSelectedItem().toString();
+                            String behavior1 = spinnerBehavior.getSelectedItem().toString();
+                            String size1 = spinnerSize.getSelectedItem().toString();
+                            String color1 = color_view.getText().toString().trim();
+                            String description1 = description_view.getText().toString().trim();
+                            LostDog lostDog = new LostDog(userID,breed1,condition1,behavior1,size1,color1,uri.toString(),
+                                    location,description1);
+                            String uploadId = lost_databaseReference.push().getKey();
+                            lostDog.setId(uploadId);
+                            lost_databaseReference.child(uploadId).setValue(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    navigate(IndexActivity.class);
+                                    finish();
+                                }
+                            });
                         }
                     });
-
                 }
             });
 

@@ -1,6 +1,7 @@
 package com.example.dogfinder.Entity;
 
 public class LostDog {
+    private String id;
     private String userId;
     private String breed;
     private String condition;
@@ -10,6 +11,9 @@ public class LostDog {
     private String imageUrl;
     private String location;
     private String description;
+    public LostDog(){
+
+    }
     public LostDog(String userId,String breed,String condition,String behavior,String size,String color,String imageUrl,String location,String description){
         this.userId = userId;
         this.breed = breed;
@@ -20,6 +24,14 @@ public class LostDog {
         this.imageUrl = imageUrl;
         this.location = location;
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserId() {

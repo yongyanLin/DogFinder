@@ -65,7 +65,6 @@ public class AccountActivity extends BaseActivity {
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int WRITE_PERM_CODE = 1;
     public static final int GALLERY_PROFILE_REQUEST_CODE = 105;
-    LinearLayout home_btn,stray_btn,lost_btn,like_btn,comment_btn,profile_btn;
     ImageView profile_image;
     EditText username_field,password_field;
     TextView email_field;
@@ -86,18 +85,8 @@ public class AccountActivity extends BaseActivity {
         email_field = findViewById(R.id.email_field);
         save_btn = findViewById(R.id.save_btn);
         back_btn = findViewById(R.id.back_profile);
-        home_btn = findViewById(R.id.home_btn);
-        stray_btn = findViewById(R.id.stray_btn);
-        lost_btn = findViewById(R.id.lost_btn);
-        like_btn = findViewById(R.id.likes_btn);
-        comment_btn = findViewById(R.id.comments_btn);
-        profile_btn = findViewById(R.id.profile_btn);
-        home_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigate(IndexActivity.class);
-            }
-        });
+
+
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +132,6 @@ public class AccountActivity extends BaseActivity {
     };
     public void updateProfile() {
         String password1 = password_field.getText().toString().trim();
-
         String username1 = username_field.getText().toString().trim();
         if (image != null) {
             StorageReference storageReference1 = storageReference.child(System.currentTimeMillis() + "." + getExtension(image));
@@ -177,8 +165,10 @@ public class AccountActivity extends BaseActivity {
                                 showToast("Please check the email to reset the password.");
                                 auth.signOut();
                                 navigate(MainActivity.class);
+                                finish();
                             }else{
                                 navigate(AccountActivity.class);
+                                finish();
                             }
                         }
                     });
@@ -202,8 +192,10 @@ public class AccountActivity extends BaseActivity {
                         showToast("Please check the email to reset the password.");
                         auth.signOut();
                         navigate(MainActivity.class);
+                        finish();
                     }else if(TextUtil.isEmpty(password1)){
-                        navigate(AccountActivity.class);
+                        navigate(ProfileActivity.class);
+                        finish();
                     }else if(!password1.equals(password)){
                         password_field.setError("Wrong password.");
                     }
@@ -229,10 +221,12 @@ public class AccountActivity extends BaseActivity {
                     }else{
                         Picasso.with(getApplicationContext()).load(imageUri).into(profile_image);
                     }
+                    resetImage();
                 }else {
                     showToast("No profile exists.");
                     auth.signOut();
                     navigate(MainActivity.class);
+                    finish();
                 }
             }
         });
@@ -266,7 +260,8 @@ public class AccountActivity extends BaseActivity {
             if(resultCode == Activity.RESULT_OK){
                 File f = new File(photoPath);
                 image = Uri.fromFile(f);
-                profile_image.setImageURI(image);
+                Intent intent = new Intent(AccountActivity.this,AccountActivity.class);
+                intent.putExtra("image",image);
                 if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_PERM_CODE);
                 }
@@ -274,14 +269,25 @@ public class AccountActivity extends BaseActivity {
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) profile_image.getDrawable();
                 Bitmap bitmap = bitmapDrawable.getBitmap();
                 saveToGallery(bitmap);
-
+                startActivity(intent);
+                finish();
             }
         }
         if(requestCode == GALLERY_PROFILE_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 image = data.getData();
-                profile_image.setImageURI(image);
+                Intent intent = new Intent(AccountActivity.this,AccountActivity.class);
+                intent.putExtra("image",image);
+                startActivity(intent);
+                finish();
             }
+        }
+    }
+    public void resetImage(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            image = (Uri)bundle.get("image");
+            profile_image.setImageURI((Uri)bundle.get("image"));
         }
     }
     private File createImageUri() throws IOException {

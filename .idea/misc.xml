@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/blackout_transition.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/button_background_selector.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/heart_selector.xml" value="0.10364583333333334" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/login_btn.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/lost_square.xml" value="0.10052083333333334" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_chosen.xml" value="0.1" />
@@ -36,12 +37,15 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/lang_dialog.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/list_group.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/list_item.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/lostdog_item.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_lost_window.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_profile.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_profile_window.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_stray_window.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/popup_window.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/size_item.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/straydog_item.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/menu/mainmenu.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/menu/slding_menu.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/xml/file_paths.xml" value="0.1" />
