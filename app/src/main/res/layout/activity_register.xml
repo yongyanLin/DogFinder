@@ -110,6 +110,7 @@
                 android:src="@mipmap/confirm_password">
             </ImageView>
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/confirm_password"
                 android:layout_width="@dimen/dimen_200dp"
                 android:layout_height="@dimen/dimen_50dp"

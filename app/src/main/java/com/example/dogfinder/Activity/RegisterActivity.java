@@ -105,6 +105,7 @@ public class RegisterActivity extends BaseActivity {
                             Intent intent = new Intent(RegisterActivity.this,VerifyActivity.class);
                             intent.putExtra("email",email_string);
                             startActivity(intent);
+                            finish();
                         }else{
                             showToast("Information is incorrect!");
                             navigate(RegisterActivity.class);

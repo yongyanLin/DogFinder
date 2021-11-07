@@ -6,11 +6,11 @@ public class User {
     String password;
     String image;
 
-    public User(String username, String email, String password, String imageUrl) {
+    public User(String username, String email, String password, String image) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.image = imageUrl;
+        this.image = image;
     }
 
     public String getUsername() {
@@ -37,11 +37,11 @@ public class User {
         this.password = password;
     }
 
-    public String getImageUrl() {
+    public String getImage() {
         return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.image = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

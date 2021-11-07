@@ -36,8 +36,10 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.dogfinder.Adapter.BehaviorAdapter;
 import com.example.dogfinder.Adapter.BodyAdapter;
+import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
+import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.Entity.StrayDog;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
@@ -63,15 +65,16 @@ import java.util.Objects;
 
 public class StrayFormActivity extends BaseActivity {
     FirebaseAuth auth;
-    Spinner spinnerBody, spinnerBehavior, spinnerColor;
+    Spinner spinnerBody, spinnerBehavior,spinnerSize;
     BodyAdapter bodyAdapter;
     BehaviorAdapter behaviorAdapter;
-
+    SizeAdapter sizeAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color, breed, location,cLocation,userID;
+    String condition, behavior, color,size, breed, location,cLocation,userID;
     List<Body> bodyList;
     List<Behavior> behaviorList;
     List<Integer> colorList;
+    List<Size> sizeList;
     String[] colorArray;
     boolean[] selectedColor;
     EditText breed_filed,description_view;
@@ -97,6 +100,7 @@ public class StrayFormActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 navigate(IndexActivity.class);
+                finish();
             }
         });
         //breed
@@ -140,6 +144,25 @@ public class StrayFormActivity extends BaseActivity {
                 behavior = "Unknown";
             }
         });
+        //Size
+        spinnerSize = findViewById(R.id.stray_size_spinner);
+        sizeAdapter = new SizeAdapter(StrayFormActivity.this, DataUtil.getSizeList());
+        spinnerSize.setAdapter(sizeAdapter);
+        sizeList = DataUtil.getSizeList();
+        spinnerSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                size = (String) parent.getItemAtPosition(position);
+                if (size.equals("Size")) {
+                    size = "Unknown";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                behavior = "Unknown";
+            }
+        });
         //Color
         colorArray = DataUtil.getColorArray();
         color_view = findViewById(R.id.color);
@@ -156,7 +179,8 @@ public class StrayFormActivity extends BaseActivity {
                 for(int i = 0;i<selectedColor.length;i++){
                     if(colorString.contains(colorArray[i])){
                         selectedColor[i] = true;
-                        colorList.add(i);
+                        //colorList.add(i);
+
                     }else{
                         selectedColor[i] = false;
                     }
@@ -241,7 +265,7 @@ public class StrayFormActivity extends BaseActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-    public void uploadToDatabase(){
+    private void uploadToDatabase(){
         if(image != null){
             progressDialog.setTitle("Uploading....");
             progressDialog.show();
@@ -255,14 +279,16 @@ public class StrayFormActivity extends BaseActivity {
                     String condition1 = spinnerBody.getSelectedItem().toString();
                     String behavior1 = spinnerBehavior.getSelectedItem().toString();
                     String color1 = color_view.getText().toString().trim();
+                    String size1 = spinnerSize.getSelectedItem().toString();
                     String description1 = description_view.getText().toString().trim();
-                    StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,color1,taskSnapshot.getUploadSessionUri().toString(),
+                    StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,size1,color1,taskSnapshot.getUploadSessionUri().toString(),
                             location,description1);
                     String uploadId = databaseReference.push().getKey();
                     databaseReference.child(uploadId).setValue(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             navigate(IndexActivity.class);
+                            finish();
                         }
                     });
 
@@ -322,10 +348,11 @@ public class StrayFormActivity extends BaseActivity {
     }
     public void sendToMap(){
         Bundle data = new Bundle();
-        String breed = breed_filed.getText().toString().trim();
-        data.putString("breed",breed);
+        String breed1 = breed_filed.getText().toString().trim();
+        data.putString("breed",breed1);
         data.putString("condition",condition);
         data.putString("behavior",behavior);
+        data.putString("size",size);
         String description = description_view.getText().toString().trim();
         data.putString("description",description);
         String color1 = color_view.getText().toString().trim();
@@ -349,6 +376,9 @@ public class StrayFormActivity extends BaseActivity {
             }
             if(bundle.get("condition") != null){
                 spinnerBody.setSelection(getSelection(spinnerBody,bundle.getString("condition")));
+            }
+            if(bundle.get("size") != null){
+                spinnerSize.setSelection(getSelection(spinnerSize,bundle.getString("size")));
             }
             if(bundle.get("behavior") != null){
                 spinnerBehavior.setSelection(getSelection(spinnerBehavior,bundle.getString("behavior")));

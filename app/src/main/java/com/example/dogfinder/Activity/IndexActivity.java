@@ -45,7 +45,7 @@ public class IndexActivity extends BaseActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     FirebaseAuth auth;
-    LinearLayout strayPostBtn,straySquareBtn,lostPostBtn,lostSquareBtn,adoptBtn;
+    LinearLayout strayPostBtn,straySquareBtn,lostPostBtn,lostSquareBtn,profileBtn;
     String photoPath;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -64,7 +64,13 @@ public class IndexActivity extends BaseActivity {
         straySquareBtn = findViewById(R.id.straySquarebtn);
         lostPostBtn = findViewById(R.id.lostPostbtn);
         lostSquareBtn = findViewById(R.id.lostSquarebtn);
-        adoptBtn = findViewById(R.id.adoptSquarebtn);
+        profileBtn = findViewById(R.id.profile_btn);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(ProfileActivity.class);
+            }
+        });
         strayPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -208,10 +208,11 @@ public class LostMapActivity extends BaseActivity implements OnMapReadyCallback 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             Bundle bundle1 = new Bundle();
-            Intent intent = new Intent(LostMapActivity.this, StrayFormActivity.class);
+            Intent intent = new Intent(LostMapActivity.this, LostFormActivity.class);
             bundle1.putString("breed",bundle.getString("breed"));
             bundle1.putString("condition",bundle.getString("condition"));
             bundle1.putString("behavior",bundle.getString("behavior"));
+            bundle1.putString("size",bundle.getString("size"));
             bundle1.putString("color",bundle.getString("color"));
             bundle1.putString("description",bundle.getString("description"));
             bundle1.putString("image",bundle.getString("image"));
@@ -219,6 +220,7 @@ public class LostMapActivity extends BaseActivity implements OnMapReadyCallback 
             bundle1.putString("latLocation",latLocation);
             intent.putExtras(bundle1);
             startActivity(intent);
+            finish();
         }else{
 
         }

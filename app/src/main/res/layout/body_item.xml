@@ -24,7 +24,6 @@
             android:id="@+id/body_image"
             android:layout_width="@dimen/dimen_50dp"
             android:layout_height="@dimen/dimen_50dp"
-            android:background="@mipmap/verythin"
             android:layout_marginTop="@dimen/dimen_20dp">
         </ImageView>
         <TextView

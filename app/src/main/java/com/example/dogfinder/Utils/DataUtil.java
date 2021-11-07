@@ -3,6 +3,7 @@ package com.example.dogfinder.Utils;
 
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
+import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -73,9 +74,33 @@ public class DataUtil {
 
         return list;
     }
+    public static List<Size> getSizeList(){
+        List<Size> list = new ArrayList<>();
+        Size s = new Size();
+        s.setName("Size");
+        list.add(s);
+        Size s1 = new Size();
+        s1.setName("Small");
+        s1.setImage(R.mipmap.small_size);
+        list.add(s1);
+        Size s2 = new Size();
+        s2.setName("Medium");
+        s2.setImage(R.mipmap.medium_size);
+        list.add(s2);
+        Size s3 = new Size();
+        s3.setName("Large");
+        s3.setImage(R.mipmap.large_size);
+        list.add(s3);
+        Size s4 = new Size();
+        s4.setName("Giant");
+        s4.setImage(R.mipmap.giant_size);
+        list.add(s4);
+
+        return list;
+    }
     public static String[] getColorArray() {
-        String colors[] = {"Apricot/Beige", "Bicolor", "Black", "Brindle", "Brown/Chocolate", "Golden",
-                "Gray/Blue/Silver", "Harlequin", "Merle(Blue)", "Merle(Red)"};
+        String colors[] = {"Apricot/Beige","White","Bicolor", "Black", "Brindle", "Brown/Chocolate", "Golden",
+                "Gray/Blue/Silver", "Harlequin", "Blue", "Red"};
         return colors;
     }
 

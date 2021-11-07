@@ -10,11 +10,12 @@ public class LostDog {
     private String imageUrl;
     private String location;
     private String description;
-    public LostDog(String userId,String breed,String condition,String behavior,String color,String imageUrl,String location,String description){
+    public LostDog(String userId,String breed,String condition,String behavior,String size,String color,String imageUrl,String location,String description){
         this.userId = userId;
         this.breed = breed;
         this.condition = condition;
         this.behavior = behavior;
+        this.size = size;
         this.color = color;
         this.imageUrl = imageUrl;
         this.location = location;
@@ -59,6 +60,14 @@ public class LostDog {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getImageUrl() {

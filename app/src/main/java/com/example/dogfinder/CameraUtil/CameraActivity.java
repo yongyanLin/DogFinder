@@ -246,6 +246,7 @@ public abstract class CameraActivity extends FragmentActivity
             public void onClick(View v) {
                 Intent intent = new Intent(CameraActivity.this, IndexActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         continuousInferenceButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -589,7 +590,7 @@ public abstract class CameraActivity extends FragmentActivity
         closeButton.setEnabled(enabled);
         saveButton.setVisibility(visibility);
         saveButton.setEnabled(enabled);
-        exitButton.setVisibility(View.GONE);
+        //exitButton.setVisibility(View.GONE);
     }
 
     // update results on our custom textview
@@ -697,7 +698,7 @@ public abstract class CameraActivity extends FragmentActivity
                 transition.reverseTransition(transitionTime);
                 imageViewFromGallery.setVisibility(View.GONE);
                 setButtonsVisibility(View.GONE);
-                exitButton.setVisibility(View.VISIBLE);
+                //exitButton.setVisibility(View.VISIBLE);
             }
 
             @Override

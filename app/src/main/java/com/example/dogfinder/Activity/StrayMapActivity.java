@@ -213,12 +213,14 @@ public class StrayMapActivity extends BaseActivity implements OnMapReadyCallback
             bundle1.putString("condition",bundle.getString("condition"));
             bundle1.putString("behavior",bundle.getString("behavior"));
             bundle1.putString("color",bundle.getString("color"));
+            bundle1.putString("size",bundle.getString("size"));
             bundle1.putString("description",bundle.getString("description"));
             bundle1.putString("image",bundle.getString("image"));
             bundle1.putString("location",location);
             bundle1.putString("latLocation",latLocation);
             intent.putExtras(bundle1);
             startActivity(intent);
+            finish();
         }else{
 
         }
