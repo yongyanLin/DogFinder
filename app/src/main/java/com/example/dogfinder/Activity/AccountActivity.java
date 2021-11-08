@@ -91,6 +91,7 @@ public class AccountActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 navigate(ProfileActivity.class);
+                finish();
             }
         });
         auth = FirebaseAuth.getInstance();
@@ -134,6 +135,7 @@ public class AccountActivity extends BaseActivity {
         String password1 = password_field.getText().toString().trim();
         String username1 = username_field.getText().toString().trim();
         if (image != null) {
+
             StorageReference storageReference1 = storageReference.child(System.currentTimeMillis() + "." + getExtension(image));
             UploadTask uploadTask = storageReference1.putFile(image);
             Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -153,8 +155,25 @@ public class AccountActivity extends BaseActivity {
                         @Override
                         public Object apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
                             DocumentSnapshot snapshot = transaction.get(documentReference);
+                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.getResult().exists()){
+                                        String imageUri = task.getResult().getString("image");
+                                        if(!TextUtil.isEmpty(imageUri)){
+                                            StorageReference fileReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUri);
+                                            fileReference.delete();
+                                        }
+                                    }else {
+                                        showToast("No profile exists.");
+                                        auth.signOut();
+                                        navigate(MainActivity.class);
+                                    }
+                                }
+                            });
                             transaction.update(documentReference, "username", username1);
                             transaction.update(documentReference, "image", imageUpdate.toString());
+
                             return null;
                         }
                     }).addOnSuccessListener(new OnSuccessListener<Object>() {
@@ -166,9 +185,11 @@ public class AccountActivity extends BaseActivity {
                                 auth.signOut();
                                 navigate(MainActivity.class);
                                 finish();
-                            }else{
-                                navigate(AccountActivity.class);
+                            }else if(TextUtil.isEmpty(password1)){
+                                navigate(ProfileActivity.class);
                                 finish();
+                            }else if(!password1.equals(password)){
+                                password_field.setError("Wrong password.");
                             }
                         }
                     });

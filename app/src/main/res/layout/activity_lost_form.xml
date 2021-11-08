@@ -167,6 +167,7 @@
                     android:background="@mipmap/image_icon">
                 </ImageView>
                 <ImageView
+                    android:scaleType="fitXY"
                     android:id="@+id/lost_dog_photo"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:layout_width="@dimen/dimen_250dp"

@@ -194,7 +194,6 @@ public class StrayFormActivity extends BaseActivity {
                     if(colorString.contains(colorArray[i])){
                         selectedColor[i] = true;
                         //colorList.add(i);
-
                     }else{
                         selectedColor[i] = false;
                     }
@@ -206,7 +205,7 @@ public class StrayFormActivity extends BaseActivity {
                             colorList.add(which);
                             Collections.sort(colorList);
                         }else{
-                            colorList.remove(which);
+                            colorList.remove(Integer.valueOf(which));
                         }
                     }
                 });
@@ -220,6 +219,7 @@ public class StrayFormActivity extends BaseActivity {
                                 stringBuilder.append(",");
                             }
                         }
+                        color = stringBuilder.toString();
                         color_view.setText(stringBuilder);
                     }
 

@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView
+                android:background="@drawable/round"
+                android:scaleType="fitXY"
                 android:src="@mipmap/profile_light"
                 android:id="@+id/profile_photo"
                 android:layout_width="@dimen/dimen_80dp"

@@ -52,6 +52,8 @@
     <string name="resetHint">Input password to receive reset email.</string>
     <string name="profileLink">View profile</string>
     <string name="commentTitle">View all comments</string>
+    <string name="Characteristics">Characteristics</string>
+    <string name="description_title">Description</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
         <item>Afghan Hound</item>

@@ -97,16 +97,21 @@ public class ProfileActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.likes_btn:
+                        navigate(CollectionsActivity.class);
+                        finish();
                         break;
                     case R.id.stray_btn:
                         navigate(StraySquareActivity.class);
                         finish();
+                        break;
                     case R.id.lost_btn:
                         navigate(LostSquareActivity.class);
                         finish();
+                        break;
                     case R.id.profile_btn:
                         navigate(ProfileActivity.class);
                         finish();
+                        break;
                 }
                 return false;
             }

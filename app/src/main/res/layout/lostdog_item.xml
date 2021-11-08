@@ -16,7 +16,7 @@
             android:layout_marginRight="@dimen/dimen_5dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_280dp"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:id="@+id/lostDogProfile_image">
         </ImageView>
         <LinearLayout

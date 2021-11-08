@@ -1,6 +1,8 @@
 package com.example.dogfinder.Entity;
 
-public class StrayDog {
+import java.io.Serializable;
+
+public class StrayDog implements Serializable {
     private String id;
     private String userId;
     private String breed;

@@ -6,11 +6,13 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/blackout_transition.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/button_background_selector.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/heart_selector.xml" value="0.10364583333333334" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/ic_launcher_background.xml" value="0.10260416666666666" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/login_btn.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/lost_square.xml" value="0.10052083333333334" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_chosen.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_line.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/profile_photo.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/round.xml" value="0.10260416666666666" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/roundedbutton.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/save_btn.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/stray_square.xml" value="0.19583333333333333" />
@@ -18,8 +20,10 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_camera.xml" value="0.11820652173913043" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_index.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_list.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_dog.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_form.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_map.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_post_list.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_lost_square.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_map.xml" value="0.16168478260869565" />
@@ -27,8 +31,10 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_reset_password.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_stray_dog_detail.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_stray_form.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_stray_map.xml" value="0.12364130434782608" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_stray_post_list.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_stray_square.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_verify.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/body_item.xml" value="0.1" />

@@ -81,6 +81,7 @@ public class IndexActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 navigate(StraySquareActivity.class);
+                finish();
             }
         });
         lostPostBtn.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,7 @@ public class IndexActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 navigate(LostSquareActivity.class);
+                finish();
             }
         });
         drawerLayout = findViewById(R.id.drawerLayout);

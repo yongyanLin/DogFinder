@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.dogfinder.Adapter.StrayDogAdapter;
 import com.example.dogfinder.Entity.StrayDog;
@@ -48,12 +50,15 @@ public class StraySquareActivity extends BaseActivity {
                     case R.id.stray_btn:
                         navigate(StraySquareActivity.class);
                         finish();
+                        break;
                     case R.id.lost_btn:
                         navigate(LostSquareActivity.class);
                         finish();
+                        break;
                     case R.id.profile_btn:
                         navigate(ProfileActivity.class);
                         finish();
+                        break;
                 }
                 return false;
             }
@@ -65,6 +70,29 @@ public class StraySquareActivity extends BaseActivity {
         strayDogList = new ArrayList<>();
         strayDogAdapter = new StrayDogAdapter(getApplicationContext(),strayDogList);
         recyclerView.setAdapter(strayDogAdapter);
+        strayDogAdapter.SetOnItemClickListener(new StrayDogAdapter.OnItemClickListener() {
+            @Override
+            public void onLinkClick(int position) {
+                Intent intent = new Intent(getApplicationContext(),StrayDogDetailActivity.class);
+                intent.putExtra("dog",strayDogList.get(position));
+                startActivity(intent);
+                finish();
+            }
+            @Override
+            public void onHeartClick(int position) {
+
+            }
+
+            @Override
+            public void onCommentClick(int position) {
+
+            }
+
+            @Override
+            public void onShareClick(int position) {
+
+            }
+        });
         }
     @Override
     protected void onStart(){
@@ -85,4 +113,6 @@ public class StraySquareActivity extends BaseActivity {
             }
         });
     }
+
+
 }
