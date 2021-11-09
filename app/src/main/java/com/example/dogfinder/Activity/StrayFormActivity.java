@@ -7,33 +7,24 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.example.dogfinder.Adapter.BehaviorAdapter;
@@ -41,41 +32,27 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
-import com.example.dogfinder.Entity.LostDog;
+import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.Entity.Size;
-import com.example.dogfinder.Entity.StrayDog;
-import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.SuccessContinuation;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class StrayFormActivity extends BaseActivity {
     FirebaseAuth auth;
@@ -84,7 +61,7 @@ public class StrayFormActivity extends BaseActivity {
     BehaviorAdapter behaviorAdapter;
     SizeAdapter sizeAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color,size, breed, location,cLocation,userID;
+    String condition, behavior, color,size, breed, location,cLocation,userID,time;
     List<Body> bodyList;
     List<Behavior> behaviorList;
     List<Integer> colorList;
@@ -104,7 +81,9 @@ public class StrayFormActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stray_form);
-
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        time = dateFormat.format(currentTime);
 
         auth = FirebaseAuth.getInstance();
         userID = auth.getCurrentUser().getUid();
@@ -262,8 +241,8 @@ public class StrayFormActivity extends BaseActivity {
         resetForm();
         publish_btn = findViewById(R.id.publish);
         progressDialog =  new ProgressDialog(StrayFormActivity.this);
-        storageReference = FirebaseStorage.getInstance().getReference("strayDog");
-        databaseReference = FirebaseDatabase.getInstance().getReference("strayDog");
+        storageReference = FirebaseStorage.getInstance().getReference("Dog");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Dog");
         progressDialog = new ProgressDialog(StrayFormActivity.this);
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,11 +277,11 @@ public class StrayFormActivity extends BaseActivity {
                             String size1 = spinnerSize.getSelectedItem().toString();
                             String color1 = color_view.getText().toString().trim();
                             String description1 = description_view.getText().toString().trim();
-                            StrayDog strayDog = new StrayDog(userID,breed1,condition1,behavior1,size1,color1,uri.toString(),
+                            Dog dog = new Dog(userID,"stray",time,breed1,condition1,behavior1,size1,color1,uri.toString(),
                                     location,description1);
                             String uploadId = databaseReference.push().getKey();
-                            strayDog.setId(uploadId);
-                            databaseReference.child(uploadId).setValue(strayDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            dog.setId(uploadId);
+                            databaseReference.child(uploadId).setValue(dog).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     navigate(IndexActivity.class);
@@ -380,6 +359,7 @@ public class StrayFormActivity extends BaseActivity {
         Intent intent = new Intent(StrayFormActivity.this, StrayMapActivity.class);
         intent.putExtras(data);
         startActivity(intent);
+        finish();
     }
     public void resetForm(){
         Bundle bundle = getIntent().getExtras();

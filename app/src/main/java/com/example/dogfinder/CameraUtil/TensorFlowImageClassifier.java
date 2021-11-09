@@ -78,7 +78,7 @@ public class TensorFlowImageClassifier implements Classifier {
         final Operation operation = c.inferenceInterface.graphOperation(outputName);
         final int numClasses = (int) operation.output(0).shape().size(1);
 
-        // Ideally, inputSize could have been retrieved from the shape of the input operation.  Alas,
+        // Ideally, inputSize could have been retrieved from the shape of the input operation.  Also,
         // the placeholder node for input in the graphdef typically used does not specify a shape, so it
         // must be passed in as a parameter.
         c.inputSize = inputSize;

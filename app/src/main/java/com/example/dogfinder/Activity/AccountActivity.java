@@ -168,6 +168,7 @@ public class AccountActivity extends BaseActivity {
                                         showToast("No profile exists.");
                                         auth.signOut();
                                         navigate(MainActivity.class);
+                                        finish();
                                     }
                                 }
                             });

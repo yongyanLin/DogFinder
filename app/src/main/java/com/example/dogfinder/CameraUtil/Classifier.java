@@ -30,7 +30,7 @@ public interface Classifier {
         private final String title;
 
         /**
-         * A sortable score for how good the recognition is relative to others. Higher should be better.
+         * Score for how good the recognition is relative to others.
          */
         private final Float confidence;
 

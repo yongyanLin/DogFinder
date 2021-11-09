@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity {
         FirebaseUser user = auth.getCurrentUser();
         if(auth.getCurrentUser() != null && user.isEmailVerified()){
             navigate(IndexActivity.class);
+            finish();
         }
 
         //from Verification page
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity {
                             });
                             if(firebaseUser.isEmailVerified()){
                                 navigate(IndexActivity.class);
+                                finish();
                             }else{
                                 firebaseUser.sendEmailVerification();
                                 showToast("Please verify your email.");
@@ -113,6 +115,7 @@ public class MainActivity extends BaseActivity {
                             email.setText("");
                             password.setText("");
                             navigate(MainActivity.class);
+                            finish();
                         }
                     }
                 });
@@ -125,9 +128,11 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this,ResetPasswordActivity.class);
                 if(TextUtil.isEmpty(email.getText().toString().trim())){
                     navigate(ResetPasswordActivity.class);
+                    finish();
                 }else{
                     intent.putExtra("email",email.getText().toString().trim());
                     startActivity(intent);
+                    finish();
                 }
             }
         });

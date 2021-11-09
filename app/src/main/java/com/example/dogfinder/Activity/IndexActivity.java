@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,7 +23,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 import com.example.dogfinder.CameraUtil.ClassifierActivity;
@@ -47,13 +47,15 @@ public class IndexActivity extends BaseActivity {
     FirebaseAuth auth;
     LinearLayout strayPostBtn,straySquareBtn,lostPostBtn,lostSquareBtn,profileBtn;
     String photoPath;
+    lostPopUpUtil lostPopUp;
+    strayPopUpUtil strayPopUp;
+    private static final int PERMISSIONS_REQUEST = 1;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int WRITE_PERM_CODE = 1;
-    public static final int GALLERY_STRAY_REQUEST_CODE = 105;
-    public static final int GALLERY_LOST_REQUEST_CODE = 106;
+
+    public static final int GALLERY_REQUEST_CODE = 106;
     public static final int LOCATION_PERM_CODE = 99;
-    static final int PICK_IMAGE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,9 @@ public class IndexActivity extends BaseActivity {
         straySquareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(StraySquareActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(),SquareActivity.class);
+                intent1.putExtra("type","stray");
+                startActivity(intent1);
                 finish();
             }
         });
@@ -93,7 +97,9 @@ public class IndexActivity extends BaseActivity {
         lostSquareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(LostSquareActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(),SquareActivity.class);
+                intent1.putExtra("type","lost");
+                startActivity(intent1);
                 finish();
             }
         });
@@ -112,15 +118,32 @@ public class IndexActivity extends BaseActivity {
                 switch (item.getItemId()){
                     case R.id.nav_home:
                         navigate(IndexActivity.class);
+                        finish();
                         break;
                     case R.id.nav_profile:
                         navigate(ProfileActivity.class);
+                        finish();
                         break;
                     case R.id.nav_stray:
-                        navigate(StraySquareActivity.class);
+                        Intent intent1 = new Intent(getApplicationContext(),SquareActivity.class);
+                        intent1.putExtra("type","stray");
+                        startActivity(intent1);
+                        finish();
+                        break;
+                    case R.id.nav_lost:
+                        Intent intent2 = new Intent(getApplicationContext(),SquareActivity.class);
+                        intent2.putExtra("type","lost");
+                        startActivity(intent2);
+                        finish();
+                        break;
+                    case R.id.nav_post:
+                        navigate(PostListActivity.class);
+                        finish();
+                        break;
                     case R.id.logout:
                         auth.signOut();
                         navigate(MainActivity.class);
+                        finish();
                         break;
                     default:
                         break;
@@ -138,25 +161,25 @@ public class IndexActivity extends BaseActivity {
         }
     }
     public void popStrayFormBottom() {
-        strayPopUpUtil popup = new strayPopUpUtil(this, onClickListener);
-        //showAtLocation(View parent, int gravity, int x, int y)
-        popup.showAtLocation(findViewById(R.id.drawerLayout), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+        strayPopUp = new strayPopUpUtil(this, onClickListener);
+        strayPopUp.showAtLocation(findViewById(R.id.drawerLayout), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
     }
     public void popLostFormBottom() {
-        lostPopUpUtil popup = new lostPopUpUtil(this, onClickListener);
-        //showAtLocation(View parent, int gravity, int x, int y)
-        popup.showAtLocation(findViewById(R.id.drawerLayout), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+        lostPopUp = new lostPopUpUtil(this, onClickListener);
+        lostPopUp.showAtLocation(findViewById(R.id.drawerLayout), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
     }
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.camera_btn:
-                    //askCameraPermission();
                     navigate(ClassifierActivity.class);
+                    finish();
+                    strayPopUp.dismiss();
                     break;
                 case R.id.lost_gallery_btn:
                     askLostGalleryPermission();
+                    lostPopUp.dismiss();
             }
         }
     };
@@ -165,10 +188,13 @@ public class IndexActivity extends BaseActivity {
     private void askLostGalleryPermission() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
-        }else{
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent,GALLERY_LOST_REQUEST_CODE);
         }
+        if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        //Intent.ACTION_OPEN_DOCUMENT
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
     }
 
 
@@ -193,34 +219,13 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
-                File f = new File(photoPath);
-                Intent intent = new Intent(IndexActivity.this, StrayFormActivity.class);
-                //send image to form
-                intent.putExtra("cameraImage",Uri.fromFile(f));
-                //save image into gallery
-                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_PERM_CODE);
-                }
-                //go to form
-                startActivity(intent);
-            }
-        }
-        if(requestCode == GALLERY_STRAY_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
-                Uri contentUri = data.getData();
-                Intent intent = new Intent(IndexActivity.this, StrayFormActivity.class);
-                intent.putExtra("galleryImage",contentUri);
-                startActivity(intent);
-            }
-        }
-        if(requestCode == GALLERY_LOST_REQUEST_CODE){
+        if(requestCode == GALLERY_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 Uri contentUri = data.getData();
                 Intent intent = new Intent(IndexActivity.this, LostFormActivity.class);
                 intent.putExtra("galleryImage",contentUri);
                 startActivity(intent);
+                finish();
             }
         }
     }
@@ -250,4 +255,17 @@ public class IndexActivity extends BaseActivity {
         }
 
     }
+    private boolean hasPermission(final String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return true;
+        }
+    }
+    private void requestPermission(final String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{permission}, PERMISSIONS_REQUEST);
+        }
+    }
+
 }

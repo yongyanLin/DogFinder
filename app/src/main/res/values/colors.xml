@@ -101,6 +101,7 @@
     <color name="skyblue">#87ceeb</color>
     <color name="gray">#808080</color>
     <color name="grey">#808080</color>
+    <color name="postBackground">#e5e5e5</color>
     <color name="olive">#808000</color>
     <color name="purple">#800080</color>
     <color name="maroon">#800000</color>

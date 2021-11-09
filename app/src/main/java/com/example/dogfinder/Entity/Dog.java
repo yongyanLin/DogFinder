@@ -1,8 +1,12 @@
 package com.example.dogfinder.Entity;
 
-public class LostDog {
+import java.io.Serializable;
+
+public class Dog implements Serializable {
     private String id;
     private String userId;
+    private String type;
+    private String time;
     private String breed;
     private String condition;
     private String behavior;
@@ -11,11 +15,13 @@ public class LostDog {
     private String imageUrl;
     private String location;
     private String description;
-    public LostDog(){
+    public Dog(){
 
     }
-    public LostDog(String userId,String breed,String condition,String behavior,String size,String color,String imageUrl,String location,String description){
+    public Dog(String userId,String type,String time,String breed,String condition,String behavior,String size,String color,String imageUrl,String location,String description){
         this.userId = userId;
+        this.type = type;
+        this.time = time;
         this.breed = breed;
         this.condition = condition;
         this.behavior = behavior;
@@ -32,6 +38,22 @@ public class LostDog {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getUserId() {

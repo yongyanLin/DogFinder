@@ -1,23 +1,9 @@
 package com.example.dogfinder.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,8 +12,6 @@ import android.widget.TextView;
 
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
-import com.example.dogfinder.Utils.lostPopUpUtil;
-import com.example.dogfinder.Utils.strayPopUpUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,14 +21,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ProfileActivity extends BaseActivity {
 
-    LinearLayout nav_account,nav_stray,nav_lost,nav_like,nav_comment,nav_logout;
+    LinearLayout nav_account,nav_post,nav_like,nav_comment,nav_logout;
     FirebaseAuth auth;
     FirebaseFirestore firebaseFirestore;
     DocumentReference documentReference;
@@ -64,8 +43,7 @@ public class ProfileActivity extends BaseActivity {
         documentReference = firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid());
 
         nav_account = findViewById(R.id.nav_account);
-        nav_stray = findViewById(R.id.nav_stray);
-        nav_lost = findViewById(R.id.nav_lost);
+        nav_post = findViewById(R.id.nav_post);
         nav_like = findViewById(R.id.nav_like);
         nav_comment = findViewById(R.id.nav_comment);
         nav_logout = findViewById(R.id.logout);
@@ -77,7 +55,13 @@ public class ProfileActivity extends BaseActivity {
                 finish();
             }
         });
-
+        nav_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(PostListActivity.class);
+                finish();
+            }
+        });
         nav_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,11 +85,15 @@ public class ProfileActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.stray_btn:
-                        navigate(StraySquareActivity.class);
+                        Intent intent1 = new Intent(getApplicationContext(),SquareActivity.class);
+                        intent1.putExtra("type","stray");
+                        startActivity(intent1);
                         finish();
                         break;
                     case R.id.lost_btn:
-                        navigate(LostSquareActivity.class);
+                        Intent intent2 = new Intent(getApplicationContext(),SquareActivity.class);
+                        intent2.putExtra("type","lost");
+                        startActivity(intent2);
                         finish();
                         break;
                     case R.id.profile_btn:

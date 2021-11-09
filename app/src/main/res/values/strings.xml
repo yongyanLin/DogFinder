@@ -50,10 +50,16 @@
     <string name="search">search...</string>
     <string name="view_link">View Profile</string>
     <string name="resetHint">Input password to receive reset email.</string>
-    <string name="profileLink">View profile</string>
+    <string name="profileLink">View detail</string>
     <string name="commentTitle">View all comments</string>
     <string name="Characteristics">Characteristics</string>
     <string name="description_title">Description</string>
+    <string name="postList">Posting history</string>
+    <string name="postTitle">MY POSTS</string>
+    <string name="Stray">Stray Dog</string>
+    <string name="Lost">Lost Pet</string>
+    <string name="straySlding">Find Stray Dog</string>
+    <string name="lostSlding">Find Lost Dog</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
         <item>Afghan Hound</item>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.StrayDogDetailActivity">
+    tools:context=".Activity.DogDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/dimen_20dp">
 
                 <ToggleButton
-                    android:id="@+id/stray_add_like"
+                    android:id="@+id/lost_add_like"
                     android:layout_width="@dimen/dimen_40dp"
                     android:layout_height="@dimen/dimen_40dp"
                     android:layout_alignParentRight="true"
@@ -198,6 +198,28 @@
 
                         <TextView
                             android:id="@+id/color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/dimen_10dp"
+                            android:fontFamily="serif-monospace"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_20sp"></TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen_30dp"
+                            android:layout_height="@dimen/dimen_30dp"
+                            android:layout_marginLeft="@dimen/dimen_20dp"
+                            android:src="@mipmap/time"></ImageView>
+
+                        <TextView
+                            android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

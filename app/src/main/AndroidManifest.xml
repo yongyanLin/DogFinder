@@ -38,13 +38,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity
-            android:name=".Activity.LostDogDetailActivity"
+            android:name=".Activity.DogDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.StrayDogDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.StrayPostListActivity"
+            android:name=".Activity.PostListActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.CollectionsActivity"
@@ -64,10 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.LostSquareActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.StraySquareActivity"
+            android:name=".Activity.SquareActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ResetPasswordActivity"

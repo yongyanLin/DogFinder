@@ -31,6 +31,7 @@ public class VerifyActivity extends BaseActivity {
             public void onClick(View v) {
                 auth.signOut();
                 navigate(RegisterActivity.class);
+                finish();
             }
         });
 
@@ -51,6 +52,7 @@ public class VerifyActivity extends BaseActivity {
                         Intent intent = new Intent(VerifyActivity.this,MainActivity.class);
                         intent.putExtra("email",emaiL_string);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }

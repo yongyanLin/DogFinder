@@ -9,7 +9,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.hardware.Camera;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,7 +33,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     private static final int IMAGE_MEAN = 128;
     private static final float IMAGE_STD = 128;
     private static final String INPUT_NAME = "Mul";
-    // output, inception(tf): final_result, Keras: output/Softmax
+
     private static final String OUTPUT_NAME = "final_result";
     private static final String MODEL_FILE = "file:///android_asset/stripped.pb";
     private static final boolean MAINTAIN_ASPECT = true;
@@ -68,7 +67,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
     public void classifyLoadedImage(Uri imageUri) {
         updateResults(null);
-        Toast.makeText(getApplicationContext(),"Here",Toast.LENGTH_SHORT).show();
         final int orientation = getOrientation(getApplicationContext(), imageUri);
         final ContentResolver contentResolver = this.getContentResolver();
 

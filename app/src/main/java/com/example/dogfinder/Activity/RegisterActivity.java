@@ -109,6 +109,7 @@ public class RegisterActivity extends BaseActivity {
                         }else{
                             showToast("Information is incorrect!");
                             navigate(RegisterActivity.class);
+                            finish();
                         }
                     }
                 });

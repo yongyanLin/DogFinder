@@ -29,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,7 +37,7 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Entity.Behavior;
 import com.example.dogfinder.Entity.Body;
-import com.example.dogfinder.Entity.LostDog;
+import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
@@ -46,8 +45,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -55,8 +52,11 @@ import com.google.firebase.storage.UploadTask;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -69,7 +69,7 @@ public class LostFormActivity extends BaseActivity {
     BehaviorAdapter behaviorAdapter;
     SizeAdapter sizeAdapter;
     Button back_btn, publish_btn;
-    String condition, behavior, color, size,breed, location,cLocation,userID;
+    String condition, behavior, color, size,location,cLocation,userID,time;
     List<Body> bodyList;
     List<Size> sizeList;
     List<Behavior> behaviorList;
@@ -89,7 +89,9 @@ public class LostFormActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_form);
-
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        time = dateFormat.format(currentTime);
         auth = FirebaseAuth.getInstance();
         userID = auth.getCurrentUser().getUid();
         location = null;
@@ -307,11 +309,11 @@ public class LostFormActivity extends BaseActivity {
                 sendToMap();
             }
         });
-        resetForm();
         publish_btn = findViewById(R.id.lost_publish);
         progressDialog =  new ProgressDialog(LostFormActivity.this);
-        lost_storageReference = FirebaseStorage.getInstance().getReference("lostDog");
-        lost_databaseReference = FirebaseDatabase.getInstance().getReference("lostDog");
+        resetForm();
+        lost_storageReference = FirebaseStorage.getInstance().getReference("Dog");
+        lost_databaseReference = FirebaseDatabase.getInstance().getReference("Dog");
         progressDialog = new ProgressDialog(LostFormActivity.this);
         publish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,11 +348,11 @@ public class LostFormActivity extends BaseActivity {
                             String size1 = spinnerSize.getSelectedItem().toString();
                             String color1 = color_view.getText().toString().trim();
                             String description1 = description_view.getText().toString().trim();
-                            LostDog lostDog = new LostDog(userID,breed1,condition1,behavior1,size1,color1,uri.toString(),
+                            Dog dog = new Dog(userID,"lost",time,breed1,condition1,behavior1,size1,color1,uri.toString(),
                                     location,description1);
                             String uploadId = lost_databaseReference.push().getKey();
-                            lostDog.setId(uploadId);
-                            lost_databaseReference.child(uploadId).setValue(lostDog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            dog.setId(uploadId);
+                            lost_databaseReference.child(uploadId).setValue(dog).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     navigate(IndexActivity.class);
@@ -451,21 +453,11 @@ public class LostFormActivity extends BaseActivity {
         Intent intent = new Intent(LostFormActivity.this, LostMapActivity.class);
         intent.putExtras(data);
         startActivity(intent);
+        finish();
     }
     public void resetForm(){
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            if (bundle.get("cameraImage") != null) {
-                image = (Uri) bundle.get("cameraImage");
-                imageView.setImageURI(image);
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                saveToGallery(bitmap);
-            }
-            if (bundle.get("galleryImage") != null) {
-                image = (Uri) bundle.get("galleryImage");
-                imageView.setImageURI(image);
-            }
             if(bundle.get("breed") != null){
                 breed_filed.setText(bundle.getString("breed"));
             }
@@ -483,10 +475,17 @@ public class LostFormActivity extends BaseActivity {
             }
             if(bundle.get("description") != null){
                 description_view.setText(bundle.getString("description"));
-
+            }
+            if (bundle.get("galleryImage") != null) {
+                image = (Uri) bundle.get("galleryImage");
+                imageView.setImageURI(image);
+            }
+            if(bundle.get("galleryImage") != null){
+                image = (Uri) bundle.get("galleryImage");
+                imageView.setImageURI(image);
             }
             if(bundle.get("image") != null){
-                image = Uri.parse(bundle.getString("image"));
+                //image = Uri.parse(bundle.getString("image"));
                 imageView.setImageURI(Uri.parse(bundle.getString("image")));
             }
             if(bundle.get("location") != null){

@@ -6,24 +6,28 @@
             android:icon="@mipmap/index">
         </item>
         <item android:id="@+id/nav_profile"
-            android:title="Profile"
+            android:title="@string/profile"
             android:icon="@mipmap/profile">
         </item>
-        <item android:id="@+id/nav_like"
-            android:title="Favorites"
-            android:icon="@mipmap/like_list">
-        </item>
         <item android:id="@+id/nav_stray"
-            android:title="Find Stray Dog"
+            android:title="@string/straySlding"
             android:icon="@mipmap/gallery_black">
         </item>
         <item android:id="@+id/nav_lost"
-            android:title="Find Lost Dog"
+            android:title="@string/lostSlding"
             android:icon="@mipmap/lost_dog_black">
         </item>
-        <item android:id="@+id/nav_adopt"
-            android:title="Adopt Dog"
-            android:icon="@mipmap/adopt_black">
+        <item android:id="@+id/nav_like"
+            android:title="@string/likeHint"
+            android:icon="@mipmap/like_list">
+        </item>
+        <item android:id="@+id/nav_post"
+            android:title="@string/postList"
+            android:icon="@mipmap/post">
+        </item>
+        <item android:id="@+id/nav_comment"
+            android:title="@string/commentHint"
+            android:icon="@mipmap/comment_black">
         </item>
         <item android:id="@+id/logout"
             android:title="Logout"

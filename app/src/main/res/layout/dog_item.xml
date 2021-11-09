@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_280dp"
             android:scaleType="fitXY"
-            android:id="@+id/lostDogProfile_image">
+            android:id="@+id/dog_image">
         </ImageView>
         <LinearLayout
             android:layout_marginTop="@dimen/dimen_10dp"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/lost_breed"
+                    android:id="@+id/breed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@
 
                 <TextView
                     android:layout_marginRight="@dimen/dimen_10dp"
-                    android:id="@+id/lost_distance"
+                    android:id="@+id/distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -60,12 +60,12 @@
                 android:padding="@dimen/dimen_5dp">
 
                 <TextView
-                    android:clickable="true"
-                    android:id="@+id/lost_profile_link"
+                    android:id="@+id/profile_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:clickable="true"
                     android:fontFamily="casual"
                     android:text="@string/profileLink"
                     android:textColor="@color/darkslateblue"
@@ -76,17 +76,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
-                    <Button
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
-                        android:background="@mipmap/share_icon"
-                        android:id="@+id/lost_share_btn">
-                    </Button>
                     <ToggleButton
                         android:textOn=""
                         android:textOff=""
                         android:layout_marginLeft="@dimen/dimen_10dp"
-                        android:id="@+id/lost_add_like"
+                        android:id="@+id/add_like"
                         android:layout_width="@dimen/dimen_30dp"
                         android:layout_height="@dimen/dimen_30dp"
                         android:background="@drawable/heart_selector"
@@ -97,7 +91,7 @@
                         android:layout_width="@dimen/dimen_30dp"
                         android:layout_height="@dimen/dimen_30dp"
                         android:background="@mipmap/comment"
-                        android:id="@+id/lost_add_comment"
+                        android:id="@+id/add_comment"
                         >
                     </Button>
                 </LinearLayout>
@@ -105,7 +99,7 @@
             <TextView
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:clickable="true"
-                android:id="@+id/lost_comment_btn"
+                android:id="@+id/show_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/commentTitle"

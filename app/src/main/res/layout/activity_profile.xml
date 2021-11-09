@@ -101,52 +101,23 @@
                     android:clickable="true"
                     android:showDividers="beginning"
                     android:divider="@drawable/profile_line"
-                    android:id="@+id/nav_strayPost"
+                    android:id="@+id/nav_post"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_80dp"
                     android:padding="@dimen/dimen_10dp"
                     android:orientation="horizontal">
+
                     <ImageView
 
-                        android:layout_marginLeft="@dimen/dimen_50dp"
-                        android:layout_gravity="center"
                         android:layout_width="@dimen/dimen_30dp"
                         android:layout_height="@dimen/dimen_30dp"
-                        android:src="@mipmap/gallery_black">
-                    </ImageView>
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:src="@mipmap/post"></ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/strayHint"
-                        android:textSize="@dimen/dimen_20sp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="casual"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:focusable="true"
-                    android:background="@drawable/profile_chosen"
-                    android:clickable="true"
-                    android:showDividers="beginning"
-                    android:divider="@drawable/profile_line"
-                    android:id="@+id/nav_lostPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_marginLeft="@dimen/dimen_50dp"
-                        android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
-                        android:src="@mipmap/lost_dog_black">
-                    </ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/lostHint"
+                        android:text="@string/postList"
                         android:textSize="@dimen/dimen_20sp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"

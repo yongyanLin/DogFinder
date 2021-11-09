@@ -6,8 +6,9 @@
     android:background="@color/mintcream"
     >
     <TextView
+        android:gravity="center"
         android:id="@+id/body_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dimen_260dp"
         android:layout_height="wrap_content"
         android:text="Very Thin"
         android:layout_gravity="center"
@@ -29,7 +30,7 @@
         <TextView
             android:layout_marginLeft="@dimen/dimen_10dp"
             android:id="@+id/body_description"
-            android:layout_width="@dimen/dimen_150dp"
+            android:layout_width="@dimen/dimen_180dp"
             android:layout_height="wrap_content"
             android:text="Ribs, backbone and hip bones easily seen1; with no overlying fat layer Some mid muscle loss particularly noticeable around shoulders and thighs"
             android:layout_gravity="center"

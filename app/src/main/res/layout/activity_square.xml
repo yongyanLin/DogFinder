@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.StraySquareActivity">
+    tools:context=".Activity.SquareActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dimen_60dp">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stray_recycle_view"
+                android:id="@+id/recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>

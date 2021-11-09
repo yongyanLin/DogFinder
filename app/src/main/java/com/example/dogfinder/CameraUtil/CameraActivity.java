@@ -241,6 +241,7 @@ public abstract class CameraActivity extends FragmentActivity
 
             pnlFlash.startAnimation(fade);
         });
+        exitButton.setVisibility(View.VISIBLE);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -706,6 +707,7 @@ public abstract class CameraActivity extends FragmentActivity
                 progressBar.setVisibility(View.GONE);
                 imageSet = false;
                 snapShot.set(false);
+
                 cameraButton.setEnabled(true);
                 readyForNextImage();
             }
@@ -718,7 +720,7 @@ public abstract class CameraActivity extends FragmentActivity
 
         imageViewFromGallery.setVisibility(View.VISIBLE);
         closeButton.setOnClickListener(v -> imageViewFromGallery.startAnimation(fade));
-
+        exitButton.setVisibility(View.VISIBLE);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -750,6 +752,7 @@ public abstract class CameraActivity extends FragmentActivity
         Intent intent = new Intent(CameraActivity.this,StrayFormActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     protected void setupShareButton() {
