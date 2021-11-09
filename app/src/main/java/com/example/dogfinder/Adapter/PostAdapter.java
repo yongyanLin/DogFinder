@@ -22,7 +22,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.CustomViewHold
     Context context;
     List<Dog> list;
     private PostAdapter.OnItemClickListener mlistener;
-    FirebaseAuth auth;
 
     public void SetOnItemClickListener(PostAdapter.OnItemClickListener listener){
         mlistener = listener;

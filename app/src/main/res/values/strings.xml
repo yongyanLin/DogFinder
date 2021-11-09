@@ -56,6 +56,7 @@
     <string name="description_title">Description</string>
     <string name="postList">Posting history</string>
     <string name="postTitle">MY POSTS</string>
+    <string name="collectionTitle">MY COLLECTIONS</string>
     <string name="Stray">Stray Dog</string>
     <string name="Lost">Lost Pet</string>
     <string name="straySlding">Find Stray Dog</string>

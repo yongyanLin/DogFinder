@@ -131,7 +131,7 @@
                     android:clickable="true"
                     android:showDividers="beginning"
                     android:divider="@drawable/profile_line"
-                    android:id="@+id/nav_likePost"
+                    android:id="@+id/nav_like"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_80dp"
                     android:padding="@dimen/dimen_10dp"

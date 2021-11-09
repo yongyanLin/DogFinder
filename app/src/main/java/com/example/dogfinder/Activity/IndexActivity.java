@@ -189,11 +189,13 @@ public class IndexActivity extends BaseActivity {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},LOCATION_PERM_CODE);
         }
-        if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(!hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
+            requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         //Intent.ACTION_OPEN_DOCUMENT
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
     }
 
@@ -264,7 +266,8 @@ public class IndexActivity extends BaseActivity {
     }
     private void requestPermission(final String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{permission}, PERMISSIONS_REQUEST);
+            ActivityCompat.requestPermissions(this,new String[]{permission},PERMISSIONS_REQUEST);
+            //requestPermissions(new String[]{permission}, PERMISSIONS_REQUEST);
         }
     }
 

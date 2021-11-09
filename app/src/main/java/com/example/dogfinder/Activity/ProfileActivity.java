@@ -55,6 +55,13 @@ public class ProfileActivity extends BaseActivity {
                 finish();
             }
         });
+        nav_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(CollectionListActivity.class);
+                finish();
+            }
+        });
         nav_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

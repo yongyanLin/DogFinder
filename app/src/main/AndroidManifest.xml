@@ -38,6 +38,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity
+            android:name=".Activity.CollectionListActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DogDetailActivity"
             android:exported="false" />
         <activity
