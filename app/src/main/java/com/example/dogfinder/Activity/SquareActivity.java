@@ -117,16 +117,26 @@ public class SquareActivity extends BaseActivity {
                     collection.setId(id);
                     collectionReference.child(id).setValue(collection);
                 }
-                //dogAdapter.notifyDataSetChanged();
-
             }
 
 
             @Override
             public void onCommentClick(int position) {
-
+                Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
+                Dog dog = dogList.get(position);
+                intent.putExtra("dog",dog);
+                startActivity(intent);
+                finish();
             }
 
+            @Override
+            public void onShowCommentClick(int position) {
+                Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
+                Dog dog = dogList.get(position);
+                intent.putExtra("dog",dog);
+                startActivity(intent);
+                finish();
+            }
         });
         }
     @Override

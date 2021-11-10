@@ -50,16 +50,16 @@
                 android:text="@string/accountTile"
                 android:textSize="@dimen/dimen_20sp"></TextView>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:background="@drawable/round"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:id="@+id/profile_photo"
                 android:layout_width="@dimen/dimen_80dp"
                 android:layout_height="@dimen/dimen_80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
-                android:src="@mipmap/profile_light"></ImageView>
+                android:src="@mipmap/profile_light"></de.hdodenhof.circleimageview.CircleImageView>
 
             <EditText
                 android:id="@+id/username_field"

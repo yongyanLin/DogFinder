@@ -266,7 +266,34 @@
                     android:textSize="@dimen/dimen_20sp"
                     ></TextView>
             </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:background="@color/grey"></View>
+
+                <TextView
+                    android:fontFamily="cursive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:text="@string/commentHint"
+                    android:textColor="@color/darkslateblue"
+                    android:textSize="@dimen/dimen_25sp"></TextView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycle_view"
+                    >
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

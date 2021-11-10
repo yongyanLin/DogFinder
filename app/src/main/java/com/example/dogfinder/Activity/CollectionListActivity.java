@@ -1,18 +1,18 @@
 package com.example.dogfinder.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.dogfinder.Adapter.PostAdapter;
+import com.example.dogfinder.Adapter.ListAdapter;
 import com.example.dogfinder.Entity.Collection;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
@@ -31,7 +31,7 @@ public class CollectionListActivity extends BaseActivity {
     RecyclerView collectionRecyclerView;
     List<Dog> collectionList;
     DatabaseReference dogReference,collectionReference;
-    PostAdapter collectionAdapter;
+    ListAdapter collectionAdapter;
     FirebaseAuth auth;
     List<String> dogId;
     @Override
@@ -55,9 +55,9 @@ public class CollectionListActivity extends BaseActivity {
         collectionList = new ArrayList<>();
         dogId = new ArrayList<>();
 
-        collectionAdapter = new PostAdapter(getApplicationContext(),collectionList);
+        collectionAdapter = new ListAdapter(getApplicationContext(),collectionList);
         collectionRecyclerView.setAdapter(collectionAdapter);
-        collectionAdapter.SetOnItemClickListener(new PostAdapter.OnItemClickListener() {
+        collectionAdapter.SetOnItemClickListener(new ListAdapter.OnItemClickListener() {
             @Override
             public void onButtonClick(int position) {
                 Dog dog = collectionList.get(position);

@@ -35,6 +35,7 @@ import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.TextUtil;
 import com.example.dogfinder.Utils.profilePopUpUtil;
 import com.example.dogfinder.Utils.strayPopUpUtil;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,13 +60,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AccountActivity extends BaseActivity {
     String photoPath;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int WRITE_PERM_CODE = 1;
     public static final int GALLERY_PROFILE_REQUEST_CODE = 105;
-    ImageView profile_image;
+    CircleImageView profile_image;
     EditText username_field,password_field;
     TextView email_field;
     Button save_btn,back_btn;
@@ -254,7 +257,10 @@ public class AccountActivity extends BaseActivity {
         });
     }
     private void askProfileGalleryPermission() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickImagePermission();
+        galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(galleryIntent,GALLERY_PROFILE_REQUEST_CODE);
     }
 
@@ -263,6 +269,13 @@ public class AccountActivity extends BaseActivity {
             getCameraIntent();
         }else{
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
+        }
+    }
+    private void pickImagePermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            getCameraIntent();
+        }else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
         }
     }
     @Override
@@ -309,7 +322,7 @@ public class AccountActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             image = (Uri)bundle.get("image");
-            profile_image.setImageURI((Uri)bundle.get("image"));
+            profile_image.setImageURI(image);
         }
     }
     private File createImageUri() throws IOException {

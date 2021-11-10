@@ -21,13 +21,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends BaseActivity {
 
     LinearLayout nav_account,nav_post,nav_like,nav_comment,nav_logout;
     FirebaseAuth auth;
     FirebaseFirestore firebaseFirestore;
     DocumentReference documentReference;
-    ImageView profile_photo;
+    CircleImageView profile_photo;
     TextView email_field,account_field;
     BottomNavigationView navigationView;
 
@@ -66,6 +68,13 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 navigate(PostListActivity.class);
+                finish();
+            }
+        });
+        nav_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(CommentListActivity.class);
                 finish();
             }
         });

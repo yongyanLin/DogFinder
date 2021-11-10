@@ -11,34 +11,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.CustomViewHolder>{
+public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.CustomViewHolder>{
     Context context;
-    List<Dog> list;
-    private PostAdapter.OnItemClickListener mlistener;
+    List<Comment> commentList;
+    private CommentListAdapter.OnItemClickListener mlistener;
 
-    public void SetOnItemClickListener(PostAdapter.OnItemClickListener listener){
+    public void SetOnItemClickListener(CommentListAdapter.OnItemClickListener listener){
         mlistener = listener;
     }
-    public PostAdapter(Context context,List<Dog> list){
+    public CommentListAdapter(Context context,List<Comment> commentList){
         this.context = context;
-        this.list = list;
+        this.commentList = commentList;
     }
     public static class CustomViewHolder extends RecyclerView.ViewHolder{
-        TextView breed,time;
+        TextView breed,time,comment;
         Button delete_btn;
         LinearLayout content;
-        public CustomViewHolder(@NonNull View itemView, PostAdapter.OnItemClickListener listener){
+        public CustomViewHolder(@NonNull View itemView, CommentListAdapter.OnItemClickListener listener){
             super(itemView);
             content = itemView.findViewById(R.id.content);
             breed = itemView.findViewById(R.id.breed);
             time = itemView.findViewById(R.id.time);
+            comment = itemView.findViewById(R.id.comment);
             delete_btn = itemView.findViewById(R.id.delete);
             content.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -64,25 +64,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.CustomViewHold
             });
         }
     }
-
     @NonNull
     @Override
-    public PostAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.post_item,parent,false);
+    public CommentListAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.comment_list_item,parent,false);
 
-        return new PostAdapter.CustomViewHolder(view,mlistener);
+        return new CommentListAdapter.CustomViewHolder(view,mlistener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostAdapter.CustomViewHolder holder, int position) {
-        Dog dog = list.get(position);
-        holder.breed.setText(dog.getBreed());
-        holder.time.setText(dog.getTime());
+    public void onBindViewHolder(@NonNull CommentListAdapter.CustomViewHolder holder, int position) {
+        holder.comment.setText(commentList.get(position).getContent());
+        holder.time.setText(commentList.get(position).getTime());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return commentList.size();
     }
     public interface OnItemClickListener {
         void onButtonClick(int position);

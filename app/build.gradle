@@ -56,4 +56,5 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-android:1.8.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

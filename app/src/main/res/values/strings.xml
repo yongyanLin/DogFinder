@@ -34,8 +34,11 @@
     <string name="accountHint">Account info</string>
     <string name="strayHint">Stray dog post</string>
     <string name="lostHint">Lost dog post</string>
-    <string name="likeHint">Collections</string>
-    <string name="commentHint">Comments</string>
+    <string name="likeHint">Collection</string>
+    <string name="commentHint">Comment</string>
+    <string name="commentListTitle">My COMMENTS</string>
+    <string name="send">Sent</string>
+    <string name="receive">Received</string>
     <string name="logout">Logout</string>
     <string name="Homepage">Homepage</string>
     <string name="straydog">Stray dog</string>
@@ -51,6 +54,8 @@
     <string name="view_link">View Profile</string>
     <string name="resetHint">Input password to receive reset email.</string>
     <string name="profileLink">View detail</string>
+    <string name="addComment">Add a comment...</string>
+    <string name="post">Post</string>
     <string name="commentTitle">View all comments</string>
     <string name="Characteristics">Characteristics</string>
     <string name="description_title">Description</string>

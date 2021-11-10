@@ -136,8 +136,16 @@ public class IndexActivity extends BaseActivity {
                         startActivity(intent2);
                         finish();
                         break;
+                    case R.id.nav_like:
+                        navigate(CollectionListActivity.class);
+                        finish();
+                        break;
                     case R.id.nav_post:
                         navigate(PostListActivity.class);
+                        finish();
+                        break;
+                    case R.id.nav_comment:
+                        navigate(CommentListActivity.class);
                         finish();
                         break;
                     case R.id.logout:
@@ -193,7 +201,7 @@ public class IndexActivity extends BaseActivity {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         //Intent.ACTION_OPEN_DOCUMENT
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);

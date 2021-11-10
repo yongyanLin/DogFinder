@@ -38,6 +38,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity
+            android:name=".Activity.CommentListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CollectionListActivity"
             android:exported="false" />
         <activity

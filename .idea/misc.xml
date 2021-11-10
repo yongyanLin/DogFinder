@@ -9,6 +9,7 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/ic_launcher_background.xml" value="0.10260416666666666" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/login_btn.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/lost_square.xml" value="0.10052083333333334" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/post_btn.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/post_lost.xml" value="0.10260416666666666" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/post_scroll.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/drawable/post_stray.xml" value="0.10260416666666666" />
@@ -22,6 +23,9 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_account.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_camera.xml" value="0.11820652173913043" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_collection_list.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_collections.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_comment.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_comment_list.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_dog_detail.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_index.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_list.xml" value="0.1" />
@@ -47,6 +51,8 @@
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/activity_verify.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/body_item.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/camera_connection_fragment.xml" value="0.11820652173913043" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/comment_item.xml" value="0.1" />
+        <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/comment_list_item.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/dog_item.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/header.xml" value="0.1" />
         <entry key="..\:/Users/m1395/StudioProjects/DogFinder/app/src/main/res/layout/lang_dialog.xml" value="0.1" />

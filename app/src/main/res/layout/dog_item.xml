@@ -37,7 +37,7 @@
                     android:fontFamily="casual"
                     android:text="Pug"
                     android:textColor="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/dimen_15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
+
                     android:fontFamily="casual"
                     android:text=". 0.8 miles away"
                     android:textColor="@color/darkslateblue"

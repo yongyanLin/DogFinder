@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dogfinder.Entity.Collection;
+import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,6 +94,17 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
                     }
                 }
             });
+            show_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onShowCommentClick(position);
+                        }
+                    }
+                }
+            });
         }
 
     }
@@ -129,6 +141,24 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
 
             }
         });
+        commentReference = FirebaseDatabase.getInstance().getReference("Comment");
+        commentReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = 0;
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    Comment comment = dataSnapshot.getValue(Comment.class);
+                    if(comment.getPostId().equals(dog.getId())){
+                        count += 1;
+                    }
+                }
+                holder.show_comment.setText("View "+count+" comments");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -143,5 +173,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         void onCollectionClick(int position,boolean isChecked);
 
         void onCommentClick(int position);
+
+        void onShowCommentClick(int position);
     }
 }

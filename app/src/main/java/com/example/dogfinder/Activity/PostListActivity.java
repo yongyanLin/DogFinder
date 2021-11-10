@@ -1,7 +1,6 @@
 package com.example.dogfinder.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,8 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.dogfinder.Adapter.DogAdapter;
-import com.example.dogfinder.Adapter.PostAdapter;
+import com.example.dogfinder.Adapter.ListAdapter;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,11 +29,13 @@ public class PostListActivity extends BaseActivity {
     RecyclerView strayRecyclerView,lostRecyclerView;
     List<Dog> strayList,lostList;
     DatabaseReference databaseReference;
-    PostAdapter strayAdapter,lostAdapter;
+    ListAdapter strayAdapter,lostAdapter;
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+        auth = FirebaseAuth.getInstance();
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,11 +53,11 @@ public class PostListActivity extends BaseActivity {
         lostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         strayList = new ArrayList<>();
         lostList = new ArrayList<>();
-        strayAdapter = new PostAdapter(getApplicationContext(),strayList);
-        lostAdapter = new PostAdapter(getApplicationContext(),lostList);
+        strayAdapter = new ListAdapter(getApplicationContext(),strayList);
+        lostAdapter = new ListAdapter(getApplicationContext(),lostList);
         strayRecyclerView.setAdapter(strayAdapter);
         lostRecyclerView.setAdapter(lostAdapter);
-        strayAdapter.SetOnItemClickListener(new PostAdapter.OnItemClickListener() {
+        strayAdapter.SetOnItemClickListener(new ListAdapter.OnItemClickListener() {
             @Override
             public void onButtonClick(int position) {
                 Dog dog = strayList.get(position);
@@ -74,7 +74,7 @@ public class PostListActivity extends BaseActivity {
                 finish();
             }
         });
-        lostAdapter.SetOnItemClickListener(new PostAdapter.OnItemClickListener() {
+        lostAdapter.SetOnItemClickListener(new ListAdapter.OnItemClickListener() {
             @Override
             public void onButtonClick(int position) {
                 Dog dog = lostList.get(position);
@@ -100,9 +100,9 @@ public class PostListActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Dog dog = dataSnapshot.getValue(Dog.class);
-                    if(dog.getType().equals("stray")){
+                    if(dog.getType().equals("stray") && dog.getUserId().equals(auth.getCurrentUser().getUid())){
                         strayList.add(dog);
-                    }else{
+                    }else if(dog.getType().equals("lost") && dog.getUserId().equals(auth.getCurrentUser().getUid())){
                         lostList.add(dog);
                     }
                 }
