@@ -71,7 +71,7 @@ public class StrayFormActivity extends BaseActivity {
     EditText breed_filed,description_view;
     ImageView imageView;
     TextView location_btn,color_view;
-    Uri image,imageUpdate;
+    Uri image;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;

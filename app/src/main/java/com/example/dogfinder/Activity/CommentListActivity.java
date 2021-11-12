@@ -142,7 +142,6 @@ public class CommentListActivity extends BaseActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

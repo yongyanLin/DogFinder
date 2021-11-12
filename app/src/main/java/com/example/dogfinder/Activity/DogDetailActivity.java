@@ -166,7 +166,7 @@ public class DogDetailActivity extends BaseActivity {
             time.setText(dog.getTime());
             double lat = Double.parseDouble(dog.getLocation().split(" ")[0]);
             double lon = Double.parseDouble(dog.getLocation().split(" ")[1]);
-            location.setText(DataUtil.distance(latitude,longitude,lat,lon)+" miles away");
+            location.setText(DataUtil.distance(latitude,longitude,lat,lon)+" miles");
         }
     }
     @Override

@@ -4,6 +4,7 @@ import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ import java.util.List;
 public class CollectionsActivity extends BaseActivity {
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
+    SearchView searchView;
     DatabaseReference dogReference,collectionReference;
     DogAdapter dogAdapter;
     List<Dog> dogList;
@@ -116,6 +118,20 @@ public class CollectionsActivity extends BaseActivity {
         dogList = new ArrayList<>();
         dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
         recyclerView.setAdapter(dogAdapter);
+        searchView = findViewById(R.id.search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                dogAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                dogAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         dogAdapter.SetOnItemClickListener(new DogAdapter.OnItemClickListener() {
             @Override
             public void onLinkClick(int position) {

@@ -163,6 +163,7 @@ public class SquareActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                dogAdapter.getFilter().filter(query);
                 return false;
             }
 

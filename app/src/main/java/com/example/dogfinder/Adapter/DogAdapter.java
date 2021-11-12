@@ -189,7 +189,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         double lat2 = Double.parseDouble(dog.getLocation().split(" ")[0]);
         double lon2 = Double.parseDouble(dog.getLocation().split(" ")[1]);
         double distance = DataUtil.distance(latitude,longitude,lat2,lon2);
-        holder.distance.setText(distance+" miles away");
+        holder.distance.setText(distance+" miles");
         auth = FirebaseAuth.getInstance();
         String id = auth.getCurrentUser().getUid()+" "+dog.getId();
         collectionReference = FirebaseDatabase.getInstance().getReference("Collection").child(id);
