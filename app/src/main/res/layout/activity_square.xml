@@ -19,12 +19,12 @@
                 android:layout_width="@dimen/dimen_300dp"
                 android:layout_height="@dimen/dimen_60dp"
                 android:id="@+id/search"
-                app:queryHint="@string/search"
+                app:queryHint="@string/searchDog"
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 >
             </androidx.appcompat.widget.SearchView>
             <Button
-                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
                 android:id="@+id/filter_btn"
                 android:layout_gravity="center"
                 android:background="@mipmap/filter"

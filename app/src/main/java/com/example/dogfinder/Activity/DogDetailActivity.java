@@ -1,10 +1,17 @@
 package com.example.dogfinder.Activity;
 
+import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +25,7 @@ import com.example.dogfinder.Entity.Collection;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.DataUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,18 +43,31 @@ public class DogDetailActivity extends BaseActivity {
     ToggleButton heart;
     Button back;
     ImageView imageView;
-    TextView breed_title,condition,behavior,color,size,description,time;
+    TextView breed_title,condition,behavior,color,size,description,time,location;
     Dog dog;
     FirebaseAuth auth;
     DatabaseReference collectionReference,commentReference;
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     List<Comment> list;
+    double latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_detail);
         auth = FirebaseAuth.getInstance();
+        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
+
+            return;
+        }
+        Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        //get current location
+        longitude = clocation.getLongitude();
+        latitude =  clocation.getLatitude();
         collectionReference = FirebaseDatabase.getInstance().getReference("Collection");
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +79,7 @@ public class DogDetailActivity extends BaseActivity {
                 finish();
             }
         });
+        location = findViewById(R.id.location);
         time = findViewById(R.id.time);
         imageView = findViewById(R.id.dog_img);
         breed_title = findViewById(R.id.breed_title);
@@ -142,6 +164,9 @@ public class DogDetailActivity extends BaseActivity {
             description.setText(dog.getDescription());
             size.setText(dog.getSize());
             time.setText(dog.getTime());
+            double lat = Double.parseDouble(dog.getLocation().split(" ")[0]);
+            double lon = Double.parseDouble(dog.getLocation().split(" ")[1]);
+            location.setText(DataUtil.distance(latitude,longitude,lat,lon)+" miles away");
         }
     }
     @Override

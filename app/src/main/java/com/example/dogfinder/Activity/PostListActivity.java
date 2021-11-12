@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.dogfinder.Adapter.ListAdapter;
+import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,7 @@ public class PostListActivity extends BaseActivity {
     Button back;
     RecyclerView strayRecyclerView,lostRecyclerView;
     List<Dog> strayList,lostList;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,commentReference;
     ListAdapter strayAdapter,lostAdapter;
     FirebaseAuth auth;
     @Override
@@ -44,6 +45,7 @@ public class PostListActivity extends BaseActivity {
                 finish();
             }
         });
+        commentReference = FirebaseDatabase.getInstance().getReference("Comment");
         databaseReference = FirebaseDatabase.getInstance().getReference("Dog");
         strayRecyclerView = findViewById(R.id.stray_recycle_view);
         lostRecyclerView = findViewById(R.id.lost_recycle_view);
@@ -122,8 +124,26 @@ public class PostListActivity extends BaseActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseReference.child(dog.getId()).removeValue();
+                        String dogId = dog.getId();
+                        databaseReference.child(dogId).removeValue();
                         dialog.dismiss();
+                        //delete related comments
+                        commentReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot snapshot1:snapshot.getChildren()){
+                                    Comment comment = snapshot1.getValue(Comment.class);
+                                    if(comment.getPostId().equals(dogId)){
+                                        commentReference.child(comment.getId()).removeValue();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                         navigate(PostListActivity.class);
                         finish();
                     }

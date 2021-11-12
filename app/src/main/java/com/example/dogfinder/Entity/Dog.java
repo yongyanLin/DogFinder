@@ -1,6 +1,7 @@
 package com.example.dogfinder.Entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Dog implements Serializable {
     private String id;
@@ -126,5 +127,18 @@ public class Dog implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dog dog = (Dog) o;
+        return Objects.equals(id, dog.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, type, time, breed, condition, behavior, color, size, imageUrl, location, description);
     }
 }

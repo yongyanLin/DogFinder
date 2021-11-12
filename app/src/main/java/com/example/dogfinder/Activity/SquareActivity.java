@@ -1,22 +1,26 @@
 package com.example.dogfinder.Activity;
 
+import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.dogfinder.Adapter.DogAdapter;
 import com.example.dogfinder.Entity.Collection;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,18 +40,36 @@ public class SquareActivity extends BaseActivity {
     List<Dog> dogList;
     String type;
     FirebaseAuth auth;
+    Button filter_btn;
+    SearchView searchView;
+    double latitude,longitude;
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String PERMISSION_STORAGE_WRITE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_square);
+        //get current location
+        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
+
+            return;
+        }
+        Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        longitude = clocation.getLongitude();
+        latitude =  clocation.getLatitude();
         //get the type of this square
         Intent intent = getIntent();
         auth = FirebaseAuth.getInstance();
         if(intent != null){
             type = intent.getStringExtra("type");
         }
+        filter_btn = findViewById(R.id.filter_btn);
+        searchView = findViewById(R.id.search);
+
         //set bottom navigation
         navigationView = findViewById(R.id.bottom_navigation);
         if(type.equals("stray")){
@@ -93,7 +115,7 @@ public class SquareActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
         dogList = new ArrayList<>();
-        dogAdapter = new DogAdapter(getApplicationContext(),dogList);
+        dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
         recyclerView.setAdapter(dogAdapter);
         dogAdapter.SetOnItemClickListener(new DogAdapter.OnItemClickListener() {
             @Override
@@ -138,10 +160,23 @@ public class SquareActivity extends BaseActivity {
                 finish();
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                dogAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         }
     @Override
     protected void onStart(){
         super.onStart();
+
         dogReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -160,6 +195,5 @@ public class SquareActivity extends BaseActivity {
             }
         });
     }
-
 
 }

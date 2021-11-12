@@ -35,6 +35,7 @@
     <string name="strayHint">Stray dog post</string>
     <string name="lostHint">Lost dog post</string>
     <string name="likeHint">Collection</string>
+    <string name="searchDog">Search by breed,behavior,color,size,condition.</string>
     <string name="commentHint">Comment</string>
     <string name="commentListTitle">My COMMENTS</string>
     <string name="send">Sent</string>

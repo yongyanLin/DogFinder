@@ -3,7 +3,6 @@ package com.example.dogfinder.Activity;
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 
@@ -44,7 +43,7 @@ public class LostMapActivity extends BaseActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stray_map);
+        setContentView(R.layout.activity_lost_map);
         location = null;
         latLocation = null;
         geocoder = new Geocoder(this);

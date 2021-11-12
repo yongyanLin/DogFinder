@@ -1,11 +1,18 @@
 package com.example.dogfinder.Activity;
 
+import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -32,11 +39,23 @@ public class CollectionsActivity extends BaseActivity {
     List<Dog> dogList;
     List<String> dogId;
     FirebaseAuth auth;
+    double latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collections);
         auth = FirebaseAuth.getInstance();
+        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
+
+            return;
+        }
+        Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        longitude = clocation.getLongitude();
+        latitude =  clocation.getLatitude();
         //set bottom navigation
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setSelectedItemId(R.id.likes_btn);
@@ -95,7 +114,7 @@ public class CollectionsActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
         dogList = new ArrayList<>();
-        dogAdapter = new DogAdapter(getApplicationContext(),dogList);
+        dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
         recyclerView.setAdapter(dogAdapter);
         dogAdapter.SetOnItemClickListener(new DogAdapter.OnItemClickListener() {
             @Override
@@ -156,7 +175,6 @@ public class CollectionsActivity extends BaseActivity {
                 }
                 dogAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

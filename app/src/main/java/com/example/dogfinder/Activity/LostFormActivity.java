@@ -48,6 +48,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firestore.admin.v1.Index;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -366,6 +367,8 @@ public class LostFormActivity extends BaseActivity {
 
         }else{
             showToast("please select the picture.");
+            navigate(IndexActivity.class);
+            finish();
         }
 
     }
@@ -393,7 +396,7 @@ public class LostFormActivity extends BaseActivity {
 
 
     public void setCurrentLocation() {
-        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);;
+        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         List<Address> addresses = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -485,7 +488,7 @@ public class LostFormActivity extends BaseActivity {
                 imageView.setImageURI(image);
             }
             if(bundle.get("image") != null){
-                //image = Uri.parse(bundle.getString("image"));
+                image = Uri.parse(bundle.getString("image"));
                 imageView.setImageURI(Uri.parse(bundle.getString("image")));
             }
             if(bundle.get("location") != null){

@@ -98,5 +98,30 @@ public class DataUtil {
                 "Gray/Blue/Silver", "Harlequin", "Blue", "Red"};
         return colors;
     }
+    public static double distance(double lat1,double lon1,double lat2,double lon2){
+        double diffLon = lon1-lon2;
+        //calculate distance
+        double distance = Math.sin(degrad(lat1))
+                *Math.sin(degrad(lat2))
+                +Math.cos(degrad(lat1))
+                *Math.cos(degrad(lat2))
+                *Math.cos(degrad(diffLon));
+        distance = Math.acos(distance);
+        //distance in miles
+        distance = raddeg(distance);
+        distance = distance * 60 * 1.1515;
+        //in kilometers
+        //distance = distance * 1.609344;
+        //keep two decimal
+        distance = Math.round(distance * 100.0) / 100.0;
+        return distance;
+    }
+    //convert degree to radian
+    public static double degrad(double lat1){
+        return (lat1*Math.PI/180.0);
+    }
+    public static double raddeg(double distance){
+        return (distance * 180.0 / Math.PI);
+    }
 
 }

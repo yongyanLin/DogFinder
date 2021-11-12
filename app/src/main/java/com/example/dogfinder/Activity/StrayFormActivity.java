@@ -295,6 +295,8 @@ public class StrayFormActivity extends BaseActivity {
 
         }else{
             showToast("please select the picture.");
+            navigate(IndexActivity.class);
+            finish();
         }
 
     }
