@@ -18,6 +18,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -47,8 +48,8 @@ import java.util.Set;
 
 public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder> implements Filterable {
     Context context;
-    List<Dog> fullList;
-    List<Dog> filterList;
+    List<Dog> dogFullList;
+    List<Dog> dogList;
     double latitude,longitude;
     private OnItemClickListener mlistener;
     DatabaseReference commentReference,collectionReference;
@@ -60,8 +61,8 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
     }
     public DogAdapter(Context context, List<Dog> list,double latitude,double longitude) {
         this.context = context;
-        this.fullList = list;
-        this.filterList = list;
+        this.dogFullList = list;
+        this.dogList = new ArrayList<>(dogFullList);
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -75,10 +76,10 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Dog> filteredList = new ArrayList<>();
             if(constraint == null || constraint.length() == 0){
-                filteredList.addAll(fullList);
+                filteredList = dogFullList;
             }else{
                 String pattern = constraint.toString().toLowerCase().trim();
-                for(Dog dog:fullList){
+                for(Dog dog:dogFullList){
                     if(dog.getType().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
                         filteredList.add(dog);
                     }else if(dog.getBreed().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
@@ -101,8 +102,8 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filterList.clear();
-            filterList.addAll((ArrayList)results.values);
+            dogList.clear();
+            dogList.addAll((List)results.values);
             notifyDataSetChanged();
         }
     };
@@ -181,7 +182,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DogAdapter.CustomViewHolder holder, int position) {
-        Dog dog = filterList.get(position);
+        Dog dog = dogList.get(position);
         String imageUri = dog.getImageUrl();
         Picasso.with(holder.imageView.getContext()).load(imageUri).into(holder.imageView);
         holder.name.setText(dog.getBreed());
@@ -230,7 +231,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
 
     @Override
     public int getItemCount() {
-        return filterList.size();
+        return dogList.size();
     }
 
     public interface OnItemClickListener {

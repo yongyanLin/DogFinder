@@ -93,11 +93,33 @@ public class DataUtil {
 
         return list;
     }
+    public static List<String> getLocationOption(){
+        List<String> list = new ArrayList<>();
+        list.add("Distance");
+        list.add("Any distance");
+        list.add("10 miles");
+        list.add("20 miles");
+        list.add("50 miles");
+        list.add("100 miles");
+        list.add("200 miles");
+        return list;
+    }
+    public static List<String> getTimeOption(){
+        List<String> list = new ArrayList<>();
+        list.add("Post Time");
+        list.add("Any time");
+        list.add("Within a week");
+        list.add("Within a month");
+        list.add("Within three months");
+        list.add("Within six months");
+        return list;
+    }
     public static String[] getColorArray() {
         String colors[] = {"Apricot/Beige","White","Bicolor", "Black", "Brindle", "Brown/Chocolate", "Golden",
                 "Gray/Blue/Silver", "Harlequin", "Blue", "Red"};
         return colors;
     }
+
     public static double distance(double lat1,double lon1,double lat2,double lon2){
         double diffLon = lon1-lon2;
         //calculate distance

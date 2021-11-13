@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dimen_260dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <TextView
         android:gravity="center"
         android:layout_marginTop="@dimen/dimen_5dp"
         android:layout_marginBottom="@dimen/dimen_10dp"
         android:layout_gravity="center"
-        android:id="@+id/size_name"
+        android:id="@+id/name"
         android:layout_width="@dimen/dimen_260dp"
         android:layout_height="wrap_content"
         android:text="Very Thin"
@@ -18,11 +17,4 @@
         android:fontFamily="cursive"
         android:textColor="@color/darkslateblue">
     </TextView>
-    <ImageView
-        android:layout_gravity="center"
-        android:id="@+id/size_image"
-        android:layout_width="@dimen/dimen_80dp"
-        android:layout_height="@dimen/dimen_80dp"
-        >
-    </ImageView>
 </LinearLayout>

@@ -127,7 +127,7 @@ public class LostFormActivity extends BaseActivity {
         spinnerBehavior = findViewById(R.id.lost_behavior_spinner);
         behaviorAdapter = new BehaviorAdapter(LostFormActivity.this, DataUtil.getBehaviorList());
         spinnerBehavior.setAdapter(behaviorAdapter);
-        behaviorList = DataUtil.getBehaviorList();
+        //behaviorList = DataUtil.getBehaviorList();
         spinnerBehavior.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -158,7 +158,7 @@ public class LostFormActivity extends BaseActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                behavior = "Unknown";
+                size = "Unknown";
             }
         });
         //breed

@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommentListActivity extends BaseActivity {
@@ -159,6 +160,8 @@ public class CommentListActivity extends BaseActivity {
                         receiveCommentList.add(comment);
                     }
                 }
+                Collections.sort(sendCommentList);
+                Collections.sort(receiveCommentList);
                 sendAdapter.notifyDataSetChanged();
                 receiveAdapter.notifyDataSetChanged();
             }

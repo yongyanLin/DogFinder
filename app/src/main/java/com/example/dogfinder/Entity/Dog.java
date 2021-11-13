@@ -1,9 +1,12 @@
 package com.example.dogfinder.Entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
-public class Dog implements Serializable {
+public class Dog implements Serializable,Comparable<Dog>{
     private String id;
     private String userId;
     private String type;
@@ -140,5 +143,23 @@ public class Dog implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, userId, type, time, breed, condition, behavior, color, size, imageUrl, location, description);
+    }
+
+    @Override
+    public int compareTo(Dog o) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = sdf.parse(this.getTime());
+            d2 = sdf.parse(o.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(d1.before(d2)){
+            return 1;
+        }else{
+            return -1;
+        }
     }
 }

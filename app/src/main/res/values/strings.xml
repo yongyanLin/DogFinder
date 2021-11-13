@@ -47,6 +47,7 @@
     <string name="accountTile">Edit your information below.</string>
     <string name="profile">Profile</string>
     <string name="save">Save</string>
+    <string name="dialogHint">Get specific</string>
     <string name="emailHint">Need verification.</string>
     <string name="resetPassword">Forgot Password?</string>
     <string name="resetBack">Back to login.</string>
@@ -67,6 +68,8 @@
     <string name="Lost">Lost Pet</string>
     <string name="straySlding">Find Stray Dog</string>
     <string name="lostSlding">Find Lost Dog</string>
+    <string name="fiterBtn">DONE</string>
+    <string name="clear">CLEAR</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
         <item>Afghan Hound</item>

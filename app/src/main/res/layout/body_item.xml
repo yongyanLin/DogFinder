@@ -3,7 +3,6 @@
     android:orientation="vertical"
     android:layout_width="@dimen/dimen_260dp"
     android:layout_height="match_parent"
-    android:background="@color/mintcream"
     >
     <TextView
         android:gravity="center"
