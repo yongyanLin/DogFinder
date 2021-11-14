@@ -110,12 +110,7 @@ public class SquareActivity extends BaseActivity {
             type = intent.getStringExtra("type");
         }
         filter_btn = findViewById(R.id.filter_btn);
-        filter_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFilterDialog();
-            }
-        });
+
         searchView = findViewById(R.id.search);
 
         //set bottom navigation
@@ -164,16 +159,22 @@ public class SquareActivity extends BaseActivity {
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
         dogList = new ArrayList<>();
         getData();
+        filter_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterDialog();
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                dogAdapter.getFilter().filter(query);
+                dogAdapter.getFilter().filter("search "+ query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                dogAdapter.getFilter().filter(newText);
+                dogAdapter.getFilter().filter("search "+newText);
                 return false;
             }
         });
@@ -264,7 +265,7 @@ public class SquareActivity extends BaseActivity {
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    body = "body";
                 }
             });
             spinnerBehavior.setAdapter(behaviorAdapter);
@@ -277,7 +278,7 @@ public class SquareActivity extends BaseActivity {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    behavior = "behavior";
                 }
             });
             spinnerSize.setAdapter(sizeAdapter);
@@ -289,7 +290,7 @@ public class SquareActivity extends BaseActivity {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    size = "size";
                 }
             });
             spinnerLocation.setAdapter(locationAdapter);
@@ -301,7 +302,7 @@ public class SquareActivity extends BaseActivity {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    location = "location";
                 }
             });
             spinnerTime.setAdapter(timeAdapter);
@@ -313,7 +314,7 @@ public class SquareActivity extends BaseActivity {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    time = "time";
                 }
             });
             breed_filed = view1.findViewById(R.id.breed);
@@ -354,7 +355,7 @@ public class SquareActivity extends BaseActivity {
                             for(int i = 0;i<breedList.size();i++){
                                 stringBuilder.append(breedsArray[breedList.get(i)]);
                                 if(i != breedList.size()-1){
-                                    stringBuilder.append(",");
+                                    stringBuilder.append("/");
                                 }
                             }
                             breed = stringBuilder.toString();
@@ -365,6 +366,7 @@ public class SquareActivity extends BaseActivity {
                     builderBreed.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            breed = "breed";
                             dialog.dismiss();
                         }
                     });
@@ -374,6 +376,7 @@ public class SquareActivity extends BaseActivity {
                             for(int i =0;i<selectedBreed.length;i++){
                                 selectedBreed[i] = false;
                                 breedList.clear();
+                                breed = "breed";
                                 breed_filed.setText("");
                             }
                         }
@@ -420,7 +423,7 @@ public class SquareActivity extends BaseActivity {
                             for(int i = 0;i<colorList.size();i++){
                                 stringBuilder.append(colorArray[colorList.get(i)]);
                                 if(i != colorList.size()-1){
-                                    stringBuilder.append(",");
+                                    stringBuilder.append("/");
                                 }
                             }
                             color = stringBuilder.toString();
@@ -431,6 +434,7 @@ public class SquareActivity extends BaseActivity {
                     builderColor.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            color = "color";
                             dialog.dismiss();
                         }
                     });
@@ -440,6 +444,7 @@ public class SquareActivity extends BaseActivity {
                             for(int i =0;i<selectedColor.length;i++){
                                 selectedColor[i] = false;
                                 colorList.clear();
+                                color = "color";
                                 color_field.setText("");
                             }
                         }
@@ -454,7 +459,7 @@ public class SquareActivity extends BaseActivity {
             done_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String query = breed+location+time+size+behavior+body+color;
+                    String query = "filter"+","+location+","+time+","+breed+","+size+","+behavior+","+body+","+color;
                     dogAdapter.getFilter().filter(query);
                     alertDialog.dismiss();
                 }
@@ -472,7 +477,17 @@ public class SquareActivity extends BaseActivity {
                         breedList.clear();
                         breed_filed.setText("");
                     }
-
+                    spinnerLocation.setSelection(0);
+                    spinnerBehavior.setSelection(0);
+                    spinnerBody.setSelection(0);
+                    spinnerSize.setSelection(0);
+                    spinnerTime.setSelection(0);
+                }
+            });
+            cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
                 }
             });
             alertDialog.show();

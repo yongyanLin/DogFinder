@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CollectionsActivity extends BaseActivity {
@@ -94,6 +95,30 @@ public class CollectionsActivity extends BaseActivity {
             }
         });
         dogId = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycle_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        dogReference = FirebaseDatabase.getInstance().getReference("Dog");
+        dogList = new ArrayList<>();
+        dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
+        recyclerView.setAdapter(dogAdapter);
+        searchView = findViewById(R.id.search);
+        getData();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                dogAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                dogAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+    public void getData(){
         collectionReference  = FirebaseDatabase.getInstance().getReference("Collection");
         collectionReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -111,75 +136,6 @@ public class CollectionsActivity extends BaseActivity {
 
             }
         });
-        recyclerView = findViewById(R.id.recycle_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        dogReference = FirebaseDatabase.getInstance().getReference("Dog");
-        dogList = new ArrayList<>();
-        dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
-        recyclerView.setAdapter(dogAdapter);
-        searchView = findViewById(R.id.search);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                dogAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                dogAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-        dogAdapter.SetOnItemClickListener(new DogAdapter.OnItemClickListener() {
-            @Override
-            public void onLinkClick(int position) {
-                Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
-                Dog dog = dogList.get(position);
-                intent.putExtra("dog",dog);
-                startActivity(intent);
-                finish();
-            }
-            @Override
-            public void onCollectionClick(int position,boolean isChecked) {
-                String userId = auth.getCurrentUser().getUid();
-                String dogId = dogList.get(position).getId();
-                String id = userId+" "+dogId;
-                if(!isChecked){
-                    collectionReference.child(id).removeValue();
-
-                }else{
-                    Collection collection = new Collection(userId,dogId);
-                    collection.setId(id);
-                    collectionReference.child(id).setValue(collection);
-                }
-                //dogAdapter.notifyDataSetChanged();
-
-            }
-            @Override
-            public void onCommentClick(int position) {
-                Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
-                Dog dog = dogList.get(position);
-                intent.putExtra("dog",dog);
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void onShowCommentClick(int position) {
-                Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
-                Dog dog = dogList.get(position);
-                intent.putExtra("dog",dog);
-                startActivity(intent);
-                finish();
-            }
-
-        });
-    }
-    @Override
-    protected void onStart(){
-        super.onStart();
         dogReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -189,13 +145,59 @@ public class CollectionsActivity extends BaseActivity {
                         dogList.add(dog);
                     }
                 }
+                Collections.sort(dogList);
+                dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
+                recyclerView.setAdapter(dogAdapter);
                 dogAdapter.notifyDataSetChanged();
+                dogAdapter.SetOnItemClickListener(new DogAdapter.OnItemClickListener() {
+                    @Override
+                    public void onLinkClick(int position) {
+                        Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                        Dog dog = dogList.get(position);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+                    @Override
+                    public void onCollectionClick(int position,boolean isChecked) {
+                        String userId = auth.getCurrentUser().getUid();
+                        String dogId = dogList.get(position).getId();
+                        String id = userId+" "+dogId;
+                        if(!isChecked){
+                            collectionReference.child(id).removeValue();
+
+                        }else{
+                            Collection collection = new Collection(userId,dogId);
+                            collection.setId(id);
+                            collectionReference.child(id).setValue(collection);
+                        }
+                        //dogAdapter.notifyDataSetChanged();
+
+                    }
+                    @Override
+                    public void onCommentClick(int position) {
+                        Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
+                        Dog dog = dogList.get(position);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onShowCommentClick(int position) {
+                        Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
+                        Dog dog = dogList.get(position);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 }
