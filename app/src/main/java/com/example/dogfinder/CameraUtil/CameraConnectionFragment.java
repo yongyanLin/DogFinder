@@ -1,8 +1,7 @@
 package com.example.dogfinder.CameraUtil;
 
 /*
- * Copyright 2016 The TensorFlow Authors. All Rights Reserved.
- * Modifications copyright (C) 2018 Josef Steppan
+ * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +64,8 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//Camera Connection Fragment that captures images from camera.
+
 public class CameraConnectionFragment extends Fragment {
 
     /**
@@ -223,7 +223,7 @@ public class CameraConnectionFragment extends Fragment {
                 }
             };
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     public CameraConnectionFragment() {
         this.layout = R.layout.camera_connection_fragment;
         this.inputSize = new Size(299, 299);
@@ -239,7 +239,7 @@ public class CameraConnectionFragment extends Fragment {
      * @param height  The minimum desired height
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     protected static Size chooseOptimalSize(final Size[] choices, final int width, final int height) {
         final int minSize = Math.max(Math.min(width, height), MINIMUM_PREVIEW_SIZE);
         final Size desiredSize = new Size(width, height);
@@ -343,7 +343,6 @@ public class CameraConnectionFragment extends Fragment {
     /**
      * Sets up member variables related to camera.
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setUpCameraOutputs() {
         final Activity activity = getActivity();
         final CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
