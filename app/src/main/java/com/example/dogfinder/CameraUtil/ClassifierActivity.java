@@ -18,7 +18,6 @@ import android.util.Size;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 
 import com.example.dogfinder.R;
 import com.example.dogfinder.env.ImageUtils;
@@ -34,16 +33,13 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     private static final float IMAGE_STD = 128;
     private static final String INPUT_NAME = "Mul";
 
-    private static final String OUTPUT_NAME = "final_result";
-    private static final String MODEL_FILE = "file:///android_asset/stripped.pb";
     private static final boolean MAINTAIN_ASPECT = true;
     private Bitmap rgbFrameBitmap = null;
     private Bitmap croppedBitmap = null;
     private Matrix frameToCropTransform;
-
+    private int sensorOrientation;
     private Classifier classifier;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     void handleSendImage(Intent data) {
         final Uri imageUri = data.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -72,8 +68,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
         try {
             final Bitmap croppedFromGallery;
-            croppedFromGallery = resizeCropAndRotate(MediaStore.Images.Media.getBitmap(contentResolver, imageUri), orientation);
-
+            //croppedFromGallery = resizeCropAndRotate(MediaStore.Images.Media.getBitmap(contentResolver, imageUri), orientation);
+            croppedFromGallery = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
             runOnUiThread(() -> {
                 setImage(croppedFromGallery);
                 inferenceTask = new InferenceTask();
@@ -144,17 +140,14 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         return result;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
         previewWidth = size.getWidth();
         previewHeight = size.getHeight();
 
-        final int sensorOrientation = rotation - getScreenOrientation();
-
         rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Config.ARGB_8888);
         croppedBitmap = Bitmap.createBitmap(INPUT_SIZE, INPUT_SIZE, Config.ARGB_8888);
-
+        sensorOrientation = rotation - getScreenOrientation();
         frameToCropTransform = ImageUtils.getTransformationMatrix(
                 previewWidth, previewHeight,
                 INPUT_SIZE, INPUT_SIZE,
@@ -164,21 +157,11 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         frameToCropTransform.invert(cropToFrameTransform);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected synchronized void initClassifier() {
         if (classifier == null)
             try {
-                classifier =
-                        TensorFlowImageClassifier.create(
-                                getAssets(),
-                                MODEL_FILE,
-                                getResources().getStringArray(R.array.breeds),
-                                INPUT_SIZE,
-                                IMAGE_MEAN,
-                                IMAGE_STD,
-                                INPUT_NAME,
-                                OUTPUT_NAME);
-            } catch (OutOfMemoryError e) {
+                classifier = Classifier.create(this);
+            } catch (OutOfMemoryError | IOException e) {
                 runOnUiThread(() -> {
                     cameraButton.setEnabled(true);
                     continuousInferenceButton.setChecked(false);
@@ -203,10 +186,10 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
             runOnUiThread(() -> {
                 if (!continuousInference && !imageSet)
-                    setImage(finalCroppedBitmap);
-
+                    //setImage(finalCroppedBitmap);
+                    setImage(croppedBitmap);
                 inferenceTask = new InferenceTask();
-                inferenceTask.execute(finalCroppedBitmap);
+                inferenceTask.execute(croppedBitmap);
             });
         }
     }
@@ -224,7 +207,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
             initClassifier();
 
             if (!isCancelled() && classifier != null) {
-                return classifier.recognizeImage(bitmaps[0]);
+                return classifier.recognizeImage(bitmaps[0],sensorOrientation);
             }
 
             return null;

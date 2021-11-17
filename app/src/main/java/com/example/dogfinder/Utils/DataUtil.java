@@ -6,6 +6,9 @@ import com.example.dogfinder.Entity.Body;
 import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.R;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 

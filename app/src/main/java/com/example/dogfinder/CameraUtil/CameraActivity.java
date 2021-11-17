@@ -75,7 +75,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public abstract class CameraActivity extends FragmentActivity
         implements OnImageAvailableListener,Camera.PreviewCallback {
 
@@ -87,9 +86,6 @@ public abstract class CameraActivity extends FragmentActivity
     static private final int[] CHART_COLORS = {Color.rgb(114, 147, 203),
             Color.rgb(225, 151, 76), Color.rgb(132, 186, 91), Color.TRANSPARENT};
 
-    public static List<String> supportedLanguageNames;
-    public static List<String> supportedLanguageCodes;
-
     public static String cameraId;
     private static int cameraPermissionRequests = 0;
     protected ArrayList<String> currentRecognitions;
@@ -97,7 +93,7 @@ public abstract class CameraActivity extends FragmentActivity
     protected int previewHeight = 0;
     protected ClassifierActivity.InferenceTask inferenceTask;
     TextView resultsView;
-    PieChart mChart;
+
     AtomicBoolean snapShot = new AtomicBoolean(false);
     boolean continuousInference = false;
     boolean imageSet = false;
@@ -115,9 +111,10 @@ public abstract class CameraActivity extends FragmentActivity
     private Runnable imageConverter;
     private boolean useCamera2API;
     private String fileUrl;
-    private boolean alreadyAdded = false;
+    boolean alreadyAdded;
     String result;
     Bitmap bitmap;
+    public Intent galleryIntent;
 
     public static String preferredLanguageCode;
 
@@ -133,11 +130,8 @@ public abstract class CameraActivity extends FragmentActivity
         setLocale();
 
         setContentView(R.layout.activity_camera);
-
         setupButtons();
-        setupPieChart();
         initClassifier();
-
         // Get intent, action and MIME type
         final Intent intent = getIntent();
         final String action = intent.getAction();
@@ -176,7 +170,6 @@ public abstract class CameraActivity extends FragmentActivity
     private void setupButtons() {
         imageViewFromGallery = findViewById(R.id.imageView);
         resultsView = findViewById(R.id.results);
-        mChart = findViewById(R.id.chart);
         progressBar = findViewById(R.id.progressBar);
 
         continuousInferenceButton = findViewById(R.id.continuousInferenceButton);
@@ -194,6 +187,8 @@ public abstract class CameraActivity extends FragmentActivity
                 requestPermission(PERMISSION_STORAGE_READ);
                 return;
             }
+            alreadyAdded = true;
+            Toast.makeText(getApplicationContext(),alreadyAdded+"",Toast.LENGTH_SHORT).show();
             pickImage();
         });
         cameraButton.setOnClickListener(v -> {
@@ -203,13 +198,13 @@ public abstract class CameraActivity extends FragmentActivity
             }
 
             final View pnlFlash = findViewById(R.id.pnlFlash);
-
+            alreadyAdded = false;
             cameraButton.setEnabled(false);
             snapShot.set(true);
             imageSet = false;
             updateResults(null);
 
-            imageViewFromGallery.setVisibility(View.GONE);
+            imageViewFromGallery.setEnabled(false);
             continuousInferenceButton.setChecked(false);
 
             // show flash animation
@@ -246,7 +241,7 @@ public abstract class CameraActivity extends FragmentActivity
         continuousInferenceButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!hasPermission(PERMISSION_CAMERA)) requestPermission(PERMISSION_CAMERA);
 
-            imageViewFromGallery.setVisibility(View.GONE);
+            //imageViewFromGallery.setVisibility(View.GONE);
             continuousInference = isChecked;
 
             if (!continuousInference)
@@ -282,9 +277,10 @@ public abstract class CameraActivity extends FragmentActivity
 
 
     private void pickImage() {
-        final Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         continuousInferenceButton.setChecked(false);
-        startActivityForResult(i, PICK_IMAGE);
+        alreadyAdded = true;
+        startActivityForResult(galleryIntent, PICK_IMAGE);
     }
 
     protected int[] getRgbBytes() {
@@ -374,57 +370,6 @@ public abstract class CameraActivity extends FragmentActivity
         if (!imageSet) cameraButton.setEnabled(true);
     }
 
-    private void setupPieChart() {
-        mChart.getDescription().setEnabled(false);
-        mChart.setUsePercentValues(true);
-        mChart.setTouchEnabled(false);
-
-        // show center text only first time
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        final boolean previouslyStarted = prefs.getBoolean("showhelp", false);
-        if (!previouslyStarted) {
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean("showhelp", Boolean.TRUE);
-            edit.apply();
-
-            mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf"));
-            mChart.setCenterText(generateCenterSpannableText());
-            mChart.setCenterTextSizePixels(23);
-            mChart.setDrawCenterText(true);
-        }
-
-        mChart.setExtraOffsets(14, 0.f, 14, 0.f);
-        mChart.setHoleRadius(85);
-        mChart.setHoleColor(Color.TRANSPARENT);
-        mChart.setHovered(true);
-        mChart.setDrawMarkers(false);
-        mChart.setRotationEnabled(false);
-        mChart.setHighlightPerTapEnabled(false);
-        mChart.getLegend().setEnabled(false);
-        mChart.setAlpha(0.9f);
-
-        // display unknown slice
-        final ArrayList<PieEntry> entries = new ArrayList<>();
-        // set unknown slice to transparent
-        entries.add(new PieEntry(100, ""));
-        final PieDataSet set = new PieDataSet(entries, "");
-        set.setColor(R.color.transparent);
-        set.setDrawValues(false);
-
-        final PieData data = new PieData(set);
-        mChart.setData(data);
-    }
-
-    private SpannableString generateCenterSpannableText() {
-        final SpannableString s = new SpannableString("Center dog here\nkeep camera stable");
-        s.setSpan(new RelativeSizeSpan(1.5f), 0, 15, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 15, s.length() - 15, 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 0, 15, 0);
-
-        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 18, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 18, s.length(), 0);
-        return s;
-    }
 
     @Override
     public synchronized void onPause() {
@@ -571,7 +516,7 @@ public abstract class CameraActivity extends FragmentActivity
     void updateResults(List<Classifier.Recognition> results) {
         runOnUiThread(() -> {
             updateResultsView(results);
-            updatePieChart(results);
+
         });
     }
 
@@ -584,7 +529,6 @@ public abstract class CameraActivity extends FragmentActivity
         closeButton.setEnabled(enabled);
         saveButton.setVisibility(visibility);
         saveButton.setEnabled(enabled);
-        //exitButton.setVisibility(View.GONE);
     }
 
     // update results on our custom textview
@@ -617,52 +561,6 @@ public abstract class CameraActivity extends FragmentActivity
         resultsView.setText(result);
     }
 
-    void updatePieChart(List<Classifier.Recognition> results) {
-        final ArrayList<PieEntry> entries = new ArrayList<>();
-        float sum = 0;
-
-        if (results != null)
-            for (int i = 0; i < results.size(); i++) {
-                sum += results.get(i).getConfidence();
-
-                PieEntry entry = new PieEntry(results.get(i).getConfidence() * 100, results.get(i).getTitle());
-                entries.add(entry);
-            }
-
-        // add unknown slice
-        final float unknown = 1 - sum;
-        entries.add(new PieEntry(unknown * 100, ""));
-
-        //calculate center of slice
-        final float offset = entries.get(0).getValue() * 3.6f / 2;
-        // calculate the next angle
-        final float end = 270f - (entries.get(0).getValue() * 3.6f - offset);
-
-        final PieDataSet set = new PieDataSet(entries, "");
-
-        if (entries.size() > 2)
-            set.setSliceSpace(3f);
-
-        // set slice colors
-        final ArrayList<Integer> sliceColors = new ArrayList<>();
-
-        for (int c : CHART_COLORS)
-            sliceColors.add(c);
-
-        if (entries.size() > 0)
-            sliceColors.set(entries.size() - 1, R.color.transparent);
-
-        set.setColors(sliceColors);
-        set.setDrawValues(false);
-
-        final PieData data = new PieData(set);
-        mChart.setData(data);
-
-        //rotate to center of first slice
-        mChart.setRotationAngle(end);
-        mChart.setEntryLabelTextSize(16);
-        mChart.invalidate();
-    }
 
     protected void setImage(Bitmap image) {
         final int transitionTime = 1000;
@@ -700,7 +598,6 @@ public abstract class CameraActivity extends FragmentActivity
                 progressBar.setVisibility(View.GONE);
                 imageSet = false;
                 snapShot.set(false);
-
                 cameraButton.setEnabled(true);
                 readyForNextImage();
             }
@@ -729,23 +626,20 @@ public abstract class CameraActivity extends FragmentActivity
             requestPermission(PERMISSION_STORAGE_WRITE);
             return;
         }
-
-        if (!alreadyAdded) {
-            //save image
-            bitmap = ((BitmapDrawable)imageViewFromGallery.getDrawable()).getBitmap();
-            final String fileName = getString(R.string.app_name) + " " + System.currentTimeMillis() / 1000;
-            fileUrl = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, currentRecognitions.toString());
-            alreadyAdded = true;
-        }
-
-        saveButton.setVisibility(View.GONE);
         Bundle bundle = new Bundle();
-        bundle.putString("image",fileUrl);
         bundle.putString("breed",result);
+
+        //save image to gallery
+        bitmap = ((BitmapDrawable)imageViewFromGallery.getDrawable()).getBitmap();
+        final String fileName = getString(R.string.app_name) + " " + System.currentTimeMillis() / 1000;
+        fileUrl = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, currentRecognitions.toString());
+        bundle.putString("image",fileUrl);
+        saveButton.setVisibility(View.GONE);
         Intent intent = new Intent(CameraActivity.this,StrayFormActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
+
     }
 
     protected void setupShareButton() {

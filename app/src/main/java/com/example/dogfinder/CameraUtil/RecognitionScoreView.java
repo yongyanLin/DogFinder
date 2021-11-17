@@ -10,6 +10,5 @@ public class RecognitionScoreView extends androidx.appcompat.widget.AppCompatTex
 
     public RecognitionScoreView(final Context context, final AttributeSet set) {
         super(context, set);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "OpenSans-Regular.ttf"));
     }
 }

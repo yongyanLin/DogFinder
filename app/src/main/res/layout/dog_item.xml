@@ -76,6 +76,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
+                    <Button
+                        android:id="@+id/shareBtn"
+                        android:layout_width="@dimen/dimen_30dp"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:background="@mipmap/share_icon">
+
+                    </Button>
                     <ToggleButton
                         android:textOn=""
                         android:textOff=""

@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 
 import com.example.dogfinder.Adapter.DogAdapter;
@@ -28,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -190,6 +194,32 @@ public class CollectionsActivity extends BaseActivity {
                         intent.putExtra("dog",dog);
                         startActivity(intent);
                         finish();
+                    }
+
+                    @Override
+                    public void onShareClick(int position) {
+                        Dog dog = dogList.get(position);
+                        String imageUri = dog.getImageUrl();
+                        Thread thread = new Thread() {
+                            public void run() {
+                                try {
+                                    Bitmap bitmap = Picasso.with(getApplicationContext()).load(imageUri).get();
+                                    String fileUrl = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, dog.getBreed(),dog.getId());
+                                    Uri contentUri = Uri.parse(fileUrl);
+                                    if (contentUri != null) {
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+                                        shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_with)));
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        thread.start();
                     }
 
                 });

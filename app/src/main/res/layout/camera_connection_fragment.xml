@@ -6,8 +6,7 @@
 
     <com.example.dogfinder.CameraUtil.AutoFitTextureView
         android:id="@+id/texture"
-        android:layout_width="640dp"
-        android:layout_height="480dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_400dp"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

@@ -5,6 +5,7 @@ import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -211,7 +212,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         ImageView imageView;
         ToggleButton heart;
         TextView name,distance,link,show_comment;
-        Button comment_btn;
+        Button comment_btn,share_btn;
         public CustomViewHolder(@NonNull View itemView,OnItemClickListener listener){
             super(itemView);
 
@@ -220,6 +221,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
             name = itemView.findViewById(R.id.breed);
             distance = itemView.findViewById(R.id.distance);
             link = itemView.findViewById(R.id.profile_link);
+            share_btn = itemView.findViewById(R.id.shareBtn);
             show_comment = itemView.findViewById(R.id.show_comment);
             comment_btn = itemView.findViewById(R.id.add_comment);
             link.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +270,19 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
                         position = dogFullList.indexOf(dogList.get(position));
                         if(position != RecyclerView.NO_POSITION){
                             listener.onShowCommentClick(position);
+                        }
+                    }
+                }
+            });
+            share_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+
+                        int position = getAdapterPosition();
+                        position = dogFullList.indexOf(dogList.get(position));
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onShareClick(position);
                         }
                     }
                 }
@@ -347,6 +362,8 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         void onCommentClick(int position);
 
         void onShowCommentClick(int position);
+
+        void onShareClick(int position);
     }
 
 }
