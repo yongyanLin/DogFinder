@@ -270,7 +270,6 @@ public class LostFormActivity extends BaseActivity {
                                 stringBuilder.append(",");
                             }
                         }
-                        color = stringBuilder.toString();
                         color_view.setText(stringBuilder);
                     }
 

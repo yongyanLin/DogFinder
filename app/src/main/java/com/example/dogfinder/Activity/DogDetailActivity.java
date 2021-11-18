@@ -194,7 +194,7 @@ public class DogDetailActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Comment comment = dataSnapshot.getValue(Comment.class);
-                    if(comment.getPostId().equals(dog.getId())){
+                    if(comment.getPostId().equals(dog.getId()) && comment.getParentId().equals("0")){
                         list.add(comment);
                     }
                 }

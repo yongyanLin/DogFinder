@@ -17,6 +17,7 @@ import com.example.dogfinder.Adapter.ListAdapter;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.TextUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -106,7 +107,7 @@ public class CommentListActivity extends BaseActivity {
 
             @Override
             public void onContentClick(int position) {
-                String dogId = receiveDogList.get(position);
+                String dogId = receiveCommentList.get(position).getPostId();
                 dogReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,8 +157,16 @@ public class CommentListActivity extends BaseActivity {
                     if(comment.getUserId().equals(auth.getCurrentUser().getUid())){
                         sendCommentList.add(comment);
                     }
-                    if(receiveDogList.contains(comment.getPostId())){
+                    if(receiveDogList.contains(comment.getPostId()) && !comment.getUserId().equals(auth.getCurrentUser().getUid())){
                         receiveCommentList.add(comment);
+                    }
+                    if(!comment.getParentId().equals("0")){
+                        for(Comment comment1:sendCommentList){
+                            if(comment.getParentId().equals(comment1.getId()) &&
+                                    !comment.getUserId().equals(auth.getCurrentUser().getUid()) && !receiveCommentList.contains(comment)){
+                                receiveCommentList.add(comment);
+                            }
+                        }
                     }
                 }
                 Collections.sort(sendCommentList);

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,12 +20,24 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.example.dogfinder.Adapter.BehaviorAdapter;
+import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.DogAdapter;
+import com.example.dogfinder.Adapter.SizeAdapter;
+import com.example.dogfinder.Adapter.TextAdapter;
 import com.example.dogfinder.Entity.Collection;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.DataUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,12 +60,28 @@ public class CollectionsActivity extends BaseActivity {
     List<Dog> dogList;
     List<String> dogId;
     FirebaseAuth auth;
+    Button filter_btn,cancel_btn,clear_btn,done_btn;
+    BodyAdapter bodyAdapter;
+    SizeAdapter sizeAdapter;
+    BehaviorAdapter behaviorAdapter;
+    TextAdapter timeAdapter,locationAdapter;
+    Spinner spinnerBody, spinnerBehavior,spinnerSize,spinnerLocation,spinnerTime;
+    List<Integer> colorList,breedList;
+    String[] colorArray,breedsArray;
+    boolean[] selectedColor,selectedBreed;
+    TextView breed_filed,color_field;
+    String breed,body, behavior, color, size,location,time;
     double latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collections);
         auth = FirebaseAuth.getInstance();
+        bodyAdapter = new BodyAdapter(CollectionsActivity.this, DataUtil.getBodyList());
+        sizeAdapter = new SizeAdapter(CollectionsActivity.this,DataUtil.getSizeList());
+        behaviorAdapter = new BehaviorAdapter(CollectionsActivity.this,DataUtil.getBehaviorList());
+        timeAdapter = new TextAdapter(CollectionsActivity.this,DataUtil.getTimeOption());
+        locationAdapter = new TextAdapter(CollectionsActivity.this, DataUtil.getLocationOption());
         LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -108,16 +138,23 @@ public class CollectionsActivity extends BaseActivity {
         recyclerView.setAdapter(dogAdapter);
         searchView = findViewById(R.id.search);
         getData();
+        filter_btn = findViewById(R.id.filter_btn);
+        filter_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterDialog();
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                dogAdapter.getFilter().filter(query);
+                dogAdapter.getFilter().filter("search "+ query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                dogAdapter.getFilter().filter(newText);
+                dogAdapter.getFilter().filter("search "+newText);
                 return false;
             }
         });
@@ -229,5 +266,253 @@ public class CollectionsActivity extends BaseActivity {
 
             }
         });
+    }
+    public void showFilterDialog(){
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CollectionsActivity.this);
+        builder.setCancelable(false);
+        View view1 = LayoutInflater.from(CollectionsActivity.this).inflate(R.layout.filter_dialog,viewGroup,false);
+        builder.setView(view1);
+        spinnerBody = view1.findViewById(R.id.body_spinner);
+        spinnerBehavior = view1.findViewById(R.id.location_spinner);
+        spinnerTime = view1.findViewById(R.id.time_spinner);
+        spinnerSize = view1.findViewById(R.id.size_spinner);
+        spinnerBehavior = view1.findViewById(R.id.behavior_spinner);
+        spinnerLocation = view1.findViewById(R.id.location_spinner);
+        spinnerBody.setAdapter(bodyAdapter);
+        spinnerBody.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                body = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                body = "body";
+            }
+        });
+        spinnerBehavior.setAdapter(behaviorAdapter);
+        spinnerBehavior.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                behavior = (String) parent.getItemAtPosition(position);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                behavior = "behavior";
+            }
+        });
+        spinnerSize.setAdapter(sizeAdapter);
+        spinnerSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                size = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                size = "size";
+            }
+        });
+        spinnerLocation.setAdapter(locationAdapter);
+        spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                location = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                location = "location";
+            }
+        });
+        spinnerTime.setAdapter(timeAdapter);
+        spinnerTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                time = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                time = "time";
+            }
+        });
+        breed_filed = view1.findViewById(R.id.breed);
+
+        breedsArray = getResources().getStringArray(R.array.breeds);
+        breedList = new ArrayList<>();
+        selectedBreed = new boolean[breedsArray.length];
+        breed_filed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builderBreed = new AlertDialog.Builder(CollectionsActivity.this);
+                builderBreed.setTitle("Select breed of your dog.");
+                builderBreed.setCancelable(false);
+                String breedString = breed_filed.getText().toString().trim();
+                // set selected items
+                for(int i = 0;i< selectedBreed.length;i++){
+                    if(breedString.contains(breedsArray[i])){
+                        selectedBreed[i] = true;
+                        //breedList.add(i);
+                    }else{
+                        selectedBreed[i] = false;
+                    }
+                }
+                builderBreed.setMultiChoiceItems(breedsArray, selectedBreed, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if(isChecked){
+                            breedList.add(which);
+                            Collections.sort(breedList);
+                        }else if(breedList.contains(which)){
+                            breedList.remove(Integer.valueOf(which));
+                        }
+                    }
+                });
+                builderBreed.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int i = 0;i<breedList.size();i++){
+                            stringBuilder.append(breedsArray[breedList.get(i)]);
+                            if(i != breedList.size()-1){
+                                stringBuilder.append("/");
+                            }
+                        }
+                        breed = stringBuilder.toString();
+                        breed_filed.setText(stringBuilder);
+                    }
+
+                });
+                builderBreed.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        breed = "breed";
+                        dialog.dismiss();
+                    }
+                });
+                builderBreed.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i =0;i<selectedBreed.length;i++){
+                            selectedBreed[i] = false;
+                            breedList.clear();
+                            breed = "breed";
+                            breed_filed.setText("");
+                        }
+                    }
+                });
+                builderBreed.show();
+            }
+
+        });
+        colorArray = DataUtil.getColorArray();
+        color_field = view1.findViewById(R.id.color);
+        colorList = new ArrayList<>();
+        selectedColor = new boolean[colorArray.length];
+        color_field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builderColor = new AlertDialog.Builder(CollectionsActivity.this);
+                builderColor.setTitle("Select color");
+                builderColor.setCancelable(false);
+                String colorString = color_field.getText().toString().trim();
+                // set selected items
+                for(int i = 0;i<selectedColor.length;i++){
+                    if(colorString.contains(colorArray[i])){
+                        selectedColor[i] = true;
+                        //colorList.add(i);
+                    }else{
+                        selectedColor[i] = false;
+                    }
+                }
+                builderColor.setMultiChoiceItems(colorArray, selectedColor, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if(isChecked){
+                            colorList.add(which);
+                            Collections.sort(colorList);
+                        }else if(colorList.contains(which)){
+                            colorList.remove(Integer.valueOf(which));
+                        }
+                    }
+                });
+                builderColor.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int i = 0;i<colorList.size();i++){
+                            stringBuilder.append(colorArray[colorList.get(i)]);
+                            if(i != colorList.size()-1){
+                                stringBuilder.append("/");
+                            }
+                        }
+                        color = stringBuilder.toString();
+                        color_field.setText(stringBuilder);
+                    }
+
+                });
+                builderColor.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        color = "color";
+                        dialog.dismiss();
+                    }
+                });
+                builderColor.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i =0;i<selectedColor.length;i++){
+                            selectedColor[i] = false;
+                            colorList.clear();
+                            color = "color";
+                            color_field.setText("");
+                        }
+                    }
+                });
+                builderColor.show();
+            }
+        });
+        cancel_btn = view1.findViewById(R.id.cancel_btn);
+        clear_btn = view1.findViewById(R.id.clear_btn);
+        done_btn = view1.findViewById(R.id.done_btn);
+        AlertDialog alertDialog = builder.create();
+        done_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = "filter"+","+location+","+time+","+breed+","+size+","+behavior+","+body+","+color;
+                dogAdapter.getFilter().filter(query);
+                alertDialog.dismiss();
+            }
+        });
+        clear_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i =0;i<selectedColor.length;i++){
+                    selectedColor[i] = false;
+                    colorList.clear();
+                    color_field.setText("");
+                }
+                for(int i =0;i<selectedBreed.length;i++){
+                    selectedBreed[i] = false;
+                    breedList.clear();
+                    breed_filed.setText("");
+                }
+                spinnerLocation.setSelection(0);
+                spinnerBehavior.setSelection(0);
+                spinnerBody.setSelection(0);
+                spinnerSize.setSelection(0);
+                spinnerTime.setSelection(0);
+            }
+        });
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

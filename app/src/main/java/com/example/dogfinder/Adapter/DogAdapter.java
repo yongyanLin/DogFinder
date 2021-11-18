@@ -78,124 +78,124 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
     public Filter getFilter() {
         return dogFilter;
     }
+
     private final Filter dogFilter = new Filter(){
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             filteredList = new ArrayList<>();
             //String itemList[] = new String[7];
-            if(constraint == null || constraint.length() == 0){
-                filteredList = dogFullList;
-            }else{
-                String pattern = constraint.toString().toLowerCase();
-                if(pattern.contains("search")){
-                    if(pattern.split(" ").length>1){
-                        pattern = pattern.split(" ")[1];
+
+            String pattern = constraint.toString().toLowerCase();
+            if(pattern.contains("search")){
+                if(pattern.split(" ").length>1){
+                    pattern = pattern.split(" ")[1];
+                }else{
+                    filteredList = dogFullList;
+                }
+                for(Dog dog:dogFullList){
+                    if(dog.getType().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
+                        filteredList.add(dog);
+                    }else if(dog.getBreed().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
+                        filteredList.add(dog);
+                    }else if(dog.getBehavior().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
+                        filteredList.add(dog);
+                    }else if(dog.getColor().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
+                        filteredList.add(dog);
+                    }else if(dog.getCondition().toLowerCase().contains(pattern) && !filteredList.contains(dog)) {
+                        filteredList.add(dog);
                     }
-                    for(Dog dog:dogFullList){
-                        if(dog.getType().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
-                            filteredList.add(dog);
-                        }else if(dog.getBreed().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
-                            filteredList.add(dog);
-                        }else if(dog.getBehavior().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
-                            filteredList.add(dog);
-                        }else if(dog.getColor().toLowerCase().contains(pattern) && !filteredList.contains(dog)){
-                            filteredList.add(dog);
-                        }else if(dog.getCondition().toLowerCase().contains(pattern) && !filteredList.contains(dog)) {
-                            filteredList.add(dog);
+                }
+            }else if(pattern.contains("filter")){
+                String patternList[] = new String[8];
+                if(pattern.split(" ").length>1){
+                    patternList = pattern.split(",");
+                }
+                for(Dog dog:dogFullList) {
+                    boolean isRight = true;
+                    if(!patternList[1].equals("distance")){
+                        double distance = DataUtil.distance(latitude,longitude,Double.parseDouble(dog.getLocation().split(" ")[0]),Double.parseDouble(dog.getLocation().split(" ")[1]));
+                        if(patternList[1].equals("10 miles") && distance > 10){
+                            isRight = false;
+                        }
+                        if(patternList[1].equals("20 miles") && distance > 20){
+                            isRight = false;
+                        }
+                        if(patternList[1].equals("50 miles") && distance > 50){
+                            isRight = false;
+                        }
+                        if(patternList[1].equals("100 miles") && distance > 100){
+                            isRight = false;
+                        }
+                        if(patternList[1].equals("200 miles") && distance > 200){
+                            isRight = false;
                         }
                     }
-                }else if(pattern.contains("filter")){
-                    String patternList[] = new String[8];
-                    if(pattern.split(" ").length>1){
-                        patternList = pattern.split(",");
+                    if(!patternList[2].equals("post time")){
+                        Date postTime = null;
+                        Date now = Calendar.getInstance().getTime();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        try {
+                            postTime = dateFormat.parse(dog.getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar startCalendar = new GregorianCalendar();
+                        startCalendar.setTime(postTime);
+                        Calendar endCalendar = new GregorianCalendar();
+                        endCalendar.setTime(now);
+                        int diffMonth = endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
+                        int diffDay = endCalendar.get(Calendar.DAY_OF_MONTH) - startCalendar.get(Calendar.DAY_OF_MONTH);
+                        if(patternList[2].equals("within a week") && diffDay >=7){
+                            isRight = false;
+                        }
+                        if(patternList[2].equals("within a month") && diffMonth >1){
+                            isRight = false;
+                        }
+                        if(patternList[2].equals("within three months") && diffMonth >3){
+                            isRight = false;
+                        }
+                        if(patternList[2].equals("within six months") && diffMonth >6){
+                            isRight = false;
+                        }
                     }
-                    for(Dog dog:dogFullList) {
-                        boolean isRight = true;
-                        if(!patternList[1].equals("distance")){
-                            double distance = DataUtil.distance(latitude,longitude,Double.parseDouble(dog.getLocation().split(" ")[0]),Double.parseDouble(dog.getLocation().split(" ")[1]));
-                            if(patternList[1].equals("10 miles") && distance > 10){
-                                isRight = false;
-                            }
-                            if(patternList[1].equals("20 miles") && distance > 20){
-                                isRight = false;
-                            }
-                            if(patternList[1].equals("50 miles") && distance > 50){
-                                isRight = false;
-                            }
-                            if(patternList[1].equals("100 miles") && distance > 100){
-                                isRight = false;
-                            }
-                            if(patternList[1].equals("200 miles") && distance > 200){
-                                isRight = false;
+                    if(!patternList[3].equals("null")){
+                        if(!patternList[3].contains(dog.getBreed().toLowerCase())){
+                            isRight = false;
+                            if(dog.getBreed().equals("No detection")){
+                                isRight = true;
                             }
                         }
-                        if(!patternList[2].equals("post time")){
-                            Date postTime = null;
-                            Date now = Calendar.getInstance().getTime();
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            try {
-                                postTime = dateFormat.parse(dog.getTime());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            Calendar startCalendar = new GregorianCalendar();
-                            startCalendar.setTime(postTime);
-                            Calendar endCalendar = new GregorianCalendar();
-                            endCalendar.setTime(now);
-                            int diffMonth = endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-                            int diffDay = endCalendar.get(Calendar.DAY_OF_MONTH) - startCalendar.get(Calendar.DAY_OF_MONTH);
-                            if(patternList[2].equals("within a week") && diffDay >=7){
-                                isRight = false;
-                            }
-                            if(patternList[2].equals("within a month") && diffMonth >1){
-                                isRight = false;
-                            }
-                            if(patternList[2].equals("within three months") && diffMonth >3){
-                                isRight = false;
-                            }
-                            if(patternList[2].equals("within six months") && diffMonth >6){
-                                isRight = false;
-                            }
+                    }
+                    if(!patternList[4].equals("size")){
+                        if(!dog.getSize().toLowerCase().equals(patternList[4])){
+                            isRight = false;
                         }
-                        if(!patternList[3].equals("null")){
-                            if(!patternList[3].contains(dog.getBreed().toLowerCase())){
-                                isRight = false;
-                                if(dog.getBreed().equals("No detection")){
-                                    isRight = true;
-                                }
-                            }
+                    }
+                    if(!patternList[5].equals("behavior")){
+                        if(!dog.getBehavior().toLowerCase().equals(patternList[5])){
+                            isRight = false;
                         }
-                        if(!patternList[4].equals("size")){
-                            if(!dog.getSize().toLowerCase().equals(patternList[4])){
-                                isRight = false;
-                            }
+                    }
+                    if(!patternList[6].equals("condition")){
+                        if(!dog.getCondition().toLowerCase().equals(patternList[6])){
+                            isRight = false;
                         }
-                        if(!patternList[5].equals("behavior")){
-                            if(!dog.getBehavior().toLowerCase().equals(patternList[5])){
-                                isRight = false;
-                            }
+                    }
+                    if(!patternList[7].equals("null")){
+                        if(!patternList[7].contains(dog.getColor().toLowerCase())){
+                            isRight = false;
                         }
-                        if(!patternList[6].equals("condition")){
-                            if(!dog.getCondition().toLowerCase().equals(patternList[6])){
-                                isRight = false;
-                            }
-                        }
-                        if(!patternList[7].equals("null")){
-                            if(!patternList[7].contains(dog.getColor().toLowerCase())){
-                                isRight = false;
-                            }
-                        }
-                        if(isRight == true){
-                            filteredList.add(dog);
-                        }
+                    }
+                    if(isRight == true){
+                        filteredList.add(dog);
                     }
                 }
             }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            results.count = filteredList.size();
-            return results;
-        }
+        FilterResults results = new FilterResults();
+        results.values = filteredList;
+        results.count = filteredList.size();
+        return results;}
+
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {

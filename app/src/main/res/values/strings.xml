@@ -70,6 +70,7 @@
     <string name="lostSlding">Find Lost Dog</string>
     <string name="fiterBtn">DONE</string>
     <string name="clear">CLEAR</string>
+    <string name="view_reply">View reply</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
         <item>Afghan hound</item>

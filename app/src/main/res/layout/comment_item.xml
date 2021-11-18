@@ -1,52 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/dimen_10dp"
-    app:cardElevation="@dimen/dimen_10dp"
-    android:layout_margin="@dimen/dimen_10dp"
-    android:padding="@dimen/dimen_5dp">
-    <LinearLayout
+    android:orientation="vertical"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/comment_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="@dimen/dimen_10dp"
+        app:cardElevation="@dimen/dimen_10dp"
+        android:layout_margin="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_5dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dimen_40dp"
-                android:layout_height="@dimen/dimen_40dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/user_img"
-                android:layout_gravity="center">
-            </de.hdodenhof.circleimageview.CircleImageView>
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/comment_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/username"
-                android:textSize="@dimen/dimen_20sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_10dp">
-            </TextView>
-            <TextView
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/dimen_40dp"
+                    android:layout_height="@dimen/dimen_40dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/user_img"
+                    android:layout_gravity="center">
+                </de.hdodenhof.circleimageview.CircleImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/username"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10dp">
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/comment"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10dp">
+                </TextView>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/comment"
-                android:textSize="@dimen/dimen_20sp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_10dp">
-            </TextView>
+                >
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_15sp"
+                    android:id="@+id/time"
+                    android:layout_marginLeft="@dimen/dimen_5dp">
+                </TextView>
+                <TextView
+                    android:fontFamily="cursive"
+                    android:textStyle="bold"
+                    android:text="@string/view_reply"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:textColor="@color/black"
+                    android:id="@+id/view_reply"
+                    android:layout_marginRight="@dimen/dimen_10dp">
+                </TextView>
+            </RelativeLayout>
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:id="@+id/reply_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginRight="@dimen/dimen_10dp"
+            android:id="@+id/child_recyclerview"
+            android:layout_width="@dimen/dimen_350dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_15sp"
-            android:id="@+id/time"
-            android:layout_marginLeft="@dimen/dimen_5dp">
-        </TextView>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+            android:layout_alignParentRight="true"></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+</LinearLayout>
