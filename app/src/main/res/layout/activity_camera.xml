@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context=".CameraUtil.CameraActivity">
+    tools:context=".TensorflowLiteUtil.CameraActivity">
 
     <ToggleButton
         android:id="@+id/continuousInferenceButton"
@@ -84,7 +84,7 @@
         android:translationZ="@dimen/dimen_200dp"
         android:visibility="gone" />
 
-    <com.example.dogfinder.CameraUtil.RecognitionScoreView
+    <com.example.dogfinder.TensorflowLiteUtil.RecognitionScoreView
         android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_130dp"

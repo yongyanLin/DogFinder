@@ -2,22 +2,32 @@ package com.example.dogfinder.Activity;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 
 import com.example.dogfinder.Adapter.CommentAdapter;
+import com.example.dogfinder.Adapter.ReplyAdapter;
+import com.example.dogfinder.Entity.Client;
 import com.example.dogfinder.Entity.Comment;
+import com.example.dogfinder.Entity.Data;
 import com.example.dogfinder.Entity.Dog;
+import com.example.dogfinder.Entity.MyResponse;
+import com.example.dogfinder.Entity.NotificationSender;
+import com.example.dogfinder.Entity.TokenData;
 import com.example.dogfinder.Entity.User;
+import com.example.dogfinder.Interface.NotificationInterface;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +39,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.units.qual.C;
@@ -42,6 +55,9 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommentActivity extends BaseActivity {
     CircleImageView circleImageView;
@@ -51,17 +67,19 @@ public class CommentActivity extends BaseActivity {
     Dog dog;
     String time,userId;
     CommentAdapter commentAdapter;
-    DocumentReference documentReference;
-    DatabaseReference databaseReference,dogReference;
+    DocumentReference documentReference,tokenReference;
+    DatabaseReference databaseReference,dogReference,commentReference;
     FirebaseAuth auth;
     List<Comment> list;
-    String replyID;
+    String replyID,receiverId;
+    private NotificationInterface notificationInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         getContent();
-
+        notificationInterface = Client.getClient("https://fcm.googleapis.com/").create(NotificationInterface.class);
         databaseReference = FirebaseDatabase.getInstance().getReference("Comment");
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
         //get the publisher of this post
@@ -83,7 +101,7 @@ public class CommentActivity extends BaseActivity {
             }
         });
         auth = FirebaseAuth.getInstance();
-
+        updateToken();
         circleImageView = findViewById(R.id.image_icon);
         comment = findViewById(R.id.comment_field);
         post_btn = findViewById(R.id.post);
@@ -105,7 +123,11 @@ public class CommentActivity extends BaseActivity {
                     DocumentSnapshot snapshot = task.getResult();
                     if(snapshot != null){
                         String imageUrl = snapshot.getString("image");
-                        Picasso.with(getApplicationContext()).load(imageUrl).into(circleImageView);
+                        if(imageUrl == null) {
+                            circleImageView.setImageResource(R.mipmap.profile);
+                        }else{
+                            Picasso.with(getApplicationContext()).load(imageUrl).into(circleImageView);
+                        }
                     }
                 }
             }
@@ -122,6 +144,7 @@ public class CommentActivity extends BaseActivity {
                 Comment comment1 = list.get(position);
                 String userID = comment1.getUserId();
                 replyID = comment1.getId();
+
                 DocumentReference documentReference1 = FirebaseFirestore.getInstance().collection("users").document(userID);
                 documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -136,6 +159,28 @@ public class CommentActivity extends BaseActivity {
                     }
                 });
             }
+
+            @Override
+            public void onReplyClick(Comment childComment,Comment parentComment) {
+                //get the reply below the comment
+                comment.setText("");
+                String userId = childComment.getUserId();
+                DocumentReference documentReference1 = FirebaseFirestore.getInstance().collection("users").document(userId);
+                documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot snapshot = task.getResult();
+                            if(snapshot != null){
+                                String username = snapshot.getString("username");
+                                comment.setText("Reply "+username+":");
+                                replyID = parentComment.getId();
+                            }
+                        }
+                    }
+                });
+            }
+
         });
         recyclerView.setAdapter(commentAdapter);
         post_btn.setOnClickListener(new View.OnClickListener() {
@@ -152,13 +197,33 @@ public class CommentActivity extends BaseActivity {
                     comment1.setParentId("0");
                 }else{
                     comment1.setParentId(replyID);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1:snapshot.getChildren()){
+                                Comment parentComment = snapshot1.getValue(Comment.class);
+                                if(parentComment.getId().equals(replyID)){
+                                    receiverId = parentComment.getUserId();
+                                    break;
+                                }
+                            }
+                            FirebaseFirestore.getInstance().collection("DeviceTokens").document(receiverId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    String token = documentSnapshot.getString("token");
+                                    sendNotification(token,comment.getText().toString().trim().split(":")[1]);
+                                }
+                            });
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
                 databaseReference.child(id).setValue(comment1).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        if(auth.getCurrentUser().getUid().equals(userId)){
-                          //  sendChannel();
-                        }
                         Intent intent = new Intent(CommentActivity.this,CommentActivity.class);
                         intent.putExtra("dog",dog);
                         startActivity(intent);
@@ -197,6 +262,36 @@ public class CommentActivity extends BaseActivity {
             }
         });
 
+    }
+    public void updateToken(){
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                TokenData tokenData = new TokenData(auth.getUid(),s);
+                FirebaseFirestore.getInstance().collection("DeviceTokens").document(auth.getUid()).set(tokenData);
+            }
+        });
+
+    }
+    public void sendNotification(String userToken,String content){
+        Data data = new Data("Receive new comment!",content);
+        NotificationSender sender = new NotificationSender(data,userToken);
+        notificationInterface.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if(response.code() == 200){
+                    if(response.body().success != 1){
+                        showToast("Failed");
+                    }else{
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 }

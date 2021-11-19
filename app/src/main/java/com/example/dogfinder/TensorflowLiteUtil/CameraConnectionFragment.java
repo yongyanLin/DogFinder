@@ -1,4 +1,4 @@
-package com.example.dogfinder.CameraUtil;
+package com.example.dogfinder.TensorflowLiteUtil;
 
 /*
  * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
@@ -36,7 +36,6 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -50,7 +49,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 

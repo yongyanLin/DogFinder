@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
-import com.example.dogfinder.CameraUtil.ClassifierActivity;
+import com.example.dogfinder.TensorflowLiteUtil.ClassifierActivity;
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.lostPopUpUtil;

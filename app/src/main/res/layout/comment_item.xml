@@ -80,12 +80,13 @@
         android:id="@+id/reply_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginRight="@dimen/dimen_10dp"
             android:id="@+id/child_recyclerview"
             android:layout_width="@dimen/dimen_350dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"></androidx.recyclerview.widget.RecyclerView>
+
     </RelativeLayout>
+
 </LinearLayout>

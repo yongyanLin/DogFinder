@@ -56,7 +56,7 @@
             android:name=".Activity.CollectionsActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraUtil.ClassifierActivity"
+            android:name=".TensorflowLiteUtil.ClassifierActivity"
             android:exported="false"
             android:label="@string/activity_name_classification"
             android:screenOrientation="portrait"

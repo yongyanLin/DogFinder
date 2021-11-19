@@ -1,4 +1,4 @@
-package com.example.dogfinder.CameraUtil;
+package com.example.dogfinder.TensorflowLiteUtil;
 
 
 import android.graphics.SurfaceTexture;

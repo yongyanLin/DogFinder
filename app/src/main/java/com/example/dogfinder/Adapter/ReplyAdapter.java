@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,12 +85,16 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.CustomViewHo
                         String imageUrl = snapshot.getString("image");
                         String username = snapshot.getString("username");
                         holder.username.setText(username);
-                        Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+                        if(imageUrl == null){
+                            holder.imageView.setImageResource(R.mipmap.profile_light);
+                        }else {
+                            Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+                        }
                     }
                 }
             }
         });
-        holder.comment.setText(comment.getContent().split(":")[1]);
+        holder.comment.setText(comment.getContent());
         holder.date.setText(comment.getTime());
     }
 

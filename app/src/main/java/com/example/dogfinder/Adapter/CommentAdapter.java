@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.CommentNotificationService;
+import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +41,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     DocumentReference documentReference;
     DatabaseReference commentReference;
     private OnItemClickListener mListener;
-
 
     public CommentAdapter(Context context,List<Comment> list){
         this.context = context;
@@ -71,6 +72,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
                             listener.onContentClick(position);
                         }
                     }
+                }
+            });
+            reply_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
         }
@@ -119,7 +126,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
                         String imageUrl = snapshot.getString("image");
                         String username = snapshot.getString("username");
                         holder.username.setText(username);
-                        Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+                        if(imageUrl == null){
+                            holder.imageView.setImageResource(R.mipmap.profile_light);
+                        }else {
+                            Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+                        }
                     }
                 }
             }
@@ -138,6 +149,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
                     holder.recyclerView.setAdapter(replyAdapter);
                     replyAdapter.notifyDataSetChanged();
                     holder.reply_btn.setText("Collapse reply");
+                    replyAdapter.SetOnItemClickListener(new ReplyAdapter.OnItemClickListener() {
+                        @Override
+                        public void onContentClick(int position) {
+                            //pass to CommentActivity
+                            Comment childComment = commentList.get(position);
+                            mListener.onReplyClick(childComment,comment);
+                        }
+                    });
                 }else{
                     holder.recyclerView.setVisibility(View.INVISIBLE);
                     holder.reply_btn.setText("View reply");
@@ -153,5 +172,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
 
     public interface OnItemClickListener {
         void onContentClick(int position);
+        void onReplyClick(Comment childComment,Comment parentComment);
     }
 }

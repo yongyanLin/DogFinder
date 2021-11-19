@@ -242,7 +242,7 @@ public class AccountActivity extends BaseActivity {
                     username_field.setText(username);
                     email_field.setText(email);
                     if(imageUri == null){
-                        profile_image.setImageResource(R.mipmap.profile_light);
+                        profile_image.setImageResource(R.mipmap.profile);
                     }else{
                         Picasso.with(getApplicationContext()).load(imageUri).into(profile_image);
                     }

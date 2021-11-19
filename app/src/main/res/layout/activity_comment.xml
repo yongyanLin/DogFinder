@@ -32,18 +32,24 @@
             android:layout_marginLeft="@dimen/dimen_20dp">
         </TextView>
     </LinearLayout>
+
     <ScrollView
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_above="@id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/bottom"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="@dimen/dimen_50dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="20dp"
-            android:id="@+id/recycle_view"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_50dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"></androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
     </ScrollView>
     <RelativeLayout
         android:layout_alignParentBottom="true"
@@ -53,12 +59,13 @@
         android:background="#fff"
         android:padding="@dimen/dimen_5dp"
         >
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:src="@mipmap/profile"
-            android:layout_centerVertical="true"
+            android:id="@+id/image_icon"
             android:layout_width="@dimen/dimen_40dp"
             android:layout_height="@dimen/dimen_40dp"
-            android:id="@+id/image_icon"></de.hdodenhof.circleimageview.CircleImageView>
+            android:layout_centerVertical="true"
+            android:src="@mipmap/profile"></de.hdodenhof.circleimageview.CircleImageView>
         <EditText
             android:id="@+id/comment_field"
             android:layout_width="match_parent"

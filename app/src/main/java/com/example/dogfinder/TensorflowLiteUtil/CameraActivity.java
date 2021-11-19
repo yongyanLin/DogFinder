@@ -1,17 +1,14 @@
-package com.example.dogfinder.CameraUtil;
+package com.example.dogfinder.TensorflowLiteUtil;
 
 
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.hardware.Camera;
@@ -26,18 +23,10 @@ import android.media.ImageReader.OnImageAvailableListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
-import android.text.util.Linkify;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -52,24 +41,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.dogfinder.Activity.BaseActivity;
 import com.example.dogfinder.Activity.IndexActivity;
 import com.example.dogfinder.Activity.StrayFormActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.env.ImageUtils;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

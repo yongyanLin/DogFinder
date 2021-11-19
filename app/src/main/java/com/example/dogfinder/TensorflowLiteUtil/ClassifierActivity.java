@@ -1,4 +1,4 @@
-package com.example.dogfinder.CameraUtil;
+package com.example.dogfinder.TensorflowLiteUtil;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.view.View;
