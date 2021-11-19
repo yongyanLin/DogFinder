@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/postBackground"
-    tools:context=".Activity.CollectionListActivity">
+    tools:context=".Activity.FavoritesListActivity">
     <Button
         android:layout_width="@dimen/dimen_40dp"
         android:layout_height="@dimen/dimen_40dp"

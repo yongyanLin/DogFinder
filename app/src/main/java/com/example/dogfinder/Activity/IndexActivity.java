@@ -137,7 +137,7 @@ public class IndexActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.nav_like:
-                        navigate(CollectionListActivity.class);
+                        navigate(FavoritesListActivity.class);
                         finish();
                         break;
                     case R.id.nav_post:

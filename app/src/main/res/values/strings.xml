@@ -34,7 +34,7 @@
     <string name="accountHint">Account info</string>
     <string name="strayHint">Stray dog post</string>
     <string name="lostHint">Lost dog post</string>
-    <string name="likeHint">Collection</string>
+    <string name="likeHint">Favorites</string>
     <string name="searchDog">Search by breed,behavior,color,size,condition.</string>
     <string name="commentHint">Comment</string>
     <string name="commentListTitle">My COMMENTS</string>
@@ -63,7 +63,7 @@
     <string name="description_title">Description</string>
     <string name="postList">Posting history</string>
     <string name="postTitle">MY POSTS</string>
-    <string name="collectionTitle">MY COLLECTIONS</string>
+    <string name="collectionTitle">Favorites</string>
     <string name="Stray">Stray Dog</string>
     <string name="Lost">Lost Pet</string>
     <string name="straySlding">Find Stray Dog</string>

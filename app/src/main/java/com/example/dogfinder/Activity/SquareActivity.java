@@ -19,11 +19,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,14 +36,10 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.DogAdapter;
 import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Adapter.TextAdapter;
-import com.example.dogfinder.Entity.Behavior;
-import com.example.dogfinder.Entity.Body;
-import com.example.dogfinder.Entity.Collection;
+import com.example.dogfinder.Entity.Favorites;
 import com.example.dogfinder.Entity.Dog;
-import com.example.dogfinder.Entity.Size;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
-import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -56,15 +49,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SquareActivity extends BaseActivity {
     BottomNavigationView navigationView;
@@ -137,7 +124,7 @@ public class SquareActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.likes_btn:
-                        navigate(CollectionsActivity.class);
+                        navigate(FavoritesActivity.class);
                         finish();
                         break;
                     case R.id.stray_btn:
@@ -220,9 +207,9 @@ public class SquareActivity extends BaseActivity {
                             collectionReference.child(id).removeValue();
 
                         }else{
-                            Collection collection = new Collection(userId,dogId);
-                            collection.setId(id);
-                            collectionReference.child(id).setValue(collection);
+                            Favorites favorites = new Favorites(userId,dogId);
+                            favorites.setId(id);
+                            collectionReference.child(id).setValue(favorites);
                         }
                     }
 

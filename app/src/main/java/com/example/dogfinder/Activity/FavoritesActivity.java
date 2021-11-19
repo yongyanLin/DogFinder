@@ -3,7 +3,6 @@ package com.example.dogfinder.Activity;
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,7 +33,7 @@ import com.example.dogfinder.Adapter.BodyAdapter;
 import com.example.dogfinder.Adapter.DogAdapter;
 import com.example.dogfinder.Adapter.SizeAdapter;
 import com.example.dogfinder.Adapter.TextAdapter;
-import com.example.dogfinder.Entity.Collection;
+import com.example.dogfinder.Entity.Favorites;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
@@ -51,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CollectionsActivity extends BaseActivity {
+public class FavoritesActivity extends BaseActivity {
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
     SearchView searchView;
@@ -77,11 +76,11 @@ public class CollectionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collections);
         auth = FirebaseAuth.getInstance();
-        bodyAdapter = new BodyAdapter(CollectionsActivity.this, DataUtil.getBodyList());
-        sizeAdapter = new SizeAdapter(CollectionsActivity.this,DataUtil.getSizeList());
-        behaviorAdapter = new BehaviorAdapter(CollectionsActivity.this,DataUtil.getBehaviorList());
-        timeAdapter = new TextAdapter(CollectionsActivity.this,DataUtil.getTimeOption());
-        locationAdapter = new TextAdapter(CollectionsActivity.this, DataUtil.getLocationOption());
+        bodyAdapter = new BodyAdapter(FavoritesActivity.this, DataUtil.getBodyList());
+        sizeAdapter = new SizeAdapter(FavoritesActivity.this,DataUtil.getSizeList());
+        behaviorAdapter = new BehaviorAdapter(FavoritesActivity.this,DataUtil.getBehaviorList());
+        timeAdapter = new TextAdapter(FavoritesActivity.this,DataUtil.getTimeOption());
+        locationAdapter = new TextAdapter(FavoritesActivity.this, DataUtil.getLocationOption());
         LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -105,7 +104,7 @@ public class CollectionsActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.likes_btn:
-                        navigate(CollectionsActivity.class);
+                        navigate(FavoritesActivity.class);
                         finish();
                         break;
                     case R.id.stray_btn:
@@ -137,7 +136,6 @@ public class CollectionsActivity extends BaseActivity {
         dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
         recyclerView.setAdapter(dogAdapter);
         searchView = findViewById(R.id.search);
-        getData();
         filter_btn = findViewById(R.id.filter_btn);
         filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,10 +163,10 @@ public class CollectionsActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
-                    Collection collection = snapshot1.getValue(Collection.class);
-                    String userId = collection.getUserId();
+                    Favorites favorites = snapshot1.getValue(Favorites.class);
+                    String userId = favorites.getUserId();
                     if(userId.equals(auth.getCurrentUser().getUid())){
-                        dogId.add(collection.getPostId());
+                        dogId.add(favorites.getPostId());
                     }
                 }
             }
@@ -208,9 +206,9 @@ public class CollectionsActivity extends BaseActivity {
                             collectionReference.child(id).removeValue();
 
                         }else{
-                            Collection collection = new Collection(userId,dogId);
-                            collection.setId(id);
-                            collectionReference.child(id).setValue(collection);
+                            Favorites favorites = new Favorites(userId,dogId);
+                            favorites.setId(id);
+                            collectionReference.child(id).setValue(favorites);
                         }
                         //dogAdapter.notifyDataSetChanged();
 
@@ -267,11 +265,18 @@ public class CollectionsActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getData();
+    }
+
     public void showFilterDialog(){
         ViewGroup viewGroup = findViewById(android.R.id.content);
-        AlertDialog.Builder builder = new AlertDialog.Builder(CollectionsActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(FavoritesActivity.this);
         builder.setCancelable(false);
-        View view1 = LayoutInflater.from(CollectionsActivity.this).inflate(R.layout.filter_dialog,viewGroup,false);
+        View view1 = LayoutInflater.from(FavoritesActivity.this).inflate(R.layout.filter_dialog,viewGroup,false);
         builder.setView(view1);
         spinnerBody = view1.findViewById(R.id.body_spinner);
         spinnerBehavior = view1.findViewById(R.id.location_spinner);
@@ -347,7 +352,7 @@ public class CollectionsActivity extends BaseActivity {
         breed_filed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builderBreed = new AlertDialog.Builder(CollectionsActivity.this);
+                AlertDialog.Builder builderBreed = new AlertDialog.Builder(FavoritesActivity.this);
                 builderBreed.setTitle("Select breed of your dog.");
                 builderBreed.setCancelable(false);
                 String breedString = breed_filed.getText().toString().trim();
@@ -415,7 +420,7 @@ public class CollectionsActivity extends BaseActivity {
         color_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builderColor = new AlertDialog.Builder(CollectionsActivity.this);
+                AlertDialog.Builder builderColor = new AlertDialog.Builder(FavoritesActivity.this);
                 builderColor.setTitle("Select color");
                 builderColor.setCancelable(false);
                 String colorString = color_field.getText().toString().trim();

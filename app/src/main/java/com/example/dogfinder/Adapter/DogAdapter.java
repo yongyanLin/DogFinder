@@ -1,16 +1,6 @@
 package com.example.dogfinder.Adapter;
 
-import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
-
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.CpuUsageInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +9,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dogfinder.Activity.LostFormActivity;
-import com.example.dogfinder.Entity.Collection;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
@@ -40,17 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder> implements Filterable {
     Context context;

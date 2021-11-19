@@ -2,32 +2,24 @@ package com.example.dogfinder.Activity;
 
 import androidx.annotation.NonNull;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 
 import com.example.dogfinder.Adapter.CommentAdapter;
-import com.example.dogfinder.Adapter.ReplyAdapter;
 import com.example.dogfinder.Entity.Client;
 import com.example.dogfinder.Entity.Comment;
-import com.example.dogfinder.Entity.Data;
 import com.example.dogfinder.Entity.Dog;
-import com.example.dogfinder.Entity.MyResponse;
 import com.example.dogfinder.Entity.NotificationSender;
 import com.example.dogfinder.Entity.TokenData;
-import com.example.dogfinder.Entity.User;
-import com.example.dogfinder.Interface.NotificationInterface;
 import com.example.dogfinder.R;
-import com.example.dogfinder.Utils.TextUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,13 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,9 +43,6 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CommentActivity extends BaseActivity {
     CircleImageView circleImageView;
@@ -72,14 +57,13 @@ public class CommentActivity extends BaseActivity {
     FirebaseAuth auth;
     List<Comment> list;
     String replyID,receiverId;
-    private NotificationInterface notificationInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         getContent();
-        notificationInterface = Client.getClient("https://fcm.googleapis.com/").create(NotificationInterface.class);
         databaseReference = FirebaseDatabase.getInstance().getReference("Comment");
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
         //get the publisher of this post
@@ -194,6 +178,17 @@ public class CommentActivity extends BaseActivity {
                 Comment comment1 = new Comment(id,auth.getCurrentUser().getUid(),dog.getId(),
                         content,time);
                 if(!content.contains("Reply")){
+                    FirebaseFirestore.getInstance().collection("DeviceTokens").document(dog.getUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            String id = documentSnapshot.getString("userId");
+                            String token = documentSnapshot.getString("token");
+                            if(!id.equals(auth.getCurrentUser().getUid())){
+                                NotificationSender sender = new NotificationSender(token,content,getApplicationContext(),CommentActivity.this);
+                                sender.sendNotification();
+                            }
+                        }
+                    });
                     comment1.setParentId("0");
                 }else{
                     comment1.setParentId(replyID);
@@ -211,7 +206,8 @@ public class CommentActivity extends BaseActivity {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     String token = documentSnapshot.getString("token");
-                                    sendNotification(token,comment.getText().toString().trim().split(":")[1]);
+                                    NotificationSender sender = new NotificationSender(token,content.split(":")[1],getApplicationContext(),CommentActivity.this);
+                                    sender.sendNotification();
                                 }
                             });
                         }
@@ -273,25 +269,6 @@ public class CommentActivity extends BaseActivity {
         });
 
     }
-    public void sendNotification(String userToken,String content){
-        Data data = new Data("Receive new comment!",content);
-        NotificationSender sender = new NotificationSender(data,userToken);
-        notificationInterface.sendNotification(sender).enqueue(new Callback<MyResponse>() {
-            @Override
-            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                if(response.code() == 200){
-                    if(response.body().success != 1){
-                        showToast("Failed");
-                    }else{
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<MyResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
 }

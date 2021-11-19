@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.dogfinder.Adapter.CommentAdapter;
-import com.example.dogfinder.Entity.Collection;
+import com.example.dogfinder.Entity.Favorites;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
@@ -100,9 +100,9 @@ public class DogDetailActivity extends BaseActivity {
                     collectionReference.child(id).removeValue();
 
                 }else{
-                    Collection collection = new Collection(userId,dogId);
-                    collection.setId(id);
-                    collectionReference.child(id).setValue(collection);
+                    Favorites favorites = new Favorites(userId,dogId);
+                    favorites.setId(id);
+                    collectionReference.child(id).setValue(favorites);
                 }
             }
         });
@@ -128,7 +128,7 @@ public class DogDetailActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.likes_btn:
-                        navigate(CollectionsActivity.class);
+                        navigate(FavoritesActivity.class);
                         finish();
                         break;
                     case R.id.stray_btn:
@@ -176,9 +176,9 @@ public class DogDetailActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Collection collection = dataSnapshot.getValue(Collection.class);
+                    Favorites favorites = dataSnapshot.getValue(Favorites.class);
                     String id = auth.getCurrentUser().getUid()+" "+dog.getId();
-                    if(collection.getId().equals(id)){
+                    if(favorites.getId().equals(id)){
                         heart.setChecked(true);
                         break;
                     }

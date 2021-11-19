@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,7 +59,7 @@ public class ProfileActivity extends BaseActivity {
         nav_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(CollectionListActivity.class);
+                navigate(FavoritesListActivity.class);
                 finish();
             }
         });
@@ -97,7 +96,7 @@ public class ProfileActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.likes_btn:
-                        navigate(CollectionsActivity.class);
+                        navigate(FavoritesActivity.class);
                         finish();
                         break;
                     case R.id.stray_btn:

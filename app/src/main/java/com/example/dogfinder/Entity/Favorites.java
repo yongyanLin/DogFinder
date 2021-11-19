@@ -1,13 +1,13 @@
 package com.example.dogfinder.Entity;
 
-public class Collection {
+public class Favorites {
     private String id;
     private String userId;
     private String postId;
-    public Collection(){
+    public Favorites(){
 
     }
-    public Collection(String userId,String postId){
+    public Favorites(String userId, String postId){
         this.userId = userId;
         this.postId = postId;
     }
