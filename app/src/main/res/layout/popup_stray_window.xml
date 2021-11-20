@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_200dp"
+    android:layout_height="@dimen/_160sdp"
     android:background="@drawable/popup"
     android:orientation="vertical"
     android:id="@+id/pop_stray_layout"
     >
         <LinearLayout
-            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:clickable="true"
             android:id="@+id/camera_btn"
-            android:layout_width="@dimen/dimen_250dp"
+            android:layout_width="@dimen/_220sdp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:background="@drawable/popup_btn"
-            android:layout_marginBottom="@dimen/dimen_10dp">
+            android:layout_marginBottom="@dimen/_10sdp">
             <ImageView
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:layout_width="@dimen/dimen_80dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:background="@mipmap/camera_black">
             </ImageView>
             <TextView
-                android:layout_marginRight="@dimen/dimen_5dp"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/camera"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
-                android:textSize="@dimen/dimen_50sp"
+                android:textSize="@dimen/_40ssp"
                 android:gravity="center">
             </TextView>
         </LinearLayout>
         <Button
             android:id="@+id/cancel"
-            android:layout_width="@dimen/dimen_150dp"
-            android:layout_height="@dimen/dimen_80dp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_60sdp"
             android:background="@drawable/register_btn"
             android:text="@string/cancel"
             android:fontFamily="cursive"
-            android:textSize="@dimen/dimen_30sp"
+            android:textSize="@dimen/_25ssp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimen_10dp">
+            android:layout_marginTop="@dimen/_10sdp">
         </Button>
 </LinearLayout>

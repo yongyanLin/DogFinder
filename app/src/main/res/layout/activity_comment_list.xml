@@ -8,41 +8,41 @@
     android:background="@color/postBackground"
     tools:context=".Activity.FavoritesListActivity">
     <Button
-        android:layout_width="@dimen/dimen_40dp"
-        android:layout_height="@dimen/dimen_40dp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         android:background="@mipmap/back_icon"
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:id="@+id/back">
     </Button>
     <TextView
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textSize="@dimen/dimen_35sp"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:textSize="@dimen/_25ssp"
+        android:layout_marginLeft="@dimen/_15sdp"
         android:fontFamily="cursive"
         android:textColor="@color/black"
-        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:textStyle="bold"
         android:text="@string/commentListTitle"></TextView>
     <TextView
         android:fontFamily="cursive"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send"
-        android:layout_marginBottom="@dimen/dimen_10dp"
-        android:textSize="@dimen/dimen_20sp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:textSize="@dimen/_15ssp"
         android:textColor="@color/black"
         >
     </TextView>
     <ScrollView
         android:background="@drawable/post_scroll"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_200dp"
-        android:layout_marginBottom="@dimen/dimen_50dp">
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginBottom="@dimen/_40sdp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,22 +57,22 @@
     </ScrollView>
     <TextView
         android:fontFamily="cursive"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/receive"
-        android:layout_marginBottom="@dimen/dimen_10dp"
-        android:textSize="@dimen/dimen_20sp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:textSize="@dimen/_15ssp"
         android:textColor="@color/black"
         >
     </TextView>
     <ScrollView
         android:background="@drawable/post_scroll"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_200dp"
-        android:layout_marginBottom="@dimen/dimen_50dp">
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginBottom="@dimen/_40sdp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

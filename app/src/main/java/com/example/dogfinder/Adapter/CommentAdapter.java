@@ -158,7 +158,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
                         }
                     });
                 }else{
-                    holder.recyclerView.setVisibility(View.INVISIBLE);
+                    holder.recyclerView.setVisibility(View.GONE);
                     holder.reply_btn.setText("View reply");
                 }
             }

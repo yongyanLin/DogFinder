@@ -11,219 +11,226 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dialogHint"
-            android:textSize="@dimen/dimen_30sp"
+            android:textSize="@dimen/_25ssp"
             android:fontFamily="cursive"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:textColor="@color/darkslateblue"></TextView>
     </RelativeLayout>
     <ScrollView
-        android:layout_marginTop="@dimen/dimen_30dp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dimen_80dp">
+        android:layout_marginBottom="@dimen/_70sdp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_65dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/location_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/location_spinner"
                     >
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/time">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/time_spinner"
                     >
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/dog_icon">
                 </ImageView>
 
                 <TextView
                     android:clickable="true"
                     android:id="@+id/breed"
-                    android:layout_width="@dimen/dimen_250dp"
-                    android:layout_height="43dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:hint="@string/breed"
                     android:text="@string/breed"
                     android:textColor="@color/darkslateblue"
                     android:textColorHint="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/body_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/body_spinner"
                     >
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/characteristic_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/behavior_spinner">
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/size_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/size_spinner">
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/color_icon">
                 </ImageView>
                 <TextView
                     android:clickable="true"
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:id="@+id/color"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:hint="@string/colorHint"
                     android:textColorHint="@color/darkslateblue"
                     android:textColor="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/_15ssp"
                     android:fontFamily="cursive"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:drawablePadding="@dimen/dimen_12dp"
+                    android:drawablePadding="@dimen/_8sdp"
                     >
                 </TextView>
             </LinearLayout>
             <RelativeLayout
-                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button
                     android:layout_centerVertical="true"
                     android:id="@+id/cancel_btn"
                     android:layout_alignParentLeft="true"
-                    android:layout_width="@dimen/dimen_80dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/adopt_square"
                     android:textColor="@color/white"
                     android:text="@string/cancel"
                     android:fontFamily="cursive"
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_marginRight="@dimen/dimen_10dp">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
                 </Button>
                 <Button
                     android:layout_centerVertical="true"
                     android:id="@+id/clear_btn"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="@dimen/dimen_80dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/save_btn"
                     android:textColor="@color/white"
                     android:text="@string/clear"
                     android:fontFamily="cursive"
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_marginRight="@dimen/dimen_10dp">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
                 </Button>
                 <Button
                     android:layout_centerVertical="true"
                     android:id="@+id/done_btn"
-                    android:layout_width="@dimen/dimen_80dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/login_btn"
                     android:textColor="@color/white"
                     android:text="@string/fiterBtn"
                     android:fontFamily="cursive"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_marginRight="@dimen/dimen_10dp">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
                 </Button>
             </RelativeLayout>
         </LinearLayout>

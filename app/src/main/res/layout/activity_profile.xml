@@ -21,21 +21,21 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/profile_light"
                 android:id="@+id/profile_photo"
-                android:layout_width="@dimen/dimen_80dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="@dimen/_10sdp">
             </de.hdodenhof.circleimageview.CircleImageView>
             <TextView
                 android:id="@+id/account"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_60dp"
+                android:layout_height="@dimen/_40sdp"
                 android:text="@string/account"
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/dimen_20sp"
+                android:textSize="@dimen/_15ssp"
 
                 ></TextView>
             <TextView
@@ -44,22 +44,22 @@
                 android:id="@+id/email"
                 android:text="1930755857@qq.com"
                 android:textColor="@color/darkslateblue"
-                android:textSize="@dimen/dimen_20sp"
+                android:textSize="@dimen/_15ssp"
                 android:layout_gravity="center"
                 android:fontFamily="casual"
                 >
             </TextView>
         </LinearLayout>
         <ScrollView
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
             <LinearLayout
-                android:paddingTop="@dimen/dimen_30dp"
-                android:paddingBottom="@dimen/dimen_30dp"
+                android:paddingTop="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_20sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -71,28 +71,28 @@
                     android:showDividers="beginning"
                     android:divider="@drawable/profile_line"
                     android:id="@+id/nav_account"
-                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:src="@mipmap/profile">
                     </ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/accountHint"
-                        android:textSize="@dimen/dimen_20sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
+                        android:layout_marginLeft="@dimen/_30sdp"></TextView>
                 </LinearLayout>
                 <LinearLayout
                     android:focusable="true"
@@ -102,27 +102,27 @@
                     android:divider="@drawable/profile_line"
                     android:id="@+id/nav_post"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal">
 
                     <ImageView
 
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:src="@mipmap/post"></ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/postList"
-                        android:textSize="@dimen/dimen_20sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
+                        android:layout_marginLeft="@dimen/_30sdp"></TextView>
                 </LinearLayout>
                 <LinearLayout
                     android:background="@drawable/profile_chosen"
@@ -132,26 +132,26 @@
                     android:divider="@drawable/profile_line"
                     android:id="@+id/nav_like"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:src="@mipmap/like_list">
                     </ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/likeHint"
-                        android:textSize="@dimen/dimen_20sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
+                        android:layout_marginLeft="@dimen/_30sdp"></TextView>
                 </LinearLayout>
                 <LinearLayout
                     android:focusable="true"
@@ -161,26 +161,26 @@
                     android:divider="@drawable/profile_line"
                     android:id="@+id/nav_comment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:src="@mipmap/comment_black">
                     </ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/commentHint"
-                        android:textSize="@dimen/dimen_20sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
+                        android:layout_marginLeft="@dimen/_30sdp"></TextView>
                 </LinearLayout>
                 <LinearLayout
                     android:focusable="true"
@@ -190,27 +190,27 @@
                     android:divider="@drawable/profile_line"
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_80dp"
-                    android:padding="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal"
                     >
                     <ImageView
-                        android:layout_marginLeft="@dimen/dimen_50dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/dimen_30dp"
-                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:src="@mipmap/logout">
                     </ImageView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/logout"
-                        android:textSize="@dimen/dimen_20sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/gray"
                         android:fontFamily="casual"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dimen_50dp"></TextView>
+                        android:layout_marginLeft="@dimen/_30sdp"></TextView>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

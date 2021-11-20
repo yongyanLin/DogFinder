@@ -12,64 +12,64 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/app_name"
-        android:textSize="@dimen/dimen_60sp"
+        android:textSize="@dimen/_50ssp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:fontFamily="cursive"
-        android:layout_marginTop="@dimen/dimen_50dp">
+        android:layout_marginTop="@dimen/_40sdp">
     </TextView>
     <LinearLayout
-        android:layout_width="@dimen/dimen_300dp"
+        android:layout_width="@dimen/_250sdp"
         android:layout_height="wrap_content"
         android:background="@drawable/login_form"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dimen_180dp"
+        android:layout_marginTop="@dimen/_150sdp"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="200dp"
-            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_40sdp"
             android:orientation="horizontal"
             android:layout_gravity="center">
             <ImageView
-                android:layout_width="@dimen/dimen_50dp"
-                android:layout_height="@dimen/dimen_50dp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:src="@mipmap/email">
             </ImageView>
             <EditText
                 android:textColor="@color/dimgray"
                 android:id="@+id/email"
                 android:inputType="textEmailAddress"
-                android:layout_width="@dimen/dimen_150dp"
-                android:layout_height="@dimen/dimen_50dp"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:hint="@string/email"
-                android:textSize="@dimen/dimen_20sp"
+                android:textSize="@dimen/_15ssp"
                 android:textColorHint="@color/dimgray"
-                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:layout_marginLeft="@dimen/_5sdp"
                 android:textStyle="bold"
                 android:fontFamily="cursive">
             </EditText>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="@dimen/dimen_200dp"
-            android:layout_height="@dimen/dimen_50dp"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_40sdp"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimen_15dp">
+            android:layout_marginTop="@dimen/_10sdp">
             <ImageView
-                android:layout_width="@dimen/dimen_50dp"
-                android:layout_height="@dimen/dimen_50dp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:src="@mipmap/password">
             </ImageView>
             <EditText
                 android:textColor="@color/dimgray"
                 android:id="@+id/password"
                 android:inputType="textPassword"
-                android:layout_width="@dimen/dimen_150dp"
-                android:layout_height="@dimen/dimen_50dp"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:hint="@string/password"
-                android:textSize="@dimen/dimen_20sp"
-                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:textSize="@dimen/_15ssp"
+                android:layout_marginLeft="@dimen/_5sdp"
                 android:textColorHint="@color/dimgray"
                 android:textStyle="bold"
                 android:fontFamily="cursive">
@@ -78,13 +78,13 @@
         <Button
             android:textColor="@color/white"
             android:id="@+id/login"
-            android:layout_width="@dimen/dimen_200dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_marginBottom="@dimen/dimen_15dp"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_gravity="center"
             android:text="@string/login"
-            android:textSize="@dimen/dimen_20sp"
+            android:textSize="@dimen/_15ssp"
             android:textStyle="bold"
             android:background="@drawable/login_btn">
         </Button>
@@ -95,11 +95,11 @@
             android:text="@string/registerHint"
             android:textStyle="bold"
             android:fontFamily="cursive"
-            android:textSize="@dimen/dimen_20sp"
+            android:textSize="@dimen/_15ssp"
             android:textColor="@color/darkslateblue"
             android:layout_gravity="center"
             android:clickable="true"
-            android:layout_marginBottom="@dimen/dimen_10dp">
+            android:layout_marginBottom="@dimen/_10sdp">
         </TextView>
         <TextView
             android:id="@+id/reset_link"
@@ -108,11 +108,11 @@
             android:text="@string/resetPassword"
             android:textStyle="bold"
             android:fontFamily="cursive"
-            android:textSize="@dimen/dimen_20sp"
+            android:textSize="@dimen/_15ssp"
             android:textColor="@color/palevioletred"
             android:layout_gravity="center"
             android:clickable="true"
-            android:layout_marginBottom="@dimen/dimen_30dp">
+            android:layout_marginBottom="@dimen/_20sdp">
         </TextView>
     </LinearLayout>
 </LinearLayout>

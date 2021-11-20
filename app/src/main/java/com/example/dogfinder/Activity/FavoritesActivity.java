@@ -74,7 +74,7 @@ public class FavoritesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collections);
+        setContentView(R.layout.activity_favorites);
         auth = FirebaseAuth.getInstance();
         bodyAdapter = new BodyAdapter(FavoritesActivity.this, DataUtil.getBodyList());
         sizeAdapter = new SizeAdapter(FavoritesActivity.this,DataUtil.getSizeList());
@@ -204,7 +204,8 @@ public class FavoritesActivity extends BaseActivity {
                         String id = userId+" "+dogId;
                         if(!isChecked){
                             collectionReference.child(id).removeValue();
-
+                            navigate(FavoritesActivity.class);
+                            finish();
                         }else{
                             Favorites favorites = new Favorites(userId,dogId);
                             favorites.setId(id);

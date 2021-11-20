@@ -7,6 +7,6 @@
     <com.example.dogfinder.TensorflowLiteUtil.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_400dp"
+        android:layout_height="@dimen/_330sdp"
         android:layout_centerInParent="true" />
 </RelativeLayout>

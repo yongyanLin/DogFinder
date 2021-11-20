@@ -54,6 +54,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public abstract class CameraActivity extends FragmentActivity
         implements OnImageAvailableListener,Camera.PreviewCallback {
 
@@ -76,7 +78,8 @@ public abstract class CameraActivity extends FragmentActivity
     AtomicBoolean snapShot = new AtomicBoolean(false);
     boolean continuousInference = false;
     boolean imageSet = false;
-    ImageButton cameraButton, shareButton, closeButton, saveButton,exitButton,galleryButton;
+    ImageButton cameraButton, shareButton, closeButton, saveButton,exitButton;
+    CircleImageView galleryButton;
     ToggleButton continuousInferenceButton;
     ImageView imageViewFromGallery;
     ProgressBar progressBar;
@@ -166,8 +169,6 @@ public abstract class CameraActivity extends FragmentActivity
                 requestPermission(PERMISSION_STORAGE_READ);
                 return;
             }
-            alreadyAdded = true;
-            Toast.makeText(getApplicationContext(),alreadyAdded+"",Toast.LENGTH_SHORT).show();
             pickImage();
         });
         cameraButton.setOnClickListener(v -> {

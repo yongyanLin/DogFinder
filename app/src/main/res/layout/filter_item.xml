@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dimen_260dp"
+    android:layout_width="@dimen/_220sdp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
         android:gravity="center"
-        android:layout_marginTop="@dimen/dimen_5dp"
-        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_gravity="center"
         android:id="@+id/name"
-        android:layout_width="@dimen/dimen_260dp"
+        android:layout_width="@dimen/_220sdp"
         android:layout_height="wrap_content"
         android:text="Very Thin"
-        android:textSize="@dimen/dimen_30sp"
+        android:textSize="@dimen/_25ssp"
         android:textStyle="bold"
         android:fontFamily="cursive"
         android:textColor="@color/darkslateblue">

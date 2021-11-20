@@ -7,117 +7,124 @@
     tools:context=".Activity.AccountActivity"
     android:id="@+id/profileLayout"
     >
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_60dp"
-            android:background="@color/cornflowerblue"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/back_profile"
-                android:layout_width="@dimen/dimen_50dp"
-                android:layout_height="@dimen/dimen_50dp"
-                android:layout_gravity="center"
-                android:background="@mipmap/back_white"></Button>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_100dp"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:fontFamily="casual"
-                android:text="@string/account"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dimen_30sp"
-                android:textStyle="bold"></TextView>
-        </LinearLayout>
+        android:layout_marginBottom="@dimen/_50sdp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:background="@color/cornflowerblue"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/back_profile"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/back_white"></Button>
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="casual"
+                    android:text="@string/account"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_30ssp"
+                    android:textStyle="bold"></TextView>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_5dp"
-                android:layout_marginBottom="@dimen/dimen_5dp"
-                android:fontFamily="casual"
-                android:text="@string/accountTile"
-                android:textSize="@dimen/dimen_20sp"></TextView>
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="casual"
+                    android:text="@string/accountTile"
+                    android:textSize="@dimen/_18ssp"></TextView>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:background="@drawable/round"
-                android:scaleType="centerCrop"
-                android:id="@+id/profile_photo"
-                android:layout_width="@dimen/dimen_80dp"
-                android:layout_height="@dimen/dimen_80dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:src="@mipmap/profile_light"></de.hdodenhof.circleimageview.CircleImageView>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:background="@drawable/round"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/profile_photo"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:src="@mipmap/profile_light"></de.hdodenhof.circleimageview.CircleImageView>
 
-            <EditText
-                android:id="@+id/username_field"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:hint="@string/username"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_20sp"></EditText>
+                <EditText
+                    android:id="@+id/username_field"
+                    android:layout_width="@dimen/_260sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:divider="@drawable/profile_line"
+                    android:fontFamily="casual"
+                    android:hint="@string/username"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:showDividers="end"
+                    android:textSize="@dimen/_20ssp"></EditText>
 
-            <TextView
-                android:id="@+id/email_field"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_20sp"></TextView>
-            <EditText
-                android:textStyle="bold"
-                android:id="@+id/password_field"
-                android:inputType="textPassword"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_marginBottom="@dimen/dimen_10dp"
-                android:divider="@drawable/profile_line"
-                android:fontFamily="casual"
-                android:hint="@string/resetHint"
-                android:padding="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_10dp"
-                android:showDividers="end"
-                android:textSize="@dimen/dimen_15sp"></EditText>
-            <Button
-                android:id="@+id/save_btn"
-                android:layout_width="@dimen/dimen_200dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_40dp"
-                android:background="@drawable/save_btn"
-                android:fontFamily="cursive"
-                android:text="@string/save"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dimen_20sp"
-                android:textStyle="bold"></Button>
+                <TextView
+                    android:id="@+id/email_field"
+                    android:layout_width="@dimen/_260sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:divider="@drawable/profile_line"
+                    android:fontFamily="casual"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:showDividers="end"
+                    android:textSize="@dimen/_20ssp"></TextView>
+                <EditText
+                    android:textStyle="bold"
+                    android:id="@+id/password_field"
+                    android:inputType="textPassword"
+                    android:layout_width="@dimen/_260sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:divider="@drawable/profile_line"
+                    android:fontFamily="casual"
+                    android:hint="@string/resetHint"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:showDividers="end"
+                    android:textSize="@dimen/_15ssp"></EditText>
+                <Button
+                    android:id="@+id/save_btn"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:background="@drawable/save_btn"
+                    android:fontFamily="cursive"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"></Button>
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
 

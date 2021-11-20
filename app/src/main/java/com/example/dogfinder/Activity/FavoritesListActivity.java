@@ -36,7 +36,7 @@ public class FavoritesListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collection_list);
+        setContentView(R.layout.activity_favorite_list);
         auth = FirebaseAuth.getInstance();
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {

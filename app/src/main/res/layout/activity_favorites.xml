@@ -16,26 +16,27 @@
             android:layout_alignParentTop="true">
             <androidx.appcompat.widget.SearchView
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_300dp"
-                android:layout_height="@dimen/dimen_60dp"
+                android:layout_width="@dimen/_220sdp"
+                android:layout_height="@dimen/_55sdp"
                 android:id="@+id/search"
                 app:queryHint="@string/search"
-                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 >
             </androidx.appcompat.widget.SearchView>
             <Button
-                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
                 android:id="@+id/filter_btn"
                 android:layout_gravity="center"
                 android:background="@mipmap/filter"
-                android:layout_width="@dimen/dimen_30dp"
-                android:layout_height="@dimen/dimen_30dp">
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp">
             </Button>
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dimen_60dp">
+            android:layout_marginBottom="@dimen/_60sdp">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle_view"
                 android:layout_width="match_parent"

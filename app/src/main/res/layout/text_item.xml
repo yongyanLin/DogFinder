@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="@dimen/dimen_260dp"
+    android:layout_width="@dimen/_220sdp"
     android:layout_height="match_parent"
     >
     <TextView
@@ -10,18 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Very Thin"
-        android:textSize="@dimen/dimen_30sp"
+        android:textSize="@dimen/_25ssp"
         android:textStyle="bold"
         android:fontFamily="cursive"
         android:textColor="@color/darkslateblue">
     </TextView>
     <TextView
         android:id="@+id/behavior_description"
-        android:layout_width="@dimen/dimen_250dp"
+        android:layout_width="@dimen/_210sdp"
         android:layout_height="wrap_content"
         android:text="Ribs, backbone and hip bones easily seen1; with no overlying fat layer Some mid muscle loss particularly noticeable around shoulders and thighs"
         android:layout_gravity="center"
-
         android:textStyle="italic"
         android:fontFamily="sans-serif-condensed-medium"
         android:textColor="@color/darkslateblue">

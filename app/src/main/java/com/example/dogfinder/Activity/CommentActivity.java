@@ -14,7 +14,6 @@ import android.widget.EditText;
 
 
 import com.example.dogfinder.Adapter.CommentAdapter;
-import com.example.dogfinder.Entity.Client;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.Entity.NotificationSender;

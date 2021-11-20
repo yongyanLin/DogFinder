@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:layout_width="@dimen/dimen_50dp"
-                android:layout_height="@dimen/dimen_50dp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:id="@+id/back_index"
                 android:background="@mipmap/back_icon">
             </Button>
@@ -27,169 +27,169 @@
                 android:text="@string/lostFormHint"
                 android:textColor="@color/darkslateblue"
                 android:textStyle="bold"
-                android:textSize="@dimen/dimen_30sp"
+                android:textSize="@dimen/_25ssp"
                 android:fontFamily="cursive"
-                android:layout_marginLeft="@dimen/dimen_50dp"
+                android:layout_marginLeft="@dimen/_40sdp"
                 >
             </TextView>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_marginRight="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:orientation="vertical"
             android:layout_gravity="center">
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/dog_icon">
                 </ImageView>
 
                 <TextView
                     android:clickable="true"
                     android:id="@+id/lost_breed"
-                    android:layout_width="@dimen/dimen_250dp"
-                    android:layout_height="43dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:hint="@string/breed"
                     android:text="@string/breed"
                     android:textColor="@color/darkslateblue"
                     android:textColorHint="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/body_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/lost_body_spinner"
                     >
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/characteristic_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/lost_behavior_spinner">
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/size_icon">
                 </ImageView>
                 <Spinner
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/lost_size_spinner">
                 </Spinner>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/color_icon">
                 </ImageView>
                 <TextView
                     android:clickable="true"
-                    android:layout_width="@dimen/dimen_260dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_45sdp"
                     android:id="@+id/lost_color"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:hint="@string/colorHint"
                     android:textColorHint="@color/darkslateblue"
                     android:textColor="@color/darkslateblue"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/_15ssp"
                     android:fontFamily="cursive"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:drawablePadding="@dimen/dimen_12dp"
+                    android:drawablePadding="@dimen/_8sdp"
                     >
                 </TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
+                android:layout_width="@dimen/_280sdp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/image_icon">
                 </ImageView>
                 <ImageView
                     android:scaleType="fitXY"
                     android:id="@+id/lost_dog_photo"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:layout_width="@dimen/dimen_250dp"
-                    android:layout_height="@dimen/dimen_200dp">
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="@dimen/_220sdp"
+                    android:layout_height="@dimen/_180sdp">
                 </ImageView>
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/description_icon">
                 </ImageView>
                 <EditText
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/lost_description"
-                    android:layout_width="@dimen/dimen_250dp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/darkslateblue"
                     android:hint="@string/description"
@@ -200,26 +200,26 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="@dimen/dimen_350dp"
-                android:layout_height="@dimen/dimen_80dp"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@mipmap/location_icon">
                 </ImageView>
                 <TextView
 
                     android:clickable="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/lost_location"
-                    android:layout_width="@dimen/dimen_260dp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkslateblue"
                     android:textStyle="bold"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:textSize="@dimen/_15ssp"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:text="@string/Location">
@@ -228,16 +228,16 @@
 
         </LinearLayout>
         <Button
-            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/lost_publish"
-            android:layout_width="@dimen/dimen_200dp"
-            android:layout_height="@dimen/dimen_80dp"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center"
             android:background="@drawable/stray_square"
             android:text="@string/publish"
             android:fontFamily="serif-monospace"
             android:textColor="@color/white"
-            android:textSize="@dimen/dimen_30sp"
+            android:textSize="@dimen/_25ssp"
             android:textAllCaps="false"
             android:textStyle="bold">
         </Button>
