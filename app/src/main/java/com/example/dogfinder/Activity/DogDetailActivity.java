@@ -206,6 +206,19 @@ public class DogDetailActivity extends BaseActivity {
                     }
                 }
                 commentAdapter.notifyDataSetChanged();
+                commentAdapter.SetOnItemClickListener(new CommentAdapter.OnItemClickListener() {
+                    @Override
+                    public void onContentClick(int position) {
+                        Intent intent = new Intent(DogDetailActivity.this,CommentActivity.class);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+                    @Override
+                    public void onReplyClick(Comment childComment, Comment parentComment) {
+
+                    }
+                });
             }
 
             @Override
