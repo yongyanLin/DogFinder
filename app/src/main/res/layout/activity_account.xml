@@ -65,7 +65,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:clickable="true"
-                    android:src="@mipmap/profile_light"></de.hdodenhof.circleimageview.CircleImageView>
+                    android:src="@mipmap/profile"></de.hdodenhof.circleimageview.CircleImageView>
 
                 <EditText
                     android:id="@+id/username_field"
