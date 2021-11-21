@@ -110,7 +110,7 @@
                     android:padding="@dimen/_5sdp"
                     android:paddingLeft="@dimen/_10sdp"
                     android:showDividers="end"
-                    android:textSize="@dimen/_15ssp"></EditText>
+                    android:textSize="@dimen/_10ssp"></EditText>
                 <Button
                     android:id="@+id/save_btn"
                     android:layout_width="@dimen/_200sdp"
