@@ -35,7 +35,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DogDetailActivity extends BaseActivity {
@@ -45,8 +48,9 @@ public class DogDetailActivity extends BaseActivity {
     ImageView imageView;
     TextView breed_title,condition,behavior,color,size,description,time,location;
     Dog dog;
+    String currentTime;
     FirebaseAuth auth;
-    DatabaseReference collectionReference,commentReference;
+    DatabaseReference favoritesReference,commentReference;
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     List<Comment> list;
@@ -56,6 +60,9 @@ public class DogDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_detail);
         auth = FirebaseAuth.getInstance();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentTime = dateFormat.format(date);
         LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -68,7 +75,7 @@ public class DogDetailActivity extends BaseActivity {
         //get current location
         longitude = clocation.getLongitude();
         latitude =  clocation.getLatitude();
-        collectionReference = FirebaseDatabase.getInstance().getReference("Collection");
+        favoritesReference = FirebaseDatabase.getInstance().getReference("Favorites");
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,12 +104,12 @@ public class DogDetailActivity extends BaseActivity {
                 String dogId =  dog.getId();
                 String id = userId+" "+dogId;
                 if(!heart.isChecked()){
-                    collectionReference.child(id).removeValue();
+                    favoritesReference.child(id).removeValue();
 
                 }else{
-                    Favorites favorites = new Favorites(userId,dogId);
+                    Favorites favorites = new Favorites(userId,dog,currentTime);
                     favorites.setId(id);
-                    collectionReference.child(id).setValue(favorites);
+                    favoritesReference.child(id).setValue(favorites);
                 }
             }
         });
@@ -172,7 +179,7 @@ public class DogDetailActivity extends BaseActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        collectionReference.addValueEventListener(new ValueEventListener() {
+        favoritesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
@@ -194,7 +201,7 @@ public class DogDetailActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Comment comment = dataSnapshot.getValue(Comment.class);
-                    if(comment.getPostId().equals(dog.getId()) && comment.getParentId().equals("0")){
+                    if(comment.getPost().getId().equals(dog.getId()) && comment.getParentId().equals("0")){
                         list.add(comment);
                     }
                 }

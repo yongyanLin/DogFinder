@@ -157,13 +157,12 @@ public class AccountActivity extends BaseActivity {
                         @Nullable
                         @Override
                         public Object apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                            DocumentSnapshot snapshot = transaction.get(documentReference);
                             documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if(task.getResult().exists()){
                                         String imageUri = task.getResult().getString("image");
-                                        if(!TextUtil.isEmpty(imageUri)){
+                                        if(imageUri != null){
                                             StorageReference fileReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUri);
                                             fileReference.delete();
                                         }
@@ -258,7 +257,7 @@ public class AccountActivity extends BaseActivity {
     }
     private void askProfileGalleryPermission() {
         Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickImagePermission();
+        //pickImagePermission();
         galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(galleryIntent,GALLERY_PROFILE_REQUEST_CODE);

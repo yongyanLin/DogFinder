@@ -15,7 +15,7 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_250sdp"
+            android:layout_height="@dimen/_230sdp"
             android:scaleType="fitXY"
             android:id="@+id/dog_image">
         </ImageView>

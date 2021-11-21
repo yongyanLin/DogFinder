@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.example.dogfinder.Entity.Favorites;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.DataUtil;
+import com.example.dogfinder.Utils.DistanceComparator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,14 +51,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SquareActivity extends BaseActivity {
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
-    DatabaseReference dogReference,collectionReference;
+    DatabaseReference dogReference,favoriteReference;
     DogAdapter dogAdapter;
     List<Dog> dogList;
     String type;
@@ -69,17 +77,22 @@ public class SquareActivity extends BaseActivity {
     BehaviorAdapter behaviorAdapter;
     TextAdapter timeAdapter,locationAdapter;
     Spinner spinnerBody, spinnerBehavior,spinnerSize,spinnerLocation,spinnerTime;
-    List<Integer> colorList,breedList;
+    List<Integer> colorList,breedList,indexList;
+    List<Double> orderList;
+    Double[] orderArray;
     String[] colorArray,breedsArray;
     boolean[] selectedColor,selectedBreed;
     TextView breed_filed,color_field;
-    String breed,body, behavior, color, size,location,time;
+    String breed,body, behavior, color, size,location,time,currentTime;
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String PERMISSION_STORAGE_WRITE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_square);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentTime = dateFormat.format(date);
         //get the list of filter conditions
         bodyAdapter = new BodyAdapter(SquareActivity.this, DataUtil.getBodyList());
         sizeAdapter = new SizeAdapter(SquareActivity.this,DataUtil.getSizeList());
@@ -147,7 +160,7 @@ public class SquareActivity extends BaseActivity {
                 return false;
             }
         });
-        collectionReference  = FirebaseDatabase.getInstance().getReference("Collection");
+        favoriteReference  = FirebaseDatabase.getInstance().getReference("Favorites");
         recyclerView = findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -179,13 +192,28 @@ public class SquareActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                orderList = new ArrayList<>();
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
                     Dog dog = dataSnapshot.getValue(Dog.class);
-                    if(dog.getType().equals(type)){
+                    if (dog.getType().equals(type)) {
                         dogList.add(dog);
+                        double lat2 = Double.parseDouble(dog.getLocation().split(" ")[0]);
+                        double lon2 = Double.parseDouble(dog.getLocation().split(" ")[1]);
+                        double distance = DataUtil.distance(latitude, longitude, lat2, lon2);
+                        orderList.add(distance);
                     }
                 }
-                Collections.sort(dogList);
+                //Collections.sort(orderList);
+                orderArray = new Double[orderList.size()];
+                orderList.toArray(orderArray);
+                DistanceComparator comparator = new DistanceComparator(orderArray);
+                Integer[] indexes = comparator.createIndexArray();
+                //get the index of the distance after sorted in increasing order
+                Arrays.sort(indexes, comparator);
+                indexList = Arrays.asList(indexes);
+                //sort item based on distance
+                dogList = indexList.stream().map(dogList::get).collect(Collectors.toList());
+
                 dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
                 recyclerView.setAdapter(dogAdapter);
                 dogAdapter.notifyDataSetChanged();
@@ -201,15 +229,14 @@ public class SquareActivity extends BaseActivity {
                     @Override
                     public void onCollectionClick(int position,boolean isChecked) {
                         String userId = auth.getCurrentUser().getUid();
-                        String dogId = dogList.get(position).getId();
-                        String id = userId+" "+dogId;
+                        Dog post = dogList.get(position);
+                        String id = userId+" "+post.getId();
                         if(!isChecked){
-                            collectionReference.child(id).removeValue();
-
+                            favoriteReference.child(id).removeValue();
                         }else{
-                            Favorites favorites = new Favorites(userId,dogId);
+                            Favorites favorites = new Favorites(userId,post,currentTime);
                             favorites.setId(id);
-                            collectionReference.child(id).setValue(favorites);
+                            favoriteReference.child(id).setValue(favorites);
                         }
                     }
 
@@ -514,4 +541,5 @@ public class SquareActivity extends BaseActivity {
             });
             alertDialog.show();
         }
+
 }

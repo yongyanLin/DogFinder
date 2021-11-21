@@ -18,6 +18,7 @@ import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.Entity.NotificationSender;
 import com.example.dogfinder.Entity.TokenData;
+import com.example.dogfinder.Entity.User;
 import com.example.dogfinder.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,12 +52,12 @@ public class CommentActivity extends BaseActivity {
     Dog dog;
     String time,userId;
     CommentAdapter commentAdapter;
-    DocumentReference documentReference,tokenReference;
-    DatabaseReference databaseReference,dogReference,commentReference;
+    DocumentReference documentReference;
+    DatabaseReference databaseReference,dogReference;
     FirebaseAuth auth;
     List<Comment> list;
     String replyID,receiverId;
-
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class CommentActivity extends BaseActivity {
                 if(task.isSuccessful()){
                     DocumentSnapshot snapshot = task.getResult();
                     if(snapshot != null){
+                        currentUser = snapshot.toObject(User.class);
                         String imageUrl = snapshot.getString("image");
                         if(imageUrl == null) {
                             circleImageView.setImageResource(R.mipmap.profile);
@@ -125,43 +127,20 @@ public class CommentActivity extends BaseActivity {
             public void onContentClick(int position) {
                 comment.setText("");
                 Comment comment1 = list.get(position);
-                String userID = comment1.getUserId();
+                User user = comment1.getUser();
                 replyID = comment1.getId();
-
-                DocumentReference documentReference1 = FirebaseFirestore.getInstance().collection("users").document(userID);
-                documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            DocumentSnapshot snapshot = task.getResult();
-                            if(snapshot != null){
-                                String username = snapshot.getString("username");
-                                comment.setText("Reply "+username+":");
-                            }
-                        }
-                    }
-                });
+                String username = user.getUsername();
+                comment.setText("Reply "+username+":");
             }
 
             @Override
             public void onReplyClick(Comment childComment,Comment parentComment) {
                 //get the reply below the comment
                 comment.setText("");
-                String userId = childComment.getUserId();
-                DocumentReference documentReference1 = FirebaseFirestore.getInstance().collection("users").document(userId);
-                documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            DocumentSnapshot snapshot = task.getResult();
-                            if(snapshot != null){
-                                String username = snapshot.getString("username");
-                                comment.setText("Reply "+username+":");
-                                replyID = parentComment.getId();
-                            }
-                        }
-                    }
-                });
+                User user = childComment.getUser();
+                String username = user.getUsername();
+                comment.setText("Reply "+username+":");
+                replyID = parentComment.getId();
             }
 
         });
@@ -174,7 +153,7 @@ public class CommentActivity extends BaseActivity {
                 time = dateFormat.format(currentTime);
                 String content = comment.getText().toString().trim();
                 String id = databaseReference.push().getKey();
-                Comment comment1 = new Comment(id,auth.getCurrentUser().getUid(),dog.getId(),
+                Comment comment1 = new Comment(id,currentUser,auth.getUid(),dog,
                         content,time);
                 if(!content.contains("Reply")){
                     FirebaseFirestore.getInstance().collection("DeviceTokens").document(dog.getUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -243,7 +222,7 @@ public class CommentActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Comment comment = dataSnapshot.getValue(Comment.class);
-                    if(comment.getPostId().equals(dog.getId()) && comment.getParentId().equals("0")){
+                    if(comment.getPost().getId().equals(dog.getId()) && comment.getParentId().equals("0")){
                         list.add(comment);
                     }
                 }

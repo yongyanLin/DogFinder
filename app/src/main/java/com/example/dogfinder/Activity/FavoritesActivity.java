@@ -46,18 +46,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class FavoritesActivity extends BaseActivity {
     BottomNavigationView navigationView;
     RecyclerView recyclerView;
     SearchView searchView;
-    DatabaseReference dogReference,collectionReference;
+    DatabaseReference dogReference,favoriteReference;
     DogAdapter dogAdapter;
     List<Dog> dogList;
-    List<String> dogId;
     FirebaseAuth auth;
     Button filter_btn,cancel_btn,clear_btn,done_btn;
     BodyAdapter bodyAdapter;
@@ -69,13 +71,16 @@ public class FavoritesActivity extends BaseActivity {
     String[] colorArray,breedsArray;
     boolean[] selectedColor,selectedBreed;
     TextView breed_filed,color_field;
-    String breed,body, behavior, color, size,location,time;
+    String breed,body, behavior, color, size,location,time,currentTime;
     double latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         auth = FirebaseAuth.getInstance();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentTime = dateFormat.format(date);
         bodyAdapter = new BodyAdapter(FavoritesActivity.this, DataUtil.getBodyList());
         sizeAdapter = new SizeAdapter(FavoritesActivity.this,DataUtil.getSizeList());
         behaviorAdapter = new BehaviorAdapter(FavoritesActivity.this,DataUtil.getBehaviorList());
@@ -127,14 +132,13 @@ public class FavoritesActivity extends BaseActivity {
                 return false;
             }
         });
-        dogId = new ArrayList<>();
         recyclerView = findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dogReference = FirebaseDatabase.getInstance().getReference("Dog");
+        favoriteReference = FirebaseDatabase.getInstance().getReference("Favorites");
         dogList = new ArrayList<>();
-        dogAdapter = new DogAdapter(getApplicationContext(),dogList,latitude,longitude);
-        recyclerView.setAdapter(dogAdapter);
+        getData();
         searchView = findViewById(R.id.search);
         filter_btn = findViewById(R.id.filter_btn);
         filter_btn.setOnClickListener(new View.OnClickListener() {
@@ -158,30 +162,14 @@ public class FavoritesActivity extends BaseActivity {
         });
     }
     public void getData(){
-        collectionReference  = FirebaseDatabase.getInstance().getReference("Collection");
-        collectionReference.addValueEventListener(new ValueEventListener() {
+        favoriteReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
                     Favorites favorites = snapshot1.getValue(Favorites.class);
                     String userId = favorites.getUserId();
                     if(userId.equals(auth.getCurrentUser().getUid())){
-                        dogId.add(favorites.getPostId());
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        dogReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Dog dog = dataSnapshot.getValue(Dog.class);
-                    if(dogId.contains(dog.getId())){
-                        dogList.add(dog);
+                        dogList.add(favorites.getDog());
                     }
                 }
                 Collections.sort(dogList);
@@ -203,15 +191,14 @@ public class FavoritesActivity extends BaseActivity {
                         String dogId = dogList.get(position).getId();
                         String id = userId+" "+dogId;
                         if(!isChecked){
-                            collectionReference.child(id).removeValue();
+                            favoriteReference.child(id).removeValue();
                             navigate(FavoritesActivity.class);
                             finish();
                         }else{
-                            Favorites favorites = new Favorites(userId,dogId);
+                            Favorites favorites = new Favorites(userId,dogList.get(position),currentTime);
                             favorites.setId(id);
-                            collectionReference.child(id).setValue(favorites);
+                            favoriteReference.child(id).setValue(favorites);
                         }
-                        //dogAdapter.notifyDataSetChanged();
 
                     }
                     @Override
@@ -222,7 +209,6 @@ public class FavoritesActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     }
-
                     @Override
                     public void onShowCommentClick(int position) {
                         Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
@@ -257,7 +243,6 @@ public class FavoritesActivity extends BaseActivity {
                         };
                         thread.start();
                     }
-
                 });
             }
             @Override
@@ -267,11 +252,6 @@ public class FavoritesActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getData();
-    }
 
     public void showFilterDialog(){
         ViewGroup viewGroup = findViewById(android.R.id.content);

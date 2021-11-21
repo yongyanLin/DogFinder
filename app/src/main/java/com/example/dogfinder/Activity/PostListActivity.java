@@ -133,7 +133,7 @@ public class PostListActivity extends BaseActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot snapshot1:snapshot.getChildren()){
                                     Comment comment = snapshot1.getValue(Comment.class);
-                                    if(comment.getPostId().equals(dogId)){
+                                    if(comment.getPost().getId().equals(dogId)){
                                         commentReference.child(comment.getId()).removeValue();
                                     }
                                 }

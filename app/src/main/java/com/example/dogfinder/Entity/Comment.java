@@ -7,21 +7,22 @@ import java.util.Date;
 public class Comment implements Comparable<Comment>{
     private String id;
     private String parentId;
+    private User user;
     private String userId;
-    private String postId;
+    private Dog post;
     private String content;
     private String time;
     public Comment(){
 
     }
-    public Comment(String id,String userId,String postId,String content,String time){
+    public Comment(String id,User user,String userId,Dog post,String content,String time){
         this.id = id;
+        this.user = user;
         this.userId = userId;
-        this.postId = postId;
+        this.post = post;
         this.content = content;
         this.time = time;
     }
-
     public String getId() {
         return id;
     }
@@ -38,6 +39,14 @@ public class Comment implements Comparable<Comment>{
         this.parentId = parentId;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -46,12 +55,12 @@ public class Comment implements Comparable<Comment>{
         this.userId = userId;
     }
 
-    public String getPostId() {
-        return postId;
+    public Dog getPost() {
+        return post;
     }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public void setPost(Dog post) {
+        this.post = post;
     }
 
     public String getContent() {

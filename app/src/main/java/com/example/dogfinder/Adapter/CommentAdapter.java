@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dogfinder.Entity.Comment;
+import com.example.dogfinder.Entity.User;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.CommentNotificationService;
 import com.example.dogfinder.Utils.TextUtil;
@@ -38,7 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomViewHolder> {
     Context context;
     List<Comment> list;
-    DocumentReference documentReference;
     DatabaseReference commentReference;
     private OnItemClickListener mListener;
 
@@ -116,25 +116,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
 
             }
         });
-        documentReference = FirebaseFirestore.getInstance().collection("users").document(comment.getUserId());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot snapshot = task.getResult();
-                    if(snapshot != null){
-                        String imageUrl = snapshot.getString("image");
-                        String username = snapshot.getString("username");
-                        holder.username.setText(username);
-                        if(imageUrl == null){
-                            holder.imageView.setImageResource(R.mipmap.profile_light);
-                        }else {
-                            Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
-                        }
-                    }
-                }
-            }
-        });
+        User user = comment.getUser();
+        String imageUrl = user.getImage();
+        String username = user.getUsername();
+        holder.username.setText(username);
+        if(imageUrl == null){
+            holder.imageView.setImageResource(R.mipmap.profile);
+        }else {
+            Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+        }
 
         holder.comment.setText(comment.getContent());
         holder.date.setText(comment.getTime());

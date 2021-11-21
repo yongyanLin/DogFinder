@@ -3,13 +3,16 @@ package com.example.dogfinder.Entity;
 public class Favorites {
     private String id;
     private String userId;
-    private String postId;
+    //private String postId;
+    private Dog dog;
+    private String time;
     public Favorites(){
 
     }
-    public Favorites(String userId, String postId){
+    public Favorites(String userId, Dog dog,String time){
         this.userId = userId;
-        this.postId = postId;
+        this.dog = dog;
+        this.time = time;
     }
 
     public String getId() {
@@ -28,11 +31,19 @@ public class Favorites {
         this.userId = userId;
     }
 
-    public String getPostId() {
-        return postId;
+    public Dog getDog() {
+        return dog;
     }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public void setDog(Dog dog) {
+        this.dog = dog;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

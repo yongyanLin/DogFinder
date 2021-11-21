@@ -20,6 +20,7 @@ import java.util.List;
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.CustomViewHolder>{
     Context context;
     List<Comment> commentList;
+    String content;
     private CommentListAdapter.OnItemClickListener mlistener;
 
     public void SetOnItemClickListener(CommentListAdapter.OnItemClickListener listener){
@@ -74,7 +75,13 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CommentListAdapter.CustomViewHolder holder, int position) {
-        holder.comment.setText(commentList.get(position).getContent());
+        if(commentList.get(position).getContent().contains("Reply")){
+            content = commentList.get(position).getContent().split(":")[1];
+        }else{
+            content = commentList.get(position).getContent();
+        }
+        holder.breed.setText(commentList.get(position).getPost().getBreed());
+        holder.comment.setText(content);
         holder.time.setText(commentList.get(position).getTime());
     }
 

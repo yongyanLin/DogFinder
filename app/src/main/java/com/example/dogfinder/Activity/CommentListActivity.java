@@ -32,7 +32,6 @@ import java.util.List;
 public class CommentListActivity extends BaseActivity {
     Button back;
     RecyclerView sendRecyclerView,receiveRecyclerView;
-    List<String> sendDogList,receiveDogList;
     List<Comment> sendCommentList,receiveCommentList;
     DatabaseReference dogReference,commentReference;
     CommentListAdapter sendAdapter,receiveAdapter;
@@ -58,97 +57,13 @@ public class CommentListActivity extends BaseActivity {
         sendRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         receiveRecyclerView.setHasFixedSize(true);
         receiveRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sendDogList = new ArrayList<>();
-        receiveDogList = new ArrayList<>();
         sendCommentList = new ArrayList<>();
         receiveCommentList = new ArrayList<>();
-        sendAdapter = new CommentListAdapter(getApplicationContext(),sendCommentList);
-        receiveAdapter = new CommentListAdapter(getApplicationContext(),receiveCommentList);
-        sendRecyclerView.setAdapter(sendAdapter);
-        receiveRecyclerView.setAdapter(receiveAdapter);
-        sendAdapter.SetOnItemClickListener(new CommentListAdapter.OnItemClickListener() {
-            @Override
-            public void onButtonClick(int position) {
-                Comment comment = sendCommentList.get(position);
-                AlertDialog builder = createDialog(comment);
-                builder.show();
-            }
+        getData();
 
-            @Override
-            public void onContentClick(int position) {
-                String dogId = sendCommentList.get(position).getPostId();
-                dogReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                            Dog dog = dataSnapshot.getValue(Dog.class);
-                            if(dog.getId().equals(dogId)){
-                                Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
-                                intent.putExtra("dog",dog);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-        }});
-        receiveAdapter.SetOnItemClickListener(new CommentListAdapter.OnItemClickListener() {
-            @Override
-            public void onButtonClick(int position) {
-                Comment comment = receiveCommentList.get(position);
-                AlertDialog builder = createDialog(comment);
-                builder.show();
-            }
-
-            @Override
-            public void onContentClick(int position) {
-                String dogId = receiveCommentList.get(position).getPostId();
-                dogReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                            Dog dog = dataSnapshot.getValue(Dog.class);
-                            if(dog.getId().equals(dogId)){
-                                Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
-                                intent.putExtra("dog",dog);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        dogReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Dog dog = dataSnapshot.getValue(Dog.class);
-                    if(dog.getUserId().equals(auth.getCurrentUser().getUid())){
-                        receiveDogList.add(dog.getId());
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+   public void getData(){
         commentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,14 +71,13 @@ public class CommentListActivity extends BaseActivity {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     if(comment.getUserId().equals(auth.getCurrentUser().getUid())){
                         sendCommentList.add(comment);
-                    }
-                    if(receiveDogList.contains(comment.getPostId()) && !comment.getUserId().equals(auth.getCurrentUser().getUid())){
+                    }else if(comment.getParentId().equals("0") && comment.getPost().getUserId().equals(auth.getCurrentUser().getUid())){
+                        //receive comments from post
                         receiveCommentList.add(comment);
-                    }
-                    if(!comment.getParentId().equals("0")){
+                    }else if(!comment.getParentId().equals("0")){
+                        //receive comments from reply
                         for(Comment comment1:sendCommentList){
-                            if(comment.getParentId().equals(comment1.getId()) &&
-                                    !comment.getUserId().equals(auth.getCurrentUser().getUid()) && !receiveCommentList.contains(comment)){
+                            if(comment.getParentId().equals(comment1.getId())){
                                 receiveCommentList.add(comment);
                             }
                         }
@@ -171,8 +85,46 @@ public class CommentListActivity extends BaseActivity {
                 }
                 Collections.sort(sendCommentList);
                 Collections.sort(receiveCommentList);
+                sendAdapter = new CommentListAdapter(getApplicationContext(),sendCommentList);
+                receiveAdapter = new CommentListAdapter(getApplicationContext(),receiveCommentList);
+                sendRecyclerView.setAdapter(sendAdapter);
+                receiveRecyclerView.setAdapter(receiveAdapter);
                 sendAdapter.notifyDataSetChanged();
                 receiveAdapter.notifyDataSetChanged();
+                sendAdapter.SetOnItemClickListener(new CommentListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onButtonClick(int position) {
+                        Comment comment = sendCommentList.get(position);
+                        AlertDialog builder = createDialog(comment);
+                        builder.show();
+                    }
+
+                    @Override
+                    public void onContentClick(int position) {
+                        Dog dog = sendCommentList.get(position).getPost();
+                        Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                receiveAdapter.SetOnItemClickListener(new CommentListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onButtonClick(int position) {
+                        Comment comment = receiveCommentList.get(position);
+                        AlertDialog builder = createDialog(comment);
+                        builder.show();
+                    }
+
+                    @Override
+                    public void onContentClick(int position) {
+                        Dog dog = receiveCommentList.get(position).getPost();
+                        Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                        intent.putExtra("dog",dog);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

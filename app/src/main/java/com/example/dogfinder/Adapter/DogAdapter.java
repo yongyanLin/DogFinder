@@ -41,7 +41,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
     List<Dog> filteredList = new ArrayList<>();
     double latitude,longitude;
     private OnItemClickListener mlistener;
-    DatabaseReference commentReference,collectionReference;
+    DatabaseReference commentReference,favoritesReference;
     FirebaseAuth auth;
 
 
@@ -294,8 +294,8 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
         holder.distance.setText(distance+" miles");
         auth = FirebaseAuth.getInstance();
         String id = auth.getCurrentUser().getUid()+" "+dog.getId();
-        collectionReference = FirebaseDatabase.getInstance().getReference("Collection").child(id);
-        collectionReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoritesReference = FirebaseDatabase.getInstance().getReference("Favorites").child(id);
+        favoritesReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
@@ -316,7 +316,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.CustomViewHolder
                 int count = 0;
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Comment comment = dataSnapshot.getValue(Comment.class);
-                    if(comment.getPostId().equals(dog.getId())){
+                    if(comment.getPost().getId().equals(dog.getId())){
                         count += 1;
                     }
                 }
