@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send"
+        android:textStyle="bold"
         android:layout_marginBottom="@dimen/_5sdp"
         android:textSize="@dimen/_15ssp"
         android:textColor="@color/black"
@@ -56,6 +57,7 @@
         </LinearLayout>
     </ScrollView>
     <TextView
+        android:textStyle="bold"
         android:fontFamily="cursive"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_width="wrap_content"

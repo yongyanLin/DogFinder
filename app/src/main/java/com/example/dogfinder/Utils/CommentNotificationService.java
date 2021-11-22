@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.dogfinder.Activity.CommentActivity;
+import com.example.dogfinder.Activity.CommentListActivity;
 import com.example.dogfinder.Entity.TokenData;
 import com.example.dogfinder.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,7 +74,9 @@ public class CommentNotificationService extends FirebaseMessagingService {
         v.vibrate(pattern,-1);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"Comment Channel");
         builder.setSmallIcon(R.mipmap.comment);
-        Intent result = new Intent(this, CommentActivity.class);
+        //click on notification and go to CommentListActivity
+        Intent result = new Intent(this, CommentListActivity.class);
+        result.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, result, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
@@ -95,9 +98,6 @@ public class CommentNotificationService extends FirebaseMessagingService {
             builder.setChannelId(channelId);
         }
 
-
-
-// notificationId is a unique int for each notification that you must define
         manager.notify(100, builder.build());
 
     }
