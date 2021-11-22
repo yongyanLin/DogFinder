@@ -19,7 +19,7 @@
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:scaleType="centerCrop"
-                android:src="@mipmap/profile_light"
+                android:src="@mipmap/profile"
                 android:id="@+id/profile_photo"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"

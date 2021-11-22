@@ -40,6 +40,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     Context context;
     List<Comment> list;
     DatabaseReference commentReference;
+    User currentUser;
     private OnItemClickListener mListener;
 
     public CommentAdapter(Context context,List<Comment> list){
