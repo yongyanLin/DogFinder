@@ -26,22 +26,17 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dogfinder.MainActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.Utils.TextUtil;
 import com.example.dogfinder.Utils.profilePopUpUtil;
-import com.example.dogfinder.Utils.strayPopUpUtil;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -78,6 +73,7 @@ public class AccountActivity extends BaseActivity {
     DocumentReference documentReference;
     String username,email,imageUri,password;
     Uri image,imageUpdate;
+    profilePopUpUtil popup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +113,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     public void popProfileFormBottom() {
-        profilePopUpUtil popup = new profilePopUpUtil(this, onClickListener);
+        popup = new profilePopUpUtil(this, onClickListener);
         popup.showAtLocation(findViewById(R.id.profileLayout), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
     }
 
@@ -127,9 +123,11 @@ public class AccountActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.camera_btn:
                     askCameraPermission();
+                    popup.dismiss();
                     break;
                 case R.id.gallery_btn:
                     askProfileGalleryPermission();
+                    popup.dismiss();
                     break;
             }
         }
@@ -270,13 +268,7 @@ public class AccountActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM_CODE);
         }
     }
-    private void pickImagePermission() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            getCameraIntent();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-        }
-    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[]permissions, @NonNull int[] grantResults){
         if(requestCode == CAMERA_PERM_CODE){

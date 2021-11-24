@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +16,8 @@ import com.example.dogfinder.Adapter.ListAdapter;
 import com.example.dogfinder.Entity.Comment;
 import com.example.dogfinder.Entity.Dog;
 import com.example.dogfinder.R;
+import com.example.dogfinder.Utils.postPopUpUtil;
+import com.example.dogfinder.Utils.profilePopUpUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,10 +35,13 @@ public class PostListActivity extends BaseActivity {
     DatabaseReference databaseReference,commentReference;
     ListAdapter strayAdapter,lostAdapter;
     FirebaseAuth auth;
+    Dog dog;
+    postPopUpUtil popup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+        dog = null;
         auth = FirebaseAuth.getInstance();
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -69,11 +75,8 @@ public class PostListActivity extends BaseActivity {
 
             @Override
             public void onContentClick(int position) {
-                Dog dog = strayList.get(position);
-                Intent intent = new Intent(getApplicationContext(),EditFormActivity.class);
-                intent.putExtra("dog",dog);
-                startActivity(intent);
-                finish();
+                dog = strayList.get(position);
+                popPostFormBottom();
             }
         });
         lostAdapter.SetOnItemClickListener(new ListAdapter.OnItemClickListener() {
@@ -86,11 +89,8 @@ public class PostListActivity extends BaseActivity {
 
             @Override
             public void onContentClick(int position) {
-                Dog dog = lostList.get(position);
-                Intent intent = new Intent(getApplicationContext(),EditFormActivity.class);
-                intent.putExtra("dog",dog);
-                startActivity(intent);
-                finish();
+                dog = lostList.get(position);
+                popPostFormBottom();
             }
         });
     }
@@ -118,6 +118,32 @@ public class PostListActivity extends BaseActivity {
             }
         });
     }
+    public void popPostFormBottom() {
+        popup = new postPopUpUtil(this, onClickListener);
+        popup.showAtLocation(findViewById(R.id.postList), Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.edit_btn:
+                    Intent intent1 = new Intent(getApplicationContext(),EditFormActivity.class);
+                    intent1.putExtra("dog",dog);
+                    startActivity(intent1);
+                    finish();
+                    popup.dismiss();
+                    break;
+                case R.id.browse_btn:
+                    Intent intent2 = new Intent(getApplicationContext(),DogDetailActivity.class);
+                    intent2.putExtra("dog",dog);
+                    startActivity(intent2);
+                    finish();
+                    popup.dismiss();
+                    break;
+            }
+        }
+    };
     public AlertDialog createDialog(Dog dog){
         AlertDialog builder = new AlertDialog.Builder(PostListActivity.this).setTitle("Delete")
                 .setMessage("Do you want to delete this post?").setIcon(R.mipmap.delete)

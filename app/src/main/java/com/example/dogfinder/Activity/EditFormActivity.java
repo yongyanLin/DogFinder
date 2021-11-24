@@ -88,7 +88,7 @@ public class EditFormActivity extends BaseActivity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(IndexActivity.class);
+                navigate(ProfileActivity.class);
                 finish();
             }
         });
