@@ -102,7 +102,7 @@ public class CommentListActivity extends BaseActivity {
                     @Override
                     public void onContentClick(int position) {
                         Dog dog = sendCommentList.get(position).getPost();
-                        Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
                         intent.putExtra("dog",dog);
                         startActivity(intent);
                         finish();
@@ -119,7 +119,7 @@ public class CommentListActivity extends BaseActivity {
                     @Override
                     public void onContentClick(int position) {
                         Dog dog = receiveCommentList.get(position).getPost();
-                        Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
                         intent.putExtra("dog",dog);
                         startActivity(intent);
                         finish();

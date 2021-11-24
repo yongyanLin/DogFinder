@@ -39,6 +39,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity
+            android:name=".Activity.EditMapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.EditFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CommentListActivity"
             android:exported="false" />
         <activity
@@ -100,18 +106,19 @@
         <activity android:name=".Activity.IndexActivity" />
         <activity android:name=".Activity.VerifyActivity" />
         <activity android:name=".Activity.RegisterActivity" />
+
         <service
             android:name=".Utils.CommentNotificationService"
             android:exported="true"
-            android:permission="TODO"
-            >
+            android:permission="TODO">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

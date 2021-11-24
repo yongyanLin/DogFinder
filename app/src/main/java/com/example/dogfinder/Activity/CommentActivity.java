@@ -163,7 +163,7 @@ public class CommentActivity extends BaseActivity {
                             String token = documentSnapshot.getString("token");
                             if(!id.equals(auth.getCurrentUser().getUid())){
                                 NotificationSender sender = new NotificationSender(token,content,getApplicationContext(),CommentActivity.this);
-                                sender.sendNotification();
+                                sender.sendCommentNotification();
                             }
                         }
                     });
@@ -185,7 +185,7 @@ public class CommentActivity extends BaseActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     String token = documentSnapshot.getString("token");
                                     NotificationSender sender = new NotificationSender(token,content.split(":")[1],getApplicationContext(),CommentActivity.this);
-                                    sender.sendNotification();
+                                    sender.sendCommentNotification();
                                 }
                             });
                         }

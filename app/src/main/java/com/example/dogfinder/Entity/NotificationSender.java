@@ -28,7 +28,7 @@ public class NotificationSender {
 
     private RequestQueue requestQueue;
     private final String postUrl ="https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey = "AAAAEGs21bA:APA91bEXVBLhNJBT9Nn6CaNO0nQ-iDIzY7kKlm9nN808afD4T-ImCXvBLkWEUWw-NpAIJc3MI9Fn7Dt3M3sl2kSY9I-XKbhpj5EdoWFHdRBJvTP1_nTtcE-WPJSY-2K8UeIYMgM_CsqD";
+    private final String Key = "AAAAEGs21bA:APA91bEXVBLhNJBT9Nn6CaNO0nQ-iDIzY7kKlm9nN808afD4T-ImCXvBLkWEUWw-NpAIJc3MI9Fn7Dt3M3sl2kSY9I-XKbhpj5EdoWFHdRBJvTP1_nTtcE-WPJSY-2K8UeIYMgM_CsqD";
 
     public NotificationSender(String token, String body, Context context, Activity activity) {
         this.token = token;
@@ -78,7 +78,7 @@ public class NotificationSender {
         this.activity = activity;
     }
 
-    public void sendNotification(){
+    public void sendCommentNotification(){
         requestQueue = Volley.newRequestQueue(activity);
         JSONObject mainObj = new JSONObject();
         try {
@@ -105,7 +105,7 @@ public class NotificationSender {
 
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
-                    header.put("authorization", "key=" + fcmServerKey);
+                    header.put("authorization", "key=" + Key);
                     return header;
 
                 }
@@ -114,6 +114,7 @@ public class NotificationSender {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
     }
 }

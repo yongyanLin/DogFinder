@@ -70,7 +70,7 @@ public class PostListActivity extends BaseActivity {
             @Override
             public void onContentClick(int position) {
                 Dog dog = strayList.get(position);
-                Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(),EditFormActivity.class);
                 intent.putExtra("dog",dog);
                 startActivity(intent);
                 finish();
@@ -87,7 +87,7 @@ public class PostListActivity extends BaseActivity {
             @Override
             public void onContentClick(int position) {
                 Dog dog = lostList.get(position);
-                Intent intent = new Intent(getApplicationContext(),DogDetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(),EditFormActivity.class);
                 intent.putExtra("dog",dog);
                 startActivity(intent);
                 finish();
