@@ -96,10 +96,6 @@ public class ImageUtils {
         }
     }
 
-    /**
-     * Utility method to compute the allocated size in bytes of a YUV420SP image
-     * of the given dimensions.
-     */
     public static int getYUVByteSize(final int width, final int height) {
         // The luminance plane requires 1 byte per pixel.
         final int ySize = width * height;
@@ -111,20 +107,7 @@ public class ImageUtils {
         return ySize + uvSize;
     }
 
-    /**
-     * Returns a transformation matrix from one reference frame into another.
-     * Handles cropping (if maintaining aspect ratio is desired) and rotation.
-     *
-     * @param srcWidth            Width of source frame.
-     * @param srcHeight           Height of source frame.
-     * @param dstWidth            Width of destination frame.
-     * @param dstHeight           Height of destination frame.
-     * @param applyRotation       Amount of rotation to apply from one frame to another.
-     *                            Must be a multiple of 90.
-     * @param maintainAspectRatio If true, will ensure that scaling in x and y remains constant,
-     *                            cropping the image if necessary.
-     * @return The transformation fulfilling the desired requirements.
-     */
+
     public static Matrix getTransformationMatrix(
             final int srcWidth,
             final int srcHeight,

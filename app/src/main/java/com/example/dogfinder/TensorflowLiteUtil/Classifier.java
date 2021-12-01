@@ -1,4 +1,19 @@
 package com.example.dogfinder.TensorflowLiteUtil;
+/*
+ * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -213,7 +228,7 @@ public abstract class Classifier {
 
         Trace.endSection();
 
-        // Gets top-k results.
+        // Gets top-3 results.
         return getTopKProbability(labeledProbability);
     }
 
@@ -231,15 +246,7 @@ public abstract class Classifier {
         tfliteModel = null;
     }
 
-    /** Get the image size along the x axis. */
-    public int getImageSizeX() {
-        return imageSizeX;
-    }
 
-    /** Get the image size along the y axis. */
-    public int getImageSizeY() {
-        return imageSizeY;
-    }
 
     /** Loads input image, and applies preprocessing. */
     private TensorImage loadImage(final Bitmap bitmap, int sensorOrientation) {

@@ -17,7 +17,6 @@
         app:menu="@menu/slding_menu"
         android:layout_gravity="start"
         >
-
     </com.google.android.material.navigation.NavigationView>
     <ScrollView
         android:layout_width="wrap_content"

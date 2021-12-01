@@ -52,8 +52,6 @@ public class IndexActivity extends BaseActivity {
     private static final int PERMISSIONS_REQUEST = 1;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
-    public static final int WRITE_PERM_CODE = 1;
-
     public static final int GALLERY_REQUEST_CODE = 106;
     public static final int LOCATION_PERM_CODE = 99;
     @Override

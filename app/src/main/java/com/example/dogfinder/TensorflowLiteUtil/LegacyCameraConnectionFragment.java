@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class LegacyCameraConnectionFragment extends Fragment {
-    /**
-     * Conversion from screen rotation to JPEG orientation.
-     */
+
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
     static {
@@ -40,9 +38,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
     private Camera camera;
     private Camera.PreviewCallback imageListener;
     private Size desiredSize;
-    /**
-     * The layout identifier to inflate for this Fragment.
-     */
+
     private int layout;
     /**
      * An {@link AutoFitTextureView} for camera preview.
@@ -108,9 +104,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
                 public void onSurfaceTextureUpdated(final SurfaceTexture texture) {
                 }
             };
-    /**
-     * An additional thread for running tasks that shouldn't block the UI.
-     */
+
     private HandlerThread backgroundThread;
 
     public LegacyCameraConnectionFragment() {

@@ -1,4 +1,19 @@
 package com.example.dogfinder.TensorflowLiteUtil;
+/*
+ * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 
 import android.Manifest;
@@ -59,13 +74,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public abstract class CameraActivity extends FragmentActivity
         implements OnImageAvailableListener,Camera.PreviewCallback {
 
-    static final int PICK_IMAGE = 100;
+    static final int PICK_IMAGE = 99;
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
     private static final String PERMISSION_STORAGE_READ = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final String PERMISSION_STORAGE_WRITE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    static private final int[] CHART_COLORS = {Color.rgb(114, 147, 203),
-            Color.rgb(225, 151, 76), Color.rgb(132, 186, 91), Color.TRANSPARENT};
 
     public static String cameraId;
     private static int cameraPermissionRequests = 0;
@@ -74,15 +87,13 @@ public abstract class CameraActivity extends FragmentActivity
     protected int previewHeight = 0;
     protected ClassifierActivity.InferenceTask inferenceTask;
     TextView resultsView;
-
     AtomicBoolean snapShot = new AtomicBoolean(false);
     boolean continuousInference = false;
     boolean imageSet = false;
-    ImageButton cameraButton, shareButton, closeButton, saveButton,exitButton;
-    CircleImageView galleryButton;
-    ToggleButton continuousInferenceButton;
+    ImageButton cameraBtn, shareBtn, closeBtn, saveBtn,exitBtn;
+    CircleImageView galleryBtn;
+    ToggleButton inferenceBtn;
     ImageView imageViewFromGallery;
-    ProgressBar progressBar;
     private Handler handler;
     private HandlerThread handlerThread;
     private boolean isProcessingFrame = false;
@@ -93,7 +104,6 @@ public abstract class CameraActivity extends FragmentActivity
     private Runnable imageConverter;
     private boolean useCamera2API;
     private String fileUrl;
-    boolean alreadyAdded;
     String result;
     Bitmap bitmap;
     public Intent galleryIntent;
@@ -143,7 +153,7 @@ public abstract class CameraActivity extends FragmentActivity
                     break;
                 case PERMISSION_STORAGE_WRITE:
                     // user might have clicked on save or share button
-                    shareButton.callOnClick();
+                    shareBtn.callOnClick();
                     break;
             }
         }
@@ -152,43 +162,41 @@ public abstract class CameraActivity extends FragmentActivity
     private void setupButtons() {
         imageViewFromGallery = findViewById(R.id.imageView);
         resultsView = findViewById(R.id.results);
-        progressBar = findViewById(R.id.progressBar);
 
-        continuousInferenceButton = findViewById(R.id.continuousInferenceButton);
-        cameraButton = findViewById(R.id.cameraButton);
-        shareButton = findViewById(R.id.shareButton);
-        closeButton = findViewById(R.id.closeButton);
-        saveButton = findViewById(R.id.saveButton);
-        exitButton = findViewById(R.id.exitButton);
-        galleryButton = findViewById(R.id.galleryButton);
-        cameraButton.setEnabled(false);
+        inferenceBtn = findViewById(R.id.inferenceBtn);
+        cameraBtn = findViewById(R.id.cameraBtn);
+        shareBtn = findViewById(R.id.shareBtn);
+        closeBtn = findViewById(R.id.closeBtn);
+        saveBtn = findViewById(R.id.saveBtn);
+        exitBtn = findViewById(R.id.exitBtn);
+        galleryBtn = findViewById(R.id.galleryBtn);
+        cameraBtn.setEnabled(false);
 
         setButtonsVisibility(View.GONE);
-        galleryButton.setOnClickListener(v -> {
+        galleryBtn.setOnClickListener(v -> {
             if (!hasPermission(PERMISSION_STORAGE_READ)) {
                 requestPermission(PERMISSION_STORAGE_READ);
                 return;
             }
             pickImage();
         });
-        cameraButton.setOnClickListener(v -> {
+        cameraBtn.setOnClickListener(v -> {
             if (!hasPermission(PERMISSION_CAMERA)) {
                 requestPermission(PERMISSION_CAMERA);
                 return;
             }
 
-            final View pnlFlash = findViewById(R.id.pnlFlash);
-            alreadyAdded = false;
-            cameraButton.setEnabled(false);
+            final View flash = findViewById(R.id.flash);
+            cameraBtn.setEnabled(false);
             snapShot.set(true);
             imageSet = false;
             updateResults(null);
 
             imageViewFromGallery.setEnabled(false);
-            continuousInferenceButton.setChecked(false);
+            inferenceBtn.setChecked(false);
 
             // show flash animation
-            pnlFlash.setVisibility(View.VISIBLE);
+            flash.setVisibility(View.VISIBLE);
             AlphaAnimation fade = new AlphaAnimation(1, 0);
             fade.setDuration(500);
             fade.setAnimationListener(new Animation.AnimationListener() {
@@ -198,7 +206,7 @@ public abstract class CameraActivity extends FragmentActivity
 
                 @Override
                 public void onAnimationEnd(Animation anim) {
-                    pnlFlash.setVisibility(View.GONE);
+                    flash.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -207,10 +215,10 @@ public abstract class CameraActivity extends FragmentActivity
                 }
             });
 
-            pnlFlash.startAnimation(fade);
+            flash.startAnimation(fade);
         });
-        exitButton.setVisibility(View.VISIBLE);
-        exitButton.setOnClickListener(new View.OnClickListener() {
+        exitBtn.setVisibility(View.VISIBLE);
+        exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CameraActivity.this, IndexActivity.class);
@@ -218,7 +226,7 @@ public abstract class CameraActivity extends FragmentActivity
                 finish();
             }
         });
-        continuousInferenceButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        inferenceBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!hasPermission(PERMISSION_CAMERA)) requestPermission(PERMISSION_CAMERA);
 
             //imageViewFromGallery.setVisibility(View.GONE);
@@ -231,7 +239,7 @@ public abstract class CameraActivity extends FragmentActivity
             if (!isChecked)
                 resultsView.setEnabled(false);
 
-            cameraButton.setEnabled(true);
+            cameraBtn.setEnabled(true);
 
             imageSet = false;
 
@@ -258,8 +266,7 @@ public abstract class CameraActivity extends FragmentActivity
 
     private void pickImage() {
         galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        continuousInferenceButton.setChecked(false);
-        alreadyAdded = true;
+        inferenceBtn.setChecked(false);
         startActivityForResult(galleryIntent, PICK_IMAGE);
     }
 
@@ -347,16 +354,15 @@ public abstract class CameraActivity extends FragmentActivity
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
                     | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        if (!imageSet) cameraButton.setEnabled(true);
+        if (!imageSet) cameraBtn.setEnabled(true);
     }
 
 
     @Override
     public synchronized void onPause() {
         snapShot.set(false);
-        cameraButton.setEnabled(false);
+        cameraBtn.setEnabled(false);
         isProcessingFrame = false;
-        progressBar.setVisibility(View.GONE);
 
         handlerThread.quitSafely();
         try {
@@ -459,7 +465,6 @@ public abstract class CameraActivity extends FragmentActivity
         for (int i = 0; i < planes.length; ++i) {
             final ByteBuffer buffer = planes[i].getBuffer();
             if (yuvBytes[i] == null) {
-                //LOGGER.d("Initializing buffer %d at size %d", i, buffer.capacity());
                 yuvBytes[i] = new byte[buffer.capacity()];
             }
             buffer.get(yuvBytes[i]);
@@ -467,7 +472,7 @@ public abstract class CameraActivity extends FragmentActivity
     }
 
     protected void readyForNextImage() {
-        // sometimes this will be uninitialized, for whatever reason
+
         if (postInferenceCallback != null) {
             postInferenceCallback.run();
         } else isProcessingFrame = false;
@@ -503,12 +508,12 @@ public abstract class CameraActivity extends FragmentActivity
     void setButtonsVisibility(final int visibility) {
         final boolean enabled = visibility == View.VISIBLE;
 
-        shareButton.setVisibility(visibility);
-        shareButton.setEnabled(enabled);
-        closeButton.setVisibility(visibility);
-        closeButton.setEnabled(enabled);
-        saveButton.setVisibility(visibility);
-        saveButton.setEnabled(enabled);
+        shareBtn.setVisibility(visibility);
+        shareBtn.setEnabled(enabled);
+        closeBtn.setVisibility(visibility);
+        closeBtn.setEnabled(enabled);
+        saveBtn.setVisibility(visibility);
+        saveBtn.setEnabled(enabled);
     }
 
     // update results on our custom textview
@@ -545,9 +550,8 @@ public abstract class CameraActivity extends FragmentActivity
     protected void setImage(Bitmap image) {
         final int transitionTime = 1000;
         imageSet = true;
-        alreadyAdded = false;
 
-        cameraButton.setEnabled(false);
+        cameraBtn.setEnabled(false);
         imageViewFromGallery.setImageBitmap(image);
         imageViewFromGallery.setVisibility(View.VISIBLE);
 
@@ -575,10 +579,9 @@ public abstract class CameraActivity extends FragmentActivity
 
             @Override
             public void onAnimationEnd(Animation anim) {
-                progressBar.setVisibility(View.GONE);
                 imageSet = false;
                 snapShot.set(false);
-                cameraButton.setEnabled(true);
+                cameraBtn.setEnabled(true);
                 readyForNextImage();
             }
 
@@ -589,9 +592,9 @@ public abstract class CameraActivity extends FragmentActivity
         });
 
         imageViewFromGallery.setVisibility(View.VISIBLE);
-        closeButton.setOnClickListener(v -> imageViewFromGallery.startAnimation(fade));
-        exitButton.setVisibility(View.VISIBLE);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        closeBtn.setOnClickListener(v -> imageViewFromGallery.startAnimation(fade));
+        exitBtn.setVisibility(View.VISIBLE);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveImage();
@@ -614,7 +617,7 @@ public abstract class CameraActivity extends FragmentActivity
         final String fileName = getString(R.string.app_name) + " " + System.currentTimeMillis() / 1000;
         fileUrl = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, currentRecognitions.toString());
         bundle.putString("image",fileUrl);
-        saveButton.setVisibility(View.GONE);
+        saveBtn.setVisibility(View.GONE);
         Intent intent = new Intent(CameraActivity.this,StrayFormActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -624,7 +627,7 @@ public abstract class CameraActivity extends FragmentActivity
 
     protected void setupShareButton() {
 
-        shareButton.setOnClickListener(v -> {
+        shareBtn.setOnClickListener(v -> {
             if (!hasPermission(PERMISSION_STORAGE_WRITE)) {
                 requestPermission(PERMISSION_STORAGE_WRITE);
                 return;

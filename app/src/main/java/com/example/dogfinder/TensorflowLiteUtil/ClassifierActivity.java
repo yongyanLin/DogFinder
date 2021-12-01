@@ -1,5 +1,19 @@
 package com.example.dogfinder.TensorflowLiteUtil;
-
+/*
+ * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -28,9 +41,7 @@ import java.util.List;
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
 
     private static final int INPUT_SIZE = 299;
-    private static final int IMAGE_MEAN = 128;
-    private static final float IMAGE_STD = 128;
-    private static final String INPUT_NAME = "Mul";
+
 
     private static final boolean MAINTAIN_ASPECT = true;
     private Bitmap rgbFrameBitmap = null;
@@ -42,25 +53,23 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     @Override
     void handleSendImage(Intent data) {
         final Uri imageUri = data.getParcelableExtra(Intent.EXTRA_STREAM);
-        classifyLoadedImage(imageUri);
+        classifyImage(imageUri);
     }
 
 
     //choose a picture from the image gallery
-
    @Override
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-
-            classifyLoadedImage(data.getData());
+            classifyImage(data.getData());
         }
 
    }
 
 
-    public void classifyLoadedImage(Uri imageUri) {
+    public void classifyImage(Uri imageUri) {
         updateResults(null);
         final int orientation = getOrientation(getApplicationContext(), imageUri);
         final ContentResolver contentResolver = this.getContentResolver();
@@ -102,42 +111,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         return -1;
     }
 
-    private Bitmap resizeCropAndRotate(Bitmap originalImage, int orientation) {
-        Bitmap result = Bitmap.createBitmap(INPUT_SIZE, INPUT_SIZE, Config.ARGB_8888);
-
-        final float originalWidth = originalImage.getWidth();
-        final float originalHeight = originalImage.getHeight();
-
-        final Canvas canvas = new Canvas(result);
-
-        final float scale = INPUT_SIZE / originalWidth;
-
-        final float xTranslation = 0.0f;
-        final float yTranslation = (INPUT_SIZE - originalHeight * scale) / 2.0f;
-
-        final Matrix transformation = new Matrix();
-        transformation.postTranslate(xTranslation, yTranslation);
-        transformation.preScale(scale, scale);
-
-        final Paint paint = new Paint();
-        paint.setFilterBitmap(true);
-
-        canvas.drawBitmap(originalImage, transformation, paint);
-
-        /*
-         * if the orientation is not 0 (or -1, which means we don't know), we
-         * have to do a rotation.
-         */
-        if (orientation > 0) {
-            final Matrix matrix = new Matrix();
-            matrix.postRotate(orientation);
-
-            result = Bitmap.createBitmap(result, 0, 0, INPUT_SIZE,
-                    INPUT_SIZE, matrix, true);
-        }
-
-        return result;
-    }
 
     @Override
     public void onPreviewSizeChosen(final Size size, final int rotation) {
@@ -162,8 +135,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
                 classifier = Classifier.create(this);
             } catch (OutOfMemoryError | IOException e) {
                 runOnUiThread(() -> {
-                    cameraButton.setEnabled(true);
-                    continuousInferenceButton.setChecked(false);
+                    cameraBtn.setEnabled(true);
+                    inferenceBtn.setChecked(false);
                     Toast.makeText(getApplicationContext(), R.string.error_tf_init, Toast.LENGTH_LONG).show();
                 });
             }
@@ -181,11 +154,9 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
 
         if (snapShot.compareAndSet(true, false) || continuousInference) {
-            final Bitmap finalCroppedBitmap = croppedBitmap.copy(croppedBitmap.getConfig(), false);
 
             runOnUiThread(() -> {
                 if (!continuousInference && !imageSet)
-                    //setImage(finalCroppedBitmap);
                     setImage(croppedBitmap);
                 inferenceTask = new InferenceTask();
                 inferenceTask.execute(croppedBitmap);
@@ -193,12 +164,10 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         }
     }
 
-
     protected class InferenceTask extends AsyncTask<Bitmap, Void, List<Classifier.Recognition>> {
         @Override
         protected void onPreExecute() {
-            if (!continuousInference)
-                progressBar.setVisibility(View.VISIBLE);
+
         }
 
         @Override
@@ -214,7 +183,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
         @Override
         protected void onPostExecute(List<Classifier.Recognition> recognitions) {
-            progressBar.setVisibility(View.GONE);
 
             if (!isCancelled())
                 updateResults(recognitions);

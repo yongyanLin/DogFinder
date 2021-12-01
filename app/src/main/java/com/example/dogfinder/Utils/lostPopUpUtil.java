@@ -67,7 +67,6 @@ public class lostPopUpUtil extends PopupWindow {
 
         this.setBackgroundDrawable(dw);
 
-
         this.setAnimationStyle(R.style.popup_style);
 
 

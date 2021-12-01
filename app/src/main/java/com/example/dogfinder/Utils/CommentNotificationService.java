@@ -89,10 +89,10 @@ public class CommentNotificationService extends FirebaseMessagingService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            String channelId = "Your_channel_id";
+            String channelId = "reply";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
-                    "Channel human readable title",
+                    "Receiving reply!",
                     NotificationManager.IMPORTANCE_HIGH);
             manager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
