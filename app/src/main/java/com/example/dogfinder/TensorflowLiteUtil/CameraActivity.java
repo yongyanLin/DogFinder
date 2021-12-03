@@ -93,7 +93,7 @@ public abstract class CameraActivity extends FragmentActivity
     ImageButton cameraBtn, shareBtn, closeBtn, saveBtn,exitBtn;
     CircleImageView galleryBtn;
     ToggleButton inferenceBtn;
-    ImageView imageViewFromGallery;
+    ImageView imageView;
     private Handler handler;
     private HandlerThread handlerThread;
     private boolean isProcessingFrame = false;
@@ -152,7 +152,6 @@ public abstract class CameraActivity extends FragmentActivity
                     pickImage();
                     break;
                 case PERMISSION_STORAGE_WRITE:
-                    // user might have clicked on save or share button
                     shareBtn.callOnClick();
                     break;
             }
@@ -160,7 +159,7 @@ public abstract class CameraActivity extends FragmentActivity
     }
 
     private void setupButtons() {
-        imageViewFromGallery = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         resultsView = findViewById(R.id.results);
 
         inferenceBtn = findViewById(R.id.inferenceBtn);
@@ -192,7 +191,7 @@ public abstract class CameraActivity extends FragmentActivity
             imageSet = false;
             updateResults(null);
 
-            imageViewFromGallery.setEnabled(false);
+            imageView.setEnabled(false);
             inferenceBtn.setChecked(false);
 
             // show flash animation
@@ -552,10 +551,10 @@ public abstract class CameraActivity extends FragmentActivity
         imageSet = true;
 
         cameraBtn.setEnabled(false);
-        imageViewFromGallery.setImageBitmap(image);
-        imageViewFromGallery.setVisibility(View.VISIBLE);
+        imageView.setImageBitmap(image);
+        imageView.setVisibility(View.VISIBLE);
 
-        final TransitionDrawable transition = (TransitionDrawable) imageViewFromGallery.getBackground();
+        final TransitionDrawable transition = (TransitionDrawable) imageView.getBackground();
         transition.startTransition(transitionTime);
         setupShareButton();
 
@@ -569,12 +568,11 @@ public abstract class CameraActivity extends FragmentActivity
                 if (inferenceTask != null)
                     inferenceTask.cancel(true);
 
-                imageViewFromGallery.setClickable(false);
+                imageView.setClickable(false);
                 runInBackground(() -> updateResults(null));
                 transition.reverseTransition(transitionTime);
-                imageViewFromGallery.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
                 setButtonsVisibility(View.GONE);
-                //exitButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -591,8 +589,8 @@ public abstract class CameraActivity extends FragmentActivity
             }
         });
 
-        imageViewFromGallery.setVisibility(View.VISIBLE);
-        closeBtn.setOnClickListener(v -> imageViewFromGallery.startAnimation(fade));
+        imageView.setVisibility(View.VISIBLE);
+        closeBtn.setOnClickListener(v -> imageView.startAnimation(fade));
         exitBtn.setVisibility(View.VISIBLE);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -613,7 +611,7 @@ public abstract class CameraActivity extends FragmentActivity
         bundle.putString("breed",result);
 
         //save image to gallery
-        bitmap = ((BitmapDrawable)imageViewFromGallery.getDrawable()).getBitmap();
+        bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         final String fileName = getString(R.string.app_name) + " " + System.currentTimeMillis() / 1000;
         fileUrl = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, currentRecognitions.toString());
         bundle.putString("image",fileUrl);
