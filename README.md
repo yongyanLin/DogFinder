@@ -1,3 +1,7 @@
 # DogFinder
-Abstract
+The example video of this application can be accessed through the link below
 ===
+https://www.youtube.com/watch?v=X5LF1sv_zw8&t=55s
+Abstract
+---
+The increasing number of stray dogs will bring serious public health, community safety, and animal welfare problems to society. However, how to effectively control the number of stray dogs is still a thorny issue. Different countries and regions have different control methods, which has also triggered a series of ethical issues and concerns about dog welfare. The purpose of the project is to develop a user-friendly mobile application to help alleviate the stray dog crisis. At the same time, deepen the public's awareness of the problem of stray dogs and encourage them to actively participate in solving the problem, and cultivate a sense of responsibility for pets. The application allows users to upload images of stray dogs or lost pet dogs through a camera or album, and predict the breeds of stray dogs in the picture by integrating the TensorFlow Lite model and Convolutional Neural Networks model. At the same time, the import of Google Maps allows users to mark the location of the dog, and further improve the dog's information by filling in the characteristic options given in the system form. In addition, by integrating Firebase, the app also allows users to browse, bookmark, share and comment on posts in real-time. Through black box testing and user evaluation, the application function is further verified and the research questions raised are answered. The results show that the application can meet all the must-have and should-have requirements.
