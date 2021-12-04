@@ -203,16 +203,6 @@
         <item>Wire-haired fox terrier</item>
         <item>Yorkshire terrier</item>
     </string-array>
-    <string name="exit_menu">Exit</string>
-    <string name="error_tf_init">Out of Memory Error. Try closing a few background applications.</string>
-    <string name="share_with">Share with..</string>
-    <string name="list_breeds">Supported Breeds</string>
-    <string name="searchFor">Look up on Wikipedia?</string>
-    <string name="no">No</string>
-    <string name="yes">Yes</string>
-    <string name="no_detection">No detection</string>
-    <string name="change_language">Change Language</string>
-    <string name="activity_name_classification">Identify Dog Breeds</string>
-    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-    <string name="from_gallery">From Gallery..</string>
+    <string name="share">Share ...</string>
+    <string name="resultsHint">Click off button to enable real-time detection</string>
 </resources>

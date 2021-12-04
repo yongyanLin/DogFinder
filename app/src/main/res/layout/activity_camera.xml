@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/camera_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".TensorflowLiteUtil.CameraActivity">
+    <com.example.dogfinder.TensorflowLiteUtil.RecognitionScoreView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/score_background"
+        android:paddingLeft="@dimen/_10sdp"
+        android:text="@string/resultsHint"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp"
+        android:translationZ="@dimen/_100sdp"
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@drawable/transition"
+        android:translationZ="@dimen/_50sdp"
+        android:visibility="gone" />
     <ToggleButton
-        android:id="@+id/inferenceBtn"
+        android:id="@+id/statusBtn"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_alignParentBottom="true"
@@ -22,7 +42,7 @@
         android:id="@+id/exitBtn"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
-        android:layout_alignStart="@id/inferenceBtn"
+        android:layout_alignStart="@id/statusBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/_10sdp"
@@ -56,19 +76,7 @@
         android:layout_marginBottom="@dimen/_50sdp"
         android:src="@mipmap/gallery_red"
         android:translationZ="@dimen/_40sdp" />
-    <ImageButton
-        android:id="@+id/shareBtn"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_50sdp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/round_background"
-        android:src="@android:drawable/ic_menu_share"
-        android:translationZ="@dimen/_200sdp"
-        android:visibility="gone" />
+
 
     <ImageButton
         android:id="@+id/saveBtn"
@@ -97,33 +105,11 @@
         android:src="@mipmap/back_icon"
         android:translationZ="@dimen/_200sdp"
         android:visibility="gone" />
-
-    <com.example.dogfinder.TensorflowLiteUtil.RecognitionScoreView
-        android:id="@+id/results"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_90sdp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/score_background"
-        android:elevation="@android:dimen/app_icon_size"
-        android:enabled="false"
-        android:paddingLeft="@dimen/_10sdp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_20ssp"
-        android:translationZ="@dimen/_100sdp"
-        />
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="@drawable/transition"
-        android:translationZ="@dimen/_50sdp"
-        android:visibility="gone" />
     <FrameLayout
-        android:id="@+id/flash"
+        android:id="@+id/flashLight"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF"
+        android:background="@color/white"
         android:translationZ="@dimen/_200sdp"
         android:visibility="gone" />
 

@@ -177,10 +177,6 @@ public class LostMapActivity extends BaseActivity implements OnMapReadyCallback 
             return;
         }
         Location cLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (cLocation == null) {
-            showToast("null");
-            return;
-        }
         double longitude = cLocation.getLongitude();
         double latitude = cLocation.getLatitude();
         Geocoder geocoder = new Geocoder(LostMapActivity.this, Locale.getDefault());

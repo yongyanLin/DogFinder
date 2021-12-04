@@ -135,9 +135,6 @@ public class DataUtil {
         //distance in miles
         distance = raddeg(distance);
         distance = distance * 60 * 1.1515;
-        //in kilometers
-        //distance = distance * 1.609344;
-        //keep two decimal
         distance = Math.round(distance * 100.0) / 100.0;
         return distance;
     }

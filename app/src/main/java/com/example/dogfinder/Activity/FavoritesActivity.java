@@ -234,7 +234,7 @@ public class FavoritesActivity extends BaseActivity {
                                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                                         shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
                                         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_with)));
+                                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();

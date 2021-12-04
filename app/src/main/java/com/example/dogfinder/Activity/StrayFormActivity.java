@@ -309,7 +309,6 @@ public class StrayFormActivity extends BaseActivity {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
-
             return;
         }
         Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);

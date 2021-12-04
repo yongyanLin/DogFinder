@@ -100,7 +100,7 @@ public class SquareActivity extends BaseActivity {
         timeAdapter = new TextAdapter(SquareActivity.this,DataUtil.getTimeOption());
         locationAdapter = new TextAdapter(SquareActivity.this, DataUtil.getLocationOption());
         //get current location
-        LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -108,7 +108,8 @@ public class SquareActivity extends BaseActivity {
 
             return;
         }
-        Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        //get current Location from Internet
+        Location clocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         longitude = clocation.getLongitude();
         latitude =  clocation.getLatitude();
         //get the type of this square
@@ -240,7 +241,6 @@ public class SquareActivity extends BaseActivity {
                         }
                     }
 
-
                     @Override
                     public void onCommentClick(int position) {
                         Intent intent = new Intent(getApplicationContext(),CommentActivity.class);
@@ -275,7 +275,7 @@ public class SquareActivity extends BaseActivity {
                                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                                         shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
                                         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_with)));
+                                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();

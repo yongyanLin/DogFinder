@@ -371,7 +371,7 @@ public class CameraConnectionFragment extends Fragment {
         } catch (final NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            throw new RuntimeException(getString(R.string.camera_error));
+            throw new RuntimeException("Camera2API is not used!");
         }
 
         cameraConnectionCallback.onPreviewSizeChosen(previewSize, sensorOrientation);

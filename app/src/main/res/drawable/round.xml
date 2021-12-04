@@ -6,6 +6,6 @@
     android:useLevel="false">
     <solid android:color="@android:color/transparent" />
     <stroke
-        android:width="@dimen/_10sdp"
+        android:width="@dimen/_15sdp"
         android:color="@android:color/white" />
 </shape>

@@ -171,10 +171,8 @@ public abstract class Classifier {
         tflite = new Interpreter(tfliteModel);
 
 
-        // Loads labels out from the label file.
         labels = FileUtil.loadLabels(activity, getLabelPath());
 
-        // Reads type and shape of input and output tensors, respectively.
         int imageTensorIndex = 0;
         int[] imageShape = tflite.getInputTensor(imageTensorIndex).shape(); // {1, height, width, 3}
         imageSizeY = imageShape[1];
@@ -185,13 +183,9 @@ public abstract class Classifier {
                 tflite.getOutputTensor(probabilityTensorIndex).shape(); // {1, NUM_CLASSES}
         DataType probabilityDataType = tflite.getOutputTensor(probabilityTensorIndex).dataType();
 
-        // Creates the input tensor.
         inputImageBuffer = new TensorImage(imageDataType);
 
-        // Creates the output tensor and its processor.
         outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape, probabilityDataType);
-
-        // Creates the post processor for the output probability.
         probabilityProcessor = new TensorProcessor.Builder().add(getPostprocessNormalizeOp()).build();
 
 
@@ -199,23 +193,16 @@ public abstract class Classifier {
 
     /** Runs inference and returns the classification results. */
     public List<Recognition> recognizeImage(final Bitmap bitmap, int sensorOrientation) {
-        // Logs this method so that it can be analyzed with systrace.
         Trace.beginSection("recognizeImage");
-
         Trace.beginSection("loadImage");
-        long startTimeForLoadImage = SystemClock.uptimeMillis();
         inputImageBuffer = loadImage(bitmap, sensorOrientation);
-        long endTimeForLoadImage = SystemClock.uptimeMillis();
         Trace.endSection();
 
-        // Runs the inference call.
+
         Trace.beginSection("runInference");
-        long startTimeForReference = SystemClock.uptimeMillis();
         // TODO: Run TFLite inference
         tflite.run(inputImageBuffer.getBuffer(), outputProbabilityBuffer.getBuffer().rewind());
 
-
-        long endTimeForReference = SystemClock.uptimeMillis();
         Trace.endSection();
 
 
@@ -228,29 +215,13 @@ public abstract class Classifier {
 
         Trace.endSection();
 
-        // Gets top-3 results.
         return getTopKProbability(labeledProbability);
     }
-
-    /** Closes the interpreter and model to release resources. */
-    public void close() {
-        if (tflite != null) {
-            // TODO: Close the interpreter
-
-            tflite.close();
-            tflite = null;
-
-        }
-
-
-        tfliteModel = null;
-    }
-
 
 
     /** Loads input image, and applies preprocessing. */
     private TensorImage loadImage(final Bitmap bitmap, int sensorOrientation) {
-        // Loads bitmap into a TensorImage.
+
         inputImageBuffer.load(bitmap);
 
         // Creates processor for the TensorImage.
@@ -270,7 +241,6 @@ public abstract class Classifier {
 
     /** Gets the top-k results. */
     private static List<Recognition> getTopKProbability(Map<String, Float> labelProb) {
-        // Find the best classifications.
         PriorityQueue<Recognition> pq =
                 new PriorityQueue<>(
                         MAX_RESULTS,
@@ -303,13 +273,5 @@ public abstract class Classifier {
     /** Gets the TensorOperator to nomalize the input image in preprocessing. */
     protected abstract TensorOperator getPreprocessNormalizeOp();
 
-    /**
-     * Gets the TensorOperator to dequantize the output probability in post processing.
-     *
-     * <p>For quantized model, we need de-quantize the prediction with NormalizeOp (as they are all
-     * essentially linear transformation). For float model, de-quantize is not required. But to
-     * uniform the API, de-quantize is added to float model too. Mean and std are set to 0.0f and
-     * 1.0f, respectively.
-     */
     protected abstract TensorOperator getPostprocessNormalizeOp();
 }

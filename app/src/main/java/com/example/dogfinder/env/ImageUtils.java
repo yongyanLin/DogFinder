@@ -21,8 +21,7 @@ import android.graphics.Matrix;
  **/
 public class ImageUtils {
 
-    // This value is 2 ^ 18 - 1, and is used to clamp the RGB values before their ranges
-    // are normalized to eight bits.
+
     static final int kMaxChannelValue = 262143;
 
     private static int YUV2RGB(int y, int u, int v) {

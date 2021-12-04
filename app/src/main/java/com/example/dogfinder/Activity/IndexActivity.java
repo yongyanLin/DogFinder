@@ -241,7 +241,6 @@ public class IndexActivity extends BaseActivity {
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = time+"_pic";
         File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        //File storeDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(fileName,".jpg",storeDir);
         photoPath = image.getAbsolutePath();
         return image;
@@ -273,7 +272,6 @@ public class IndexActivity extends BaseActivity {
     private void requestPermission(final String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(this,new String[]{permission},PERMISSIONS_REQUEST);
-            //requestPermissions(new String[]{permission}, PERMISSIONS_REQUEST);
         }
     }
 

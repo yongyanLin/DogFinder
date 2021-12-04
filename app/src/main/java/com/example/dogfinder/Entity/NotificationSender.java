@@ -26,8 +26,8 @@ public class NotificationSender {
     Context context;
     Activity activity;
 
-    private RequestQueue requestQueue;
-    private final String postUrl ="https://fcm.googleapis.com/fcm/send";
+    private RequestQueue queue;
+    private final String messagingUrl ="https://fcm.googleapis.com/fcm/send";
     private final String Key = "AAAAEGs21bA:APA91bEXVBLhNJBT9Nn6CaNO0nQ-iDIzY7kKlm9nN808afD4T-ImCXvBLkWEUWw-NpAIJc3MI9Fn7Dt3M3sl2kSY9I-XKbhpj5EdoWFHdRBJvTP1_nTtcE-WPJSY-2K8UeIYMgM_CsqD";
 
     public NotificationSender(String token, String body, Context context, Activity activity) {
@@ -38,13 +38,6 @@ public class NotificationSender {
         this.activity = activity;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public String getBody() {
         return body;
@@ -79,16 +72,16 @@ public class NotificationSender {
     }
 
     public void sendCommentNotification(){
-        requestQueue = Volley.newRequestQueue(activity);
+        queue = Volley.newRequestQueue(activity);
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to",token);
-            JSONObject notiObject = new JSONObject();
-            notiObject.put("title",title);
-            notiObject.put("body",body);
-            notiObject.put("icon", R.mipmap.comment);
-            mainObj.put("notification",notiObject);
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, new Response.Listener<JSONObject>() {
+            JSONObject object = new JSONObject();
+            object.put("title",title);
+            object.put("body",body);
+            object.put("icon", R.mipmap.comment);
+            mainObj.put("notification",object);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, messagingUrl, mainObj, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
@@ -101,16 +94,14 @@ public class NotificationSender {
             }){
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-
-
-                    Map<String, String> header = new HashMap<>();
-                    header.put("content-type", "application/json");
-                    header.put("authorization", "key=" + Key);
-                    return header;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("content-type", "application/json");
+                    map .put("authorization", "key=" + Key);
+                    return map;
 
                 }
             };
-            requestQueue.add(request);
+            queue.add(request);
         } catch (JSONException e) {
             e.printStackTrace();
         }

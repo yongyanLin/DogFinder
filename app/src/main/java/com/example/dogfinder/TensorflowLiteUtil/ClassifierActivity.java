@@ -15,9 +15,7 @@ package com.example.dogfinder.TensorflowLiteUtil;
  * limitations under the License.
  */
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -27,10 +25,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Size;
-import android.view.View;
 import android.widget.Toast;
 
 
+import com.example.dogfinder.Activity.IndexActivity;
 import com.example.dogfinder.R;
 import com.example.dogfinder.env.ImageUtils;
 
@@ -40,7 +38,7 @@ import java.util.List;
 
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
 
-    private static final int INPUT_SIZE = 299;
+    private static final int INPUT_SIZE = 325;
 
 
     private static final boolean MAINTAIN_ASPECT = true;
@@ -50,65 +48,32 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     private int sensorOrientation;
     private Classifier classifier;
 
-    @Override
-    void handleSendImage(Intent data) {
-        final Uri imageUri = data.getParcelableExtra(Intent.EXTRA_STREAM);
-        classifyImage(imageUri);
-    }
-
 
     //choose a picture from the image gallery
    @Override
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-            classifyImage(data.getData());
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_FROM_GALLERY){
+            predictImageClass(data.getData());
         }
 
    }
 
-
-    public void classifyImage(Uri imageUri) {
-        updateResults(null);
-        final int orientation = getOrientation(getApplicationContext(), imageUri);
-        final ContentResolver contentResolver = this.getContentResolver();
-
+    public void predictImageClass(Uri imageUri) {
+        getResults(null);
         try {
-            final Bitmap croppedFromGallery;
-            //croppedFromGallery = resizeCropAndRotate(MediaStore.Images.Media.getBitmap(contentResolver, imageUri), orientation);
-            croppedFromGallery = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
-            runOnUiThread(() -> {
-                setImage(croppedFromGallery);
-                inferenceTask = new InferenceTask();
-                inferenceTask.execute(croppedFromGallery);
+            Bitmap selectedImg;
+            selectedImg = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setCameraImage(selectedImg);
+                    inferenceTask = new resultTask();
+                    inferenceTask.execute(selectedImg);
+                }
             });
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "Unable to load image", Toast.LENGTH_LONG).show();
         }
-    }
-
-    // get orientation of picture
-    public int getOrientation(Context context, Uri photoUri) {
-        /* it's on the external media. */
-        try (final Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null)
-        ) {
-            if (cursor.getCount() != 1) {
-                cursor.close();
-                return -1;
-            }
-
-            if (cursor != null && cursor.moveToFirst()) {
-                final int r = cursor.getInt(0);
-                cursor.close();
-                return r;
-            }
-
-        } catch (Exception e) {
-            return -1;
-        }
-        return -1;
     }
 
 
@@ -116,7 +81,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     public void onPreviewSizeChosen(final Size size, final int rotation) {
         previewWidth = size.getWidth();
         previewHeight = size.getHeight();
-
         rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Config.ARGB_8888);
         croppedBitmap = Bitmap.createBitmap(INPUT_SIZE, INPUT_SIZE, Config.ARGB_8888);
         sensorOrientation = rotation - getScreenOrientation();
@@ -135,58 +99,55 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
                 classifier = Classifier.create(this);
             } catch (OutOfMemoryError | IOException e) {
                 runOnUiThread(() -> {
+                    statusBtn.setChecked(false);
                     cameraBtn.setEnabled(true);
-                    inferenceBtn.setChecked(false);
-                    Toast.makeText(getApplicationContext(), R.string.error_tf_init, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Out of Memory", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(ClassifierActivity.this, IndexActivity.class);
+                    startActivity(intent);
                 });
             }
     }
 
     @Override
     protected void processImage() {
-        if (!snapShot.get() && !continuousInference && !imageSet) {
+        if ( !snapShot.get() &&!statusInference && !imageSet) {
             readyForNextImage();
             return;
         }
 
         rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewWidth, 0, 0, previewWidth, previewHeight);
-        final Canvas canvas = new Canvas(croppedBitmap);
+        Canvas canvas = new Canvas(croppedBitmap);
         canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
 
-        if (snapShot.compareAndSet(true, false) || continuousInference) {
-
+        if (snapShot.compareAndSet(true, false) || statusInference) {
             runOnUiThread(() -> {
-                if (!continuousInference && !imageSet)
-                    setImage(croppedBitmap);
-                inferenceTask = new InferenceTask();
+                if (!imageSet && !statusInference){
+                    setCameraImage(croppedBitmap);
+                }
+                inferenceTask = new resultTask();
                 inferenceTask.execute(croppedBitmap);
             });
         }
     }
 
-    protected class InferenceTask extends AsyncTask<Bitmap, Void, List<Classifier.Recognition>> {
+    protected class resultTask extends AsyncTask<Bitmap, Void, List<Classifier.Recognition>> {
         @Override
         protected void onPreExecute() {
 
         }
-
         @Override
-        protected List<Classifier.Recognition> doInBackground(Bitmap... bitmaps) {
+        protected List<Classifier.Recognition> doInBackground(Bitmap... bitmap) {
             initClassifier();
-
             if (!isCancelled() && classifier != null) {
-                return classifier.recognizeImage(bitmaps[0],sensorOrientation);
+                return classifier.recognizeImage(bitmap[0],sensorOrientation);
             }
-
             return null;
         }
-
         @Override
         protected void onPostExecute(List<Classifier.Recognition> recognitions) {
-
-            if (!isCancelled())
-                updateResults(recognitions);
-
+            if (!isCancelled()){
+                getResults(recognitions);
+            }
             readyForNextImage();
         }
     }
