@@ -68,8 +68,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
                 @Override
                 public void run() {
                     setCameraImage(selectedImg);
-                    inferenceTask = new resultTask();
-                    inferenceTask.execute(selectedImg);
+                    resultTask = new resultTask();
+                    resultTask.execute(selectedImg);
                 }
             });
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         frameToCropTransform.invert(cropToFrameTransform);
     }
 
-    protected synchronized void initClassifier() {
+    protected synchronized void createClassifier() {
         if (classifier == null)
             try {
                 classifier = Classifier.create(this);
@@ -101,7 +101,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
                 runOnUiThread(() -> {
                     statusBtn.setChecked(false);
                     cameraBtn.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), "Out of Memory", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ClassifierActivity.this, IndexActivity.class);
                     startActivity(intent);
                 });
@@ -110,22 +109,20 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
     @Override
     protected void processImage() {
-        if ( !snapShot.get() &&!statusInference && !imageSet) {
+        if ( !shortCut.get() &&!statusInference && !imageSet) {
             readyForNextImage();
             return;
         }
-
         rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewWidth, 0, 0, previewWidth, previewHeight);
         Canvas canvas = new Canvas(croppedBitmap);
         canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
-
-        if (snapShot.compareAndSet(true, false) || statusInference) {
+        if (shortCut.compareAndSet(true, false) || statusInference) {
             runOnUiThread(() -> {
                 if (!imageSet && !statusInference){
                     setCameraImage(croppedBitmap);
                 }
-                inferenceTask = new resultTask();
-                inferenceTask.execute(croppedBitmap);
+                resultTask = new resultTask();
+                resultTask.execute(croppedBitmap);
             });
         }
     }
@@ -137,7 +134,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         }
         @Override
         protected List<Classifier.Recognition> doInBackground(Bitmap... bitmap) {
-            initClassifier();
+            createClassifier();
             if (!isCancelled() && classifier != null) {
                 return classifier.recognizeImage(bitmap[0],sensorOrientation);
             }

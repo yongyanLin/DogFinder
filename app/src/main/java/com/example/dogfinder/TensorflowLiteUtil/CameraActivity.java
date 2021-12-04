@@ -71,9 +71,9 @@ public abstract class CameraActivity extends FragmentActivity
     public static String cameraId;
     protected int previewWidth = 0;
     protected int previewHeight = 0;
-    protected ClassifierActivity.resultTask inferenceTask;
+    protected ClassifierActivity.resultTask resultTask;
     TextView resultView;
-    AtomicBoolean snapShot = new AtomicBoolean(false);
+    AtomicBoolean shortCut;
     boolean statusInference = false;
     boolean imageSet = false;
     ImageButton cameraBtn, closeBtn, saveBtn,exitBtn;
@@ -99,6 +99,7 @@ public abstract class CameraActivity extends FragmentActivity
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(null);
         setContentView(R.layout.activity_camera);
+        shortCut = new AtomicBoolean(false);
         imageView = findViewById(R.id.imageView);
         resultView = findViewById(R.id.results);
 
@@ -128,7 +129,7 @@ public abstract class CameraActivity extends FragmentActivity
                     return;
                 }
                 cameraBtn.setEnabled(false);
-                snapShot.set(true);
+                shortCut.set(true);
                 imageSet = false;
                 imageView.setEnabled(false);
                 statusBtn.setChecked(false);
@@ -165,8 +166,8 @@ public abstract class CameraActivity extends FragmentActivity
         statusBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             statusInference = isChecked;
             if (!statusInference){
-                if (inferenceTask != null){
-                    inferenceTask.cancel(true);
+                if (resultTask != null){
+                    resultTask.cancel(true);
                 }
             }
             cameraBtn.setEnabled(true);
@@ -177,7 +178,7 @@ public abstract class CameraActivity extends FragmentActivity
             readyForNextImage();
         });
 
-        initClassifier();
+        createClassifier();
 
     }
 
@@ -263,7 +264,7 @@ public abstract class CameraActivity extends FragmentActivity
             setFragment();
         }
 
-        snapShot.set(false);
+        shortCut.set(false);
 
         handlerThread = new HandlerThread("inference");
         handlerThread.start();
@@ -367,7 +368,7 @@ public abstract class CameraActivity extends FragmentActivity
 
     protected abstract void onPreviewSizeChosen(final Size size, final int rotation);
 
-    protected abstract void initClassifier();
+    protected abstract void createClassifier();
 
     public void getResults(List<Classifier.Recognition> results) {
         runOnUiThread(() -> {
@@ -478,7 +479,6 @@ public abstract class CameraActivity extends FragmentActivity
         if (isProcessingFrame) {
             return;
         }
-
         try {
 
             if (rgbBytes == null) {
