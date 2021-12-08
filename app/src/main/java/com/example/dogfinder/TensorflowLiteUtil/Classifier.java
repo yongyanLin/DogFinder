@@ -43,71 +43,50 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 public abstract class Classifier {
-    /** Number of results to show in the UI. */
+
     private static final int MAX_RESULTS = 3;
 
-    /** The loaded TensorFlow Lite model. */
     private MappedByteBuffer tfliteModel;
 
-    /** Image size along the x axis. */
     private final int imageSizeX;
 
-    /** Image size along the y axis. */
     private final int imageSizeY;
 
-    /** Optional GPU delegate for acceleration. */
 
-
-
-    /** An instance of the driver class to run model inference with Tensorflow Lite. */
     // TODO: Declare a TFLite interpreter
     protected Interpreter tflite;
 
-    /** Options for configuring the Interpreter. */
-    private final Interpreter.Options tfliteOptions = new Interpreter.Options();
 
-    /** Labels corresponding to the output of the vision model. */
+
     private List<String> labels;
 
-    /** Input image TensorBuffer. */
+
     private TensorImage inputImageBuffer;
 
-    /** Output probability TensorBuffer. */
+
     private final TensorBuffer outputProbabilityBuffer;
 
-    /** Processer to apply post processing of the output probability. */
+
     private final TensorProcessor probabilityProcessor;
 
-    /**
-     * Creates a classifier with the provided configuration.
-     *
-     * @param activity The current Activity.
 
-     * @return A classifier with the desired configuration.
-     */
     public static Classifier create(Activity activity)
             throws IOException {
 
         return new ClassifierMobile(activity);
     }
 
-    /** An immutable result returned by a Classifier describing what was recognized. */
+
     public static class Recognition {
-        /**
-         * A unique identifier for what has been recognized. Specific to the class, not the instance of
-         * the object.
-         */
+
         private final String id;
 
-        /** Display name for the recognition. */
+
         private final String title;
 
-        /**
-         * A sortable score for how good the recognition is relative to others. Higher should be better.
-         */
+
         private final Float confidence;
 
-        /** Optional location within the source image for the location of the recognized object. */
         private RectF location;
 
         public Recognition(
@@ -161,7 +140,6 @@ public abstract class Classifier {
         }
     }
 
-    /** Initializes a {@code Classifier}. */
     protected Classifier(Activity activity) throws IOException {
         tfliteModel = FileUtil.loadMappedFile(activity, getModelPath());
 
@@ -198,13 +176,11 @@ public abstract class Classifier {
         inputImageBuffer = loadImage(bitmap, sensorOrientation);
         Trace.endSection();
 
-
         Trace.beginSection("runInference");
         // TODO: Run TFLite inference
         tflite.run(inputImageBuffer.getBuffer(), outputProbabilityBuffer.getBuffer().rewind());
 
         Trace.endSection();
-
 
         // Gets the map of label and probability.
         // TODO: Use TensorLabel from TFLite Support Library to associate the probabilities
@@ -224,7 +200,6 @@ public abstract class Classifier {
 
         inputImageBuffer.load(bitmap);
 
-        // Creates processor for the TensorImage.
         int cropSize = Math.min(bitmap.getWidth(), bitmap.getHeight());
         int numRoration = sensorOrientation / 90;
         // TODO: Define an ImageProcessor from TFLite Support Library to do preprocessing
@@ -247,7 +222,6 @@ public abstract class Classifier {
                         new Comparator<Recognition>() {
                             @Override
                             public int compare(Recognition lhs, Recognition rhs) {
-                                // Intentionally reversed to put high confidence at the head of the queue.
                                 return Float.compare(rhs.getConfidence(), lhs.getConfidence());
                             }
                         });
@@ -264,13 +238,12 @@ public abstract class Classifier {
         return recognitions;
     }
 
-    /** Gets the name of the model file stored in Assets. */
+
     protected abstract String getModelPath();
 
-    /** Gets the name of the label file stored in Assets. */
+
     protected abstract String getLabelPath();
 
-    /** Gets the TensorOperator to nomalize the input image in preprocessing. */
     protected abstract TensorOperator getPreprocessNormalizeOp();
 
     protected abstract TensorOperator getPostprocessNormalizeOp();

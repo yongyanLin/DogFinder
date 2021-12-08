@@ -15,9 +15,6 @@ import android.os.Vibrator;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import com.example.dogfinder.Activity.CommentActivity;
 import com.example.dogfinder.Activity.CommentListActivity;
 import com.example.dogfinder.Entity.TokenData;
 import com.example.dogfinder.R;
@@ -34,8 +31,6 @@ public class CommentNotificationService extends FirebaseMessagingService {
     public CommentNotificationService(){
 
     }
-
-
     //upload new token to firestore
     @Override
     public void onNewToken(@NonNull String s) {
@@ -64,14 +59,14 @@ public class CommentNotificationService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),notification);
-        r.play();
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),notification);
+        ringtone.play();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-            r.setLooping(false);
+            ringtone.setLooping(false);
         }
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {100,300,300,300};
-        v.vibrate(pattern,-1);
+        vibrator.vibrate(pattern,-1);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"Comment Channel");
         builder.setSmallIcon(R.mipmap.comment);
         //click on notification and go to CommentListActivity

@@ -3,16 +3,19 @@ package com.example.dogfinder.Activity;
 import static com.example.dogfinder.Activity.IndexActivity.LOCATION_PERM_CODE;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +58,7 @@ public class DogDetailActivity extends BaseActivity {
     CommentAdapter commentAdapter;
     List<Comment> list;
     double latitude,longitude;
+    private static final int GPS_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +72,16 @@ public class DogDetailActivity extends BaseActivity {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
-
             return;
         }
         Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        //get current location
-        longitude = clocation.getLongitude();
-        latitude =  clocation.getLatitude();
+        if (clocation == null) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, GPS_REQUEST_CODE);
+        }else{
+            longitude = clocation.getLongitude();
+            latitude = clocation.getLatitude();
+        }
         favoritesReference = FirebaseDatabase.getInstance().getReference("Favorites");
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -227,5 +234,28 @@ public class DogDetailActivity extends BaseActivity {
             }
         });
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                LocationManager lm = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
+                    return;
+                }
+                Location clocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                longitude = clocation.getLongitude();
+                latitude = clocation.getLatitude();
+                showToast(longitude+"");
+            }
+        }
+    }
 }

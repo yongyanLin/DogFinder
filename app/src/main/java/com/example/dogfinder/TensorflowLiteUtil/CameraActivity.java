@@ -291,7 +291,6 @@ public abstract class CameraActivity extends FragmentActivity
         if (deviceLevel == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
             return requiredLevel == deviceLevel;
         }
-        // deviceLevel is not LEGACY, can use numerical sort
         return requiredLevel <= deviceLevel;
     }
 
@@ -408,7 +407,7 @@ public abstract class CameraActivity extends FragmentActivity
                 int i = 0;
                 for (Classifier.Recognition recognition : results) {
                     int score = Math.round(recognition.getConfidence()*100);
-                    if(score >= 30){
+                    if(score >= 10){
                         if(i == 0) {
                             predicted_breed = recognition.getTitle();
                             i++;

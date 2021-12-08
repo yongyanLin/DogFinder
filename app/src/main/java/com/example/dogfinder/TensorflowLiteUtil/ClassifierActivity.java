@@ -14,7 +14,6 @@ package com.example.dogfinder.TensorflowLiteUtil;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -25,13 +24,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Size;
-import android.widget.Toast;
-
-
 import com.example.dogfinder.Activity.IndexActivity;
-import com.example.dogfinder.R;
 import com.example.dogfinder.env.ImageUtils;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -39,9 +33,6 @@ import java.util.List;
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
 
     private static final int INPUT_SIZE = 325;
-
-
-    private static final boolean MAINTAIN_ASPECT = true;
     private Bitmap rgbFrameBitmap = null;
     private Bitmap croppedBitmap = null;
     private Matrix frameToCropTransform;
@@ -49,7 +40,6 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     private Classifier classifier;
 
 
-    //choose a picture from the image gallery
    @Override
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -87,9 +77,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         frameToCropTransform = ImageUtils.getTransformationMatrix(
                 previewWidth, previewHeight,
                 INPUT_SIZE, INPUT_SIZE,
-                sensorOrientation, MAINTAIN_ASPECT);
-
-        final Matrix cropToFrameTransform = new Matrix();
+                sensorOrientation, true);
+        Matrix cropToFrameTransform = new Matrix();
         frameToCropTransform.invert(cropToFrameTransform);
     }
 
@@ -97,7 +86,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         if (classifier == null)
             try {
                 classifier = Classifier.create(this);
-            } catch (OutOfMemoryError | IOException e) {
+            } catch (IOException e) {
                 runOnUiThread(() -> {
                     statusBtn.setChecked(false);
                     cameraBtn.setEnabled(true);
@@ -109,7 +98,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
 
     @Override
     protected void processImage() {
-        if ( !shortCut.get() &&!statusInference && !imageSet) {
+        if (!shortCut.get()&&!statusInference&&!imageSet) {
             readyForNextImage();
             return;
         }

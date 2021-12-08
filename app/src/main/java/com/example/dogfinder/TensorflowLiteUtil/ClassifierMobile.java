@@ -41,7 +41,6 @@ public class ClassifierMobile extends Classifier {
     super(activity);
   }
 
-  //Integrate model.tflite and labels.txt
 
   @Override
   protected String getModelPath() {

@@ -1,120 +1,120 @@
-Chihuahua
-Japanese spaniel
-Maltese dog
-Pekingese
-Shih-Tzu
-Blenheim spaniel
-Papillon
-Toy terrier
-Rhodesian ridgeback
-Afghan hound
+Affenpinscher
+Afghan_hound
+African_hunting_dog
+Airedale
+American_staffordshire_terrier
+Appenzeller
+Australian_terrier
+Basenji
 Basset
 Beagle
+Bedlington_terrier
+Bernese_mountain_dog
+Black-and-tan_coonhound
+Blenheim_spaniel
 Bloodhound
 Bluetick
-Black and tan coonhound
-Walker hound
-English foxhound
-Redbone
+Border_collie
+Border_terrier
 Borzoi
-Irish wolfhound
-Italian greyhound
-Whippet
-Ibizan hound
-Norwegian elkhound
-Otterhound
-Saluki
-Scottish deerhound
-Weimaraner
-Staffordshire bull terrier
-American Staffordshire terrier
-Bedlington terrier
-Border terrier
-Kerry blue terrier
-Irish terrier
-Norfolk terrier
-Norwich terrier
-Yorkshire terrier
-Wire-haired fox terrier
-Lakeland terrier
-Sealyham terrier
-Airedale
-Cairn
-Australian terrier
-Dandie Dinmont
-Boston bull
-Miniature schnauzer
-Giant schnauzer
-Standard schnauzer
-Scotch terrier
-Tibetan terrier
-Silky terrier
-Soft_coated wheaten terrier
-West Highland white terrier
-Lhasa
-Flat-coated retriever
-Curly coated retriever
-Golden retriever
-Labrador retriever
-Chesapeake bay retriever
-German short-haired pointer
-Vizsla
-English setter
-Irish setter
-Gordon setter
-Brittany spaniel
-Clumber spaniel
-English springer spaniel
-Welsh springer spaniel
-Cocker spaniel
-Sussex spaniel
-Irish water spaniel
-Kuvasz
-Schipperke
-Groenendael
-Malinois
-Briard
-Kelpie
-Komondor
-Old english sheepdog
-Shetland sheepdog
-Collie
-Border collie
-Bouvier des flandres
-Rottweiler
-German shepherd
-Doberman
-Miniature pinscher
-Greater swiss mountain dog
-Bernese mountain dog
-Appenzeller
-Entlebucher
+Boston_bull
+Bouvier_des_flandres
 Boxer
-Bull mastiff
-Tibetan mastiff
-French bulldog
-Great dane
-Saint bernard
-Eskimo dog
-Malamute
-Siberian husky
-Affenpinscher
-Basenji
-Pug
-Leonberg
-Newfoundland
-Great pyrenees
-Samoyed
-Pomeranian
-Chow
-Keeshond
-Brabancon griffon
-Pembroke
+Brabancon_griffon
+Briard
+Brittany_spaniel
+Bull_mastiff
+Cairn
 Cardigan
-Toy poodle
-Miniature poodle
-Standard poodle
-Mexican hairless
-Dingo
+Chesapeake_bay_retriever
+Chihuahua
+Chow
+Clumber
+Cocker_spaniel
+Collie
+Curly-coated_retriever
+Dandie_dinmont
 Dhole
-African hunting dog
+Dingo
+Doberman
+English_foxhound
+English_setter
+English_springer
+Entlebucher
+Eskimo_dog
+Flat-coated_retriever
+French_bulldog
+German_shepherd
+German_short-haired_pointer
+Giant_schnauzer
+Golden_retriever
+Gordon_setter
+Great_dane
+Great_pyrenees
+Greater_swiss_mountain_dog
+Groenendael
+Ibizan_hound
+Irish_setter
+Irish_terrier
+Irish_water_spaniel
+Irish_wolfhound
+Italian_greyhound
+Japanese_spaniel
+Keeshond
+Kelpie
+Kerry_blue_terrier
+Komondor
+Kuvasz
+Labrador_retriever
+Lakeland_terrier
+Leonberg
+Lhasa
+Malamute
+Malinois
+Maltese_dog
+Mexican_hairless
+Miniature_pinscher
+Miniature_poodle
+Miniature_schnauzer
+Newfoundland
+Norfolk_terrier
+Norwegian_elkhound
+Norwich_terrier
+Old_english_sheepdog
+Otterhound
+Papillon
+Pekinese
+Pembroke
+Pomeranian
+Pug
+Redbone
+Rhodesian_ridgeback
+Rottweiler
+Saint_bernard
+Saluki
+Samoyed
+Schipperke
+Scotch_terrier
+Scottish_deerhound
+Sealyham_terrier
+Shetland_sheepdog
+Shih-tzu
+Siberian_husky
+Silky_terrier
+Soft-coated_wheaten_terrier
+Staffordshire_bullterrier
+Standard_poodle
+Standard_schnauzer
+Sussex_spaniel
+Tibetan_mastiff
+Tibetan_terrier
+Toy_poodle
+Toy_terrier
+Vizsla
+Walker_hound
+Weimaraner
+Welsh_springer_spaniel
+West_highland_white_terrier
+Whippet
+Wire-haired_fox_terrier
+Yorkshire_terrier

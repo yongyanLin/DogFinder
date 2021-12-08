@@ -76,94 +76,87 @@
     <string name="view_reply">View reply</string>
     <string-array name="breeds">
         <item>Affenpinscher</item>
-        <item>Afghan hound</item>
-        <item>African hunting dog</item>
+        <item>Afghan_hound</item>
+        <item>African_hunting_dog</item>
         <item>Airedale</item>
-        <item>American staffordshire terrier</item>
+        <item>American_staffordshire_terrier</item>
         <item>Appenzeller</item>
-        <item>Australian terrier</item>
-        <item>Alaskan Malamute</item>
+        <item>Australian_terrier</item>
         <item>Basenji</item>
         <item>Basset</item>
         <item>Beagle</item>
-        <item>Bedlington terrier</item>
-        <item>Bernese mountain dog</item>
-        <item>Blenheim spaniel</item>
+        <item>Bedlington_terrier</item>
+        <item>Bernese_mountain_dog</item>
+        <item>Blenheim_spaniel</item>
         <item>Bloodhound</item>
         <item>Bluetick</item>
-        <item>Border collie</item>
-        <item>Border terrier</item>
+        <item>Border_collie</item>
+        <item>Border_terrier</item>
         <item>Borzoi</item>
-        <item>Boston bull</item>
-        <item>Bedlington terrier</item>
-        <item>Black and tan coonhound</item>
-        <item>Bouvier des flandres</item>
+        <item>Boston_bull</item>
+        <item>Bouvier_des_flandres</item>
         <item>Boxer</item>
+        <item>Brabancon_griffon</item>
         <item>Briard</item>
-        <item>Brabancon griffon</item>
-        <item>Brittany spaniel</item>
-        <item>Bull mastiff</item>
-        <item>Griffon Bruxellois</item>
+        <item>Brittany_spaniel</item>
+        <item>Bull_mastiff</item>
         <item>Cairn</item>
         <item>Cardigan</item>
-        <item>Chesapeake bay retriever</item>
+        <item>Chesapeake_bay_retriever</item>
         <item>Chihuahua</item>
         <item>Chow</item>
-        <item>Clumber spaniel</item>
-        <item>Cocker spaniel</item>
+        <item>Clumber</item>
+        <item>Cocker_spaniel</item>
         <item>Collie</item>
-        <item>Curly coated retriever</item>
-        <item>Dandie dinmont</item>
-        <item>Dachshund</item>
-        <item>Dingo</item>
+        <item>Curly-coated_retriever</item>
+        <item>Dandie_dinmont</item>
         <item>Dhole</item>
+        <item>Dingo</item>
         <item>Doberman</item>
-        <item>English foxhound</item>
-        <item>English setter</item>
-        <item>English springer spaniel</item>
-        <item>English toy terrier (Black &amp; Tan)</item>
+        <item>English_foxhound</item>
+        <item>English_setter</item>
+        <item>English_springer</item>
         <item>Entlebucher</item>
-        <item>Eskimo dog</item>
-        <item>French bulldog</item>
-        <item>Fox terrier</item>
-        <item>Flat-coated retriever</item>
-        <item>German shepherd</item>
-        <item>Giant schnauzer</item>
-        <item>Golden retriever</item>
-        <item>Gordon setter</item>
-        <item>Greater swiss mountain Dog</item>
-        <item>Great dane</item>
-        <item>Great pyrenees</item>
+        <item>Eskimo_dog</item>
+        <item>Flat-coated_retriever</item>
+        <item>French_bulldog</item>
+        <item>German_shepherd</item>
+        <item>German_short-haired_pointer</item>
+        <item>Giant_schnauzer</item>
+        <item>Golden_retriever</item>
+        <item>Gordon_setter</item>
+        <item>Great_dane</item>
+        <item>Great_pyrenees</item>
+        <item>Greater_swiss_mountain_dog</item>
         <item>Groenendael</item>
-        <item>German short-haired pointer</item>
-        <item>Irish setter</item>
-        <item>Irish terrier</item>
-        <item>Irish water spaniel</item>
-        <item>Irish wolfhound</item>
-        <item>Italian greyhound</item>
-        <item>Ibizan hound</item>
-        <item>Japanese spaniel</item>
+        <item>Ibizan_hound</item>
+        <item>Irish_setter</item>
+        <item>Irish_terrier</item>
+        <item>Irish_water_spaniel</item>
+        <item>Irish_wolfhound</item>
+        <item>Italian_greyhound</item>
+        <item>Japanese_spaniel</item>
         <item>Keeshond</item>
         <item>Kelpie</item>
-        <item>Kerry blue terrier</item>
+        <item>Kerry_blue_terrier</item>
         <item>Komondor</item>
         <item>Kuvasz</item>
-        <item>Labrador retriever</item>
-        <item>Lakeland terrier</item>
+        <item>Labrador_retriever</item>
+        <item>Lakeland_terrier</item>
         <item>Leonberg</item>
         <item>Lhasa</item>
-        <item>Malinois</item>
-        <item>Maltese dog</item>
-        <item>Mexican hairless</item>
         <item>Malamute</item>
-        <item>Miniature pinscher</item>
-        <item>Miniature poodle</item>
-        <item>Miniature schnauzer</item>
+        <item>Malinois</item>
+        <item>Maltese_dog</item>
+        <item>Mexican_hairless</item>
+        <item>Miniature_pinscher</item>
+        <item>Miniature_poodle</item>
+        <item>Miniature_schnauzer</item>
         <item>Newfoundland</item>
-        <item>Norfolk terrier</item>
-        <item>Norwegian elkhound</item>
-        <item>Norwich terrier</item>
-        <item>Old english sheepdog</item>
+        <item>Norfolk_terrier</item>
+        <item>Norwegian_elkhound</item>
+        <item>Norwich_terrier</item>
+        <item>Old_english_sheepdog</item>
         <item>Otterhound</item>
         <item>Papillon</item>
         <item>Pekingese</item>
@@ -171,37 +164,36 @@
         <item>Pomeranian</item>
         <item>Pug</item>
         <item>Redbone</item>
-        <item>Rhodesian ridgeback</item>
+        <item>Rhodesian_ridgeback</item>
         <item>Rottweiler</item>
-        <item>Saint bernard</item>
+        <item>Saint_bernard</item>
         <item>Saluki</item>
         <item>Samoyed</item>
         <item>Schipperke</item>
-        <item>Scotch terrier</item>
-        <item>Scottish deerhound</item>
-        <item>Sealyham terrier</item>
-        <item>Soft-coated wheaten terrier</item>
-        <item>Shetland sheepdog</item>
-        <item>Siberian husky</item>
-        <item>Silky terrier</item>
-        <item>Shih-Tzu</item>
-        <item>Staffordshire bull terrier</item>
-        <item>Standard poodle</item>
-        <item>Standard schnauzer</item>
-        <item>Sussex spaniel</item>
-        <item>Tibetan mastiff</item>
-        <item>Tibetan terrier</item>
+        <item>Scotch_terrier</item>
+        <item>Scottish_deerhound</item>
+        <item>Sealyham_terrier</item>
+        <item>Shetland_sheepdog</item>
+        <item>Shih-tzu</item>
+        <item>Siberian_husky</item>
+        <item>Silky_terrier</item>
+        <item>Soft-coated_wheaten_terrier</item>
+        <item>Staffordshire_bullterrier</item>
+        <item>Standard_poodle</item>
+        <item>Standard_schnauzer</item>
+        <item>Sussex_spaniel</item>
+        <item>Tibetan_mastiff</item>
+        <item>Tibetan_terrier</item>
+        <item>Toy_poodle</item>
         <item>Toy terrier</item>
-        <item>Toy poodle</item>
-        <item>Treeing walker coonhound</item>
         <item>Vizsla</item>
+        <item>Walker_hound</item>
         <item>Weimaraner</item>
-        <item>Walker hound</item>
-        <item>Welsh springer spaniel</item>
-        <item>West highland white terrier</item>
+        <item>Welsh_springer_spaniel</item>
+        <item>West_highland_white_terrier</item>
         <item>Whippet</item>
-        <item>Wire-haired fox terrier</item>
-        <item>Yorkshire terrier</item>
+        <item>Wire-haired_fox_terrier</item>
+        <item>Yorkshire_terrier</item>
     </string-array>
     <string name="share">Share ...</string>
     <string name="resultsHint">Click off button to enable real-time detection</string>

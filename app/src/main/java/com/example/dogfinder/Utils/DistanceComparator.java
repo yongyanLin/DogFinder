@@ -17,7 +17,7 @@ public class DistanceComparator implements Comparator<Integer> {
         Integer[] indexes = new Integer[array.length];
         for (int i = 0; i < array.length; i++)
         {
-            indexes[i] = i; // Autoboxing
+            indexes[i] = i;
         }
         return indexes;
     }
