@@ -279,7 +279,7 @@ public class SquareActivity extends BaseActivity {
                                     if (contentUri != null) {
                                         Intent shareIntent = new Intent();
                                         shareIntent.setAction(Intent.ACTION_SEND);
-                                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+                                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                         shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
                                         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
                                         startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
@@ -560,11 +560,6 @@ public class SquareActivity extends BaseActivity {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERM_CODE);
                     return;
                 }
